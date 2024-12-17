@@ -27,21 +27,22 @@ const YourOrderScreen = (props) => {
                     <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>{item.vadapavtext}</Text>
                     <Text style={YourOrderScreenStyle.addreshrtext}>{item.sitytext}</Text>
                   </View>
-                  <View>
-                    <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>{item.price}</Text>
-                  </View>
                 </View>
               </View>
             </View>
           </View>
           <View style={YourOrderScreenStyle.borderbottomviewtwo}>
             <View style={YourOrderScreenStyle.setlistdataitems}>
-              <Text style={YourOrderScreenStyle.setitemstext}>{item.items}</Text>
-              <Text style={YourOrderScreenStyle.blacktitle}>{item.onevx}</Text>
+              <Text style={YourOrderScreenStyle.setitemstext}>Summary ID</Text>
+              <Text style={YourOrderScreenStyle.blacktitle}>123</Text>
             </View>
             <View style={YourOrderScreenStyle.setlistdataitems}>
-              <Text style={YourOrderScreenStyle.setitemstext}>{item.orderontext}</Text>
-              <Text style={YourOrderScreenStyle.blacktitle}>{item.timetextset}</Text>
+              <Text style={YourOrderScreenStyle.setitemstext}>Delivery Man</Text>
+              <Text style={YourOrderScreenStyle.blacktitle}>Waleed</Text>
+            </View>
+            <View style={YourOrderScreenStyle.setlistdataitems}>
+              <Text style={YourOrderScreenStyle.setitemstext}>Amount</Text>
+              <Text style={YourOrderScreenStyle.blacktitle}>100</Text>
             </View>
           </View>
           <View style={YourOrderScreenStyle.flexrowsettextrejected}>

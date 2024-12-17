@@ -102,7 +102,7 @@ export default StyleSheet.create({
     alignItems:'center',
     position:'absolute',
     bottom:0,
-    borderStyle:'dashed',
+    // borderStyle:'dashed',
     width:'100%',
   },
   setflexstadr: {

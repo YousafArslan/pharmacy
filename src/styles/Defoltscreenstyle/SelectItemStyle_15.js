@@ -569,7 +569,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.Metropolis_Medium,
     fontSize: 18,
     borderBottomWidth: 1.5,
-    borderStyle: 'dashed',
+    // borderStyle: 'dashed',
     paddingTop: 10,
     paddingBottom: 10,
   },

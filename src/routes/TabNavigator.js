@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { AnimatedTabBarNavigator } from 'react-native-animated-nav-tab-bar';
 import Icon from 'react-native-vector-icons/Feather';
@@ -9,6 +9,7 @@ import IconE from 'react-native-vector-icons/EvilIcons';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
+import { DrawerStatusContext } from '@react-navigation/drawer';
 // import CustomSidebarMenu from '../components/commoncomponets/CustomSidebarMenu';
 import Style from '../styles/CommonStyle/Style';
 // import HeaderScreenAddresh from '../components/commoncomponets/HeaderScreenAddresh';
@@ -61,6 +62,9 @@ export default Root;
 
 function HomeTabScreenStack({ navigation }) {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
+  // const drawerStatus = useContext(DrawerStatusContext);
+  console.log("drawerStatus");
+  
   return (
     <Stack.Navigator initialRouteName="HomeTab">
       <Stack.Screen
@@ -68,11 +72,13 @@ function HomeTabScreenStack({ navigation }) {
         component={HomeTab}
         options={{
           title: null, headerShown: true,
-          headerShadowVisible: false,
+          headerShadowVisible: true,
           headerLeft: () => (
             <View style={Style.flexrowsetaddresh}>
+              {/* {console.log("headerShadowVisible",headerShadowVisible)} */}
               <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <IconE style={Style.setbariconmarginright} name="navicon" color={colorrdata} size={35} />
+              <IconP style={Style.setbariconmarginright} name={'menuunfold'} color={colorrdata} size={25} />
+              {/* <IconP style={Style.setbariconmarginright} name={drawerStatus === 'open' ? 'menufold' : 'menuunfold'} color={colorrdata} size={25} /> */}
               </TouchableOpacity>
               <HeaderScreenAddresh />
             </View>

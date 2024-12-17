@@ -46,7 +46,7 @@ export default StyleSheet.create({
     marginLeft:5,
     marginBottom:20,
     marginRight:2,
-    paddingBottom:20,
+    // paddingBottom:20,
     shadowOffset: {
       width: 0,
       height: Platform.OS === 'ios' ? 2 : 25,
@@ -92,18 +92,21 @@ export default StyleSheet.create({
     borderBottomColor: ColorTheme.LighGrey,
     // borderStyle:'dashed',
     borderBottomWidth:1,
-    paddingBottom:20,
+    // paddingBottom:20,
     marginBottom:13,
   },
   borderbottomviewtwo: {
     borderBottomColor: ColorTheme.LighGrey,
-    // borderStyle:'dashed',
-    borderBottomWidth:1,
-    paddingBottom:7,
+    // borderStyle: 'dashed',
+    borderBottomWidth: 1,
+    // paddingBottom: 7,
+    flexDirection: 'row',
+    flexWrap: 'wrap', // Allows wrapping to the next line
   },
   setlistdataitems: {
-    paddingLeft:15,
-    paddingBottom:15,
+    paddingLeft: 15,
+    paddingBottom: 15,
+    flexBasis: '49%', // Ensures each item takes 50% of the row
   },
   setitemstext: {
     color:'gray',

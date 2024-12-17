@@ -216,7 +216,7 @@ export default StyleSheet.create({
   },
   setminview: {
     borderBottomColor: ColorTheme.LighGrey,
-    borderStyle:'dashed',
+    // borderStyle:'dashed',
     borderBottomWidth: 1,
   },
   addtextstyleset: {

@@ -17,7 +17,7 @@ const RouteName = {
     CART_TAB : "Cartss",
     CHECK_OUT: "CheckOutScreen",
     ACCOUNT_TAB_SET : "Accountss",
-    HOME_TAB : "Homess",    
+    HOME_TAB : "Home",    
     // HELP_SCREEN_SET : "Listing_page_22",
     DRAWER_HELP_SCREEN: "DrawerHelpScreen",
     // MENEGE_PAYMENT_METHODE_24 : "MangePayment_24",

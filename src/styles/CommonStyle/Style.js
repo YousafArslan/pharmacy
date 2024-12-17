@@ -509,6 +509,7 @@ export default StyleSheet.create({
   },
   setbariconmarginright: {
     paddingLeft: 5,
+    marginLeft:5
   },
   flexrowsetaddresh: {
     flexDirection: 'row',

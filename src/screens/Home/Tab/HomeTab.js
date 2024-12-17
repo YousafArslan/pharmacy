@@ -15,6 +15,7 @@ import { get_doctore_detailes_action } from '../../../redux/action/DoctoreDataAc
 import { price_symbol_action } from '../../../redux/action/CommonAction';
 import { HomeFirstImageSlider, SearchHeaderScreen } from '../../../screens';
 import { ScrollView } from 'react-native-virtualized-view';
+import Summary from './Summary';
 
 const HomeTabset = (props) => {
   const { navigation } = props;
@@ -28,15 +29,15 @@ const HomeTabset = (props) => {
 
   let PriceSymbol = '$';
 
-  useEffect(() => {
-    dispatch(price_symbol_action(PriceSymbol))
-    if (start) {
-      tick.current = setInterval(() => {
-        setTimer((timer) => timer - 1);
-      }, 1000);
-    }
-    return () => clearInterval(tick.current);
-  }, [start]);
+  // useEffect(() => {
+  //   dispatch(price_symbol_action(PriceSymbol))
+  //   if (start) {
+  //     tick.current = setInterval(() => {
+  //       setTimer((timer) => timer - 1);
+  //     }, 1000);
+  //   }
+  //   return () => clearInterval(tick.current);
+  // }, [start]);
 
   const toggleStart = () => {
     setStart(!start);
@@ -374,11 +375,12 @@ const HomeTabset = (props) => {
         <KeyboardAvoidingView enabled>
           <View style={Styles.minflexview}>
             <View style={Styles.minviewsigninscreen}>
+              <Summary/>
               {/* componets import */}
-              <SearchHeaderScreen />
-              <HomeFirstImageSlider />
+              {/* <SearchHeaderScreen /> */}
+              {/* <HomeFirstImageSlider /> */}
               {/* componets end */}
-              <View style={Styles.marginsetminview}>
+              {/* <View style={Styles.marginsetminview}>
                 <Text style={[Styles.settopcategoriesnine, { color: colorrdata }]}>Trending Categories</Text>
                 <FlatList
                   data={MedicineCategoryHomeTab}
@@ -427,7 +429,7 @@ const HomeTabset = (props) => {
                     />
                   </View>
                 </View>
-              </View>
+              </View> */}
             </View>
           </View>
         </KeyboardAvoidingView>

@@ -13,15 +13,15 @@ const SearchHeaderScreen = () => {
   return (
     <View>
       <View style={Styles.minheaderflexview}>
-        <TouchableOpacity style={Styles.flexhomeimgandtext} onPress={() => navigation.navigate(RouteName.EDIT_LOCATION_SCREEN)}>
-          <View>
+        {/* <TouchableOpacity style={Styles.flexhomeimgandtext} onPress={() => navigation.navigate(RouteName.EDIT_LOCATION_SCREEN)}> */}
+          {/* <View>
             <IconM style={Styles.homeimagstyle} name="home" size={25} color={colorrdata} />
-          </View>
+          </View> */}
           <View>
-            <Text style={[Styles.hometext,{color:colorrdata}]}>Home</Text>
-            <Text style={[Styles.addreshtext,{color:colorrdata}]}>21-42-34, Banjara Hills, Hyder....</Text>
+            <Text style={[Styles.hometext,{color:colorrdata}]}>Sale Summary</Text>
+            {/* <Text style={[Styles.addreshtext,{color:colorrdata}]}>21-42-34, Banjara Hills, Hyder....</Text> */}
           </View>
-        </TouchableOpacity>    
+        {/* </TouchableOpacity>     */}
       </View>
     </View>
   );

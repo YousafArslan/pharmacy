@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { Fonts, ColorTheme } from '../../utils';
+import {StyleSheet, Dimensions} from 'react-native';
+import {Fonts, ColorTheme} from '../../utils';
 
 export default StyleSheet.create({
   customslidebarmenu: {
@@ -8,7 +8,7 @@ export default StyleSheet.create({
     paddingTop: 10,
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
   hometextstyle: {
     color: ColorTheme.TextBlackColor,
@@ -23,7 +23,8 @@ export default StyleSheet.create({
     borderBottomWidth: 1.5,
     paddingBottom: 15,
     paddingTop: 15,
-    borderStyle: 'dotted',
+    borderWidth: 1,
+    borderColor: '#000',
   },
   settingandlogout: {
     marginTop: 40,
@@ -32,7 +33,7 @@ export default StyleSheet.create({
     width: 40,
   },
   modalcontainerwrap: {
-    width: '100%'
+    width: '100%',
   },
   centeredView: {
     display: 'flex',
@@ -41,32 +42,31 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    position: 'relative',  
+    position: 'relative',
     width: '100%',
-    paddingHorizontal: '5%'
+    paddingHorizontal: '5%',
   },
   modalogout: {
-    width: '100%',   
+    width: '100%',
   },
   modalView: {
-    width: '100%',    
+    width: '100%',
   },
   setiallpaddingmodal: {
     backgroundColor: ColorTheme.BGWhiteColor,
     padding: 25,
     borderRadius: 30,
-    width: '100%'
+    width: '100%',
   },
   icomvlose: {
     position: 'absolute',
     right: 20,
-    top: 5
+    top: 5,
   },
   modalTexttwo: {
     paddingVertical: 20,
     fontFamily: Fonts.Metropolis_Medium,
     fontSize: 16,
-    textAlign: 'center'
-  }
- 
+    textAlign: 'center',
+  },
 });
