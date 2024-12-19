@@ -2,19 +2,34 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { AnimatedTabBarNavigator } from 'react-native-animated-nav-tab-bar';
 import Icon from 'react-native-vector-icons/Feather';
-import { HomeTab, CartTab, AccountTab, YourOrderScreen } from '../screens';
+import {
+  HomeTab,
+  CartTab,
+  AccountTab,
+  YourOrderScreen,
+  HospitalsSMedicinecreen,
+  PopularMedicine,
+} from '../screens';
 import IconP from 'react-native-vector-icons/AntDesign';
 import IconO from 'react-native-vector-icons/MaterialIcons';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
-import { DrawerStatusContext } from '@react-navigation/drawer';
+import IconJ from 'react-native-vector-icons/Fontisto';
+import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+} from '@react-navigation/drawer';
+import {DrawerStatusContext} from '@react-navigation/drawer';
 // import CustomSidebarMenu from '../components/commoncomponets/CustomSidebarMenu';
 import Style from '../styles/CommonStyle/Style';
 // import HeaderScreenAddresh from '../components/commoncomponets/HeaderScreenAddresh';
-import {ColorPicker, HeaderScreenAddresh, CustomSidebarMenu} from '../components';
-import { useSelector } from "react-redux";
+import {
+  ColorPicker,
+  HeaderScreenAddresh,
+  CustomSidebarMenu,
+} from '../components';
+import {useSelector} from 'react-redux';
 import {RouteName} from '../routes';
 
 const Tab = AnimatedTabBarNavigator();
@@ -23,17 +38,21 @@ const Drawer = createDrawerNavigator();
 
 function DrawerSidebarScreen(props) {
   return (
-    <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0 }}>
+    <DrawerContentScrollView {...props} contentContainerStyle={{paddingTop: 0}}>
       <CustomSidebarMenu {...props} />
     </DrawerContentScrollView>
   );
 }
 function MyDrawer() {
   return (
-    <Drawer.Navigator initialRouteName="HomeScsreenTabAll" drawerContent={props => <DrawerSidebarScreen {...props} />}>
-      <Drawer.Screen name="HomeScsreenTabAll"
-        options={{ headerShown: false }}
-        component={HomeScsreenTabAll} />
+    <Drawer.Navigator
+      initialRouteName="HomeScsreenTabAll"
+      drawerContent={props => <DrawerSidebarScreen {...props} />}>
+      <Drawer.Screen
+        name="HomeScsreenTabAll"
+        options={{headerShown: false}}
+        component={HomeScsreenTabAll}
+      />
     </Drawer.Navigator>
   );
 }
@@ -48,10 +67,12 @@ function Root() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="Homese" component={HomeScsreenTabAll}
+      <Stack.Screen
+        name="Homese"
+        component={HomeScsreenTabAll}
         options={{
           title: '',
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
@@ -59,108 +80,186 @@ function Root() {
 }
 export default Root;
 
+function HomeTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
 
-function HomeTabScreenStack({ navigation }) {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  // const drawerStatus = useContext(DrawerStatusContext);
-  console.log("drawerStatus");
-  
   return (
     <Stack.Navigator initialRouteName="HomeTab">
       <Stack.Screen
         name="HomeTab"
         component={HomeTab}
         options={{
-          title: null, headerShown: true,
-          headerShadowVisible: true,
-          headerLeft: () => (
-            <View style={Style.flexrowsetaddresh}>
-              {/* {console.log("headerShadowVisible",headerShadowVisible)} */}
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconP style={Style.setbariconmarginright} name={'menuunfold'} color={colorrdata} size={25} />
-              {/* <IconP style={Style.setbariconmarginright} name={drawerStatus === 'open' ? 'menufold' : 'menuunfold'} color={colorrdata} size={25} /> */}
-              </TouchableOpacity>
-              <HeaderScreenAddresh />
-            </View>
-          ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-function MyOrderTabScreenStack({ navigation }) {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  return (
-    <Stack.Navigator initialRouteName="My Orders">
-      <Stack.Screen
-        name="My Orders"
-        component={YourOrderScreen}
-        options={{
-          title: 'My Orders', headerShown: true,
+          title: 'Sale Summary',
+          headerShown: true,
           headerShadowVisible: false,
           headerTitleStyle: {
             color: colorrdata,
             fontWeight: '700',
           },
-         
+
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconE style={Style.setbariconmarginright} name="navicon" color={colorrdata} size={35} />
+              <IconP
+                style={Style.setbariconmarginright}
+                name={'menuunfold'}
+                color={colorrdata}
+                size={30}
+              />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <ColorPicker />
+          headerRight: () => <ColorPicker />,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function MyOrderTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  return (
+    <Stack.Navigator initialRouteName="Invoices Lists">
+      <Stack.Screen
+        name="Invoices Lists"
+        component={YourOrderScreen}
+        options={{
+          title: 'Invoices Lists',
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: colorrdata,
+            fontWeight: '700',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <IconP
+                style={Style.setbariconmarginright}
+                name={'menuunfold'}
+                color={colorrdata}
+                size={30}
+              />
+            </TouchableOpacity>
           ),
         }}
       />
     </Stack.Navigator>
   );
 }
-function CartTabScreenStack({ navigation }) {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+function CustomerScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  return (
+    <Stack.Navigator initialRouteName="Customers">
+      <Stack.Screen
+        name="Customers"
+        component={PopularMedicine}
+        options={{
+          title: 'Customers',
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: colorrdata,
+            fontWeight: '700',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <IconP
+                style={Style.setbariconmarginright}
+                name={'menuunfold'}
+                color={colorrdata}
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function CartTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   return (
     <Stack.Navigator initialRouteName="CartTab">
       <Stack.Screen
         name="CartTab"
         component={CartTab}
         options={{
-          title: null, headerShown: true,
+          title: null,
+          headerShown: true,
           headerShadowVisible: false,
           headerTitleStyle: {
-            color:'white',
+            color: 'white',
             fontWeight: '700',
           },
           headerStyle: {
-            backgroundColor:colorrdata,
+            backgroundColor: colorrdata,
           },
           headerLeft: () => (
             <View style={Style.flexrowsetaddresh}>
               <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <IconE style={Style.setbariconmarginright} name="navicon" color={'white'} size={35} />
+                <IconE
+                  style={Style.setbariconmarginright}
+                  name="navicon"
+                  color={'white'}
+                  size={35}
+                />
               </TouchableOpacity>
               <HeaderScreenAddresh />
             </View>
           ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
+          headerRight: () => <ColorPicker />,
         }}
       />
     </Stack.Navigator>
   );
 }
-function AccountTabScreenStack({ navigation }) {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+
+function MedicineTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  return (
+    <Stack.Navigator initialRouteName="CartTab">
+      <Stack.Screen
+        name="MedicineTab"
+        component={HospitalsSMedicinecreen}
+        options={{
+          title: 'Medicines',
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: 'white',
+            fontWeight: '700',
+          },
+          headerStyle: {
+            backgroundColor: colorrdata,
+          },
+          headerLeft: () => (
+            <View style={Style.flexrowsetaddresh}>
+              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                <IconE
+                  style={Style.setbariconmarginright}
+                  name="navicon"
+                  color={'white'}
+                  size={35}
+                />
+              </TouchableOpacity>
+              <HeaderScreenAddresh />
+            </View>
+          ),
+          headerRight: () => <ColorPicker />,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function AccountTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   return (
     <Stack.Navigator initialRouteName="AccountTab">
       <Stack.Screen
         name="AccountTab"
         component={AccountTab}
         options={{
-          title: 'Account', headerShown: true,
+          title: 'Account',
+          headerShown: true,
           headerShadowVisible: false,
           headerTitleStyle: {
             color: colorrdata,
@@ -168,74 +267,73 @@ function AccountTabScreenStack({ navigation }) {
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconE style={Style.setbariconmarginright} name="navicon" color={colorrdata} size={35} />
+              <IconE
+                style={Style.setbariconmarginright}
+                name="navicon"
+                color={colorrdata}
+                size={35}
+              />
             </TouchableOpacity>
           ),
-        
         }}
       />
     </Stack.Navigator>
   );
 }
 
-const TabBarIcon = (props) => {
+const TabBarIcon = props => {
   return (
     <Icon
       name={props.name}
       size={props.size ? props.size : 24}
       color={props.tintColor}
     />
-  )
-}
-const TabBarIcontwo = (props) => {
+  );
+};
+const TabBarIcontwo = props => {
   return (
     <IconP
       name={props.name}
       size={props.size ? props.size : 24}
       color={props.tintColor}
     />
-  )
-}
-const TabBarIconoffer = (props) => {
+  );
+};
+const TabBarIconoffer = props => {
   return (
     <IconO
       name={props.name}
       size={props.size ? props.size : 24}
       color={props.tintColor}
     />
-  )
-}
-const TabBarIconorder = (props) => {
+  );
+};
+const TabBarIconorder = props => {
   return (
     <IconM
       name={props.name}
       size={props.size ? props.size : 24}
       color={props.tintColor}
     />
-  )
-}
-
+  );
+};
 
 export function HomeScsreenTabAll() {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   return (
-    <Tab.Navigator initialRouteName="Homes"
+    <Tab.Navigator
+      initialRouteName="Homes"
       tabBarOptions={{
         activeTintColor: colorrdata,
-        inactiveTintColor: "#302F3C",
-        activeBackgroundColor: "white"
-      }}
-    >
+        inactiveTintColor: '#302F3C',
+        activeBackgroundColor: 'white',
+      }}>
       <Tab.Screen
         name={RouteName.HOME_TAB}
         component={HomeTabScreenStack}
         options={{
-          tabBarIcon: ({ focused, color }) => (
-            <TabBarIcon
-              focused={focused}
-              tintColor={color}
-              name="home"
-            />
+          tabBarIcon: ({focused, color}) => (
+            <TabBarIcon focused={focused} tintColor={color} name="home" />
           ),
         }}
       />
@@ -243,7 +341,7 @@ export function HomeScsreenTabAll() {
         name={RouteName.YOUR_ORDER_SCREEN}
         component={MyOrderTabScreenStack}
         options={{
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({focused, color}) => (
             <TabBarIconorder
               focused={focused}
               tintColor={color}
@@ -253,10 +351,24 @@ export function HomeScsreenTabAll() {
         }}
       />
       <Tab.Screen
-        name={RouteName.CART_TAB}
-        component={CartTabScreenStack}
+        name={RouteName.POPULAR_SCREEN}
+        component={CustomerScreenStack}
         options={{
-          tabBarIcon: ({ focused, color }) => (
+          tabBarIcon: ({focused, color}) => (
+            <IconJ
+              style={Style.setbariconmarginright}
+              name="persons"
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={RouteName.HOSPITAL_MEDICINE_SCREEN}
+        component={MedicineTabScreenStack}
+        options={{
+          tabBarIcon: ({focused, color}) => (
             <TabBarIcontwo
               focused={focused}
               tintColor={color}
@@ -269,15 +381,11 @@ export function HomeScsreenTabAll() {
         name={RouteName.ACCOUNT_TAB_SET}
         component={AccountTabScreenStack}
         options={{
-          tabBarIcon: ({ focused, color }) => (
-            <TabBarIcon
-              focused={focused}
-              tintColor={color}
-              name="user"
-            />
+          tabBarIcon: ({focused, color}) => (
+            <TabBarIcon focused={focused} tintColor={color} name="user" />
           ),
         }}
       />
     </Tab.Navigator>
-  )
+  );
 }

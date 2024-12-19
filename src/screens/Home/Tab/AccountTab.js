@@ -69,7 +69,11 @@ const HomeTabsety = () => {
     );
   }
   return (
-    <View style={[AccountTabStyle.minstyleviewphotograpgy, AccountTabStyle.bgcolorset]}>
+    <View
+      style={[
+        AccountTabStyle.minstyleviewphotograpgy,
+        AccountTabStyle.bgcolorset,
+      ]}>
       <StatusBar barStyle="dark-content" backgroundColor="hsl(0, 0%, 94.9%)" />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -78,24 +82,49 @@ const HomeTabsety = () => {
           height: 'auto',
         }}>
         <KeyboardAvoidingView enabled>
-          <View style={[AccountTabStyle.minflexview, AccountTabStyle.bgcolorset]}>
+          <View
+            style={[AccountTabStyle.minflexview, AccountTabStyle.bgcolorset]}>
             <View style={AccountTabStyle.minviewsigninscreen}>
-              <View style={[AccountTabStyle.flexrowtwxtspace, AccountTabStyle.bgcolorset]}>
-                <Text style={AccountTabStyle.persnaltext}>Personal details</Text>
-                <TouchableOpacity onPress={() => navigation.navigate(RouteName.EDIT_PROFILE_SCREEN)}>
-                  <Text style={[AccountTabStyle.edittextset, { color: colorrdata }]}>Edit</Text>
+              <View
+                style={[
+                  AccountTabStyle.flexrowtwxtspace,
+                  AccountTabStyle.bgcolorset,
+                ]}>
+                <Text style={AccountTabStyle.persnaltext}>
+                  Personal details
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(RouteName.EDIT_PROFILE_SCREEN)
+                  }>
+                  <Text
+                    style={[AccountTabStyle.edittextset, {color: colorrdata}]}>
+                    Edit
+                  </Text>
                 </TouchableOpacity>
               </View>
               <View style={AccountTabStyle.useraccountwhitebox}>
                 <View style={AccountTabStyle.fleximageandtext}>
                   <TouchableOpacity>
-                    <Image style={AccountTabStyle.imagesetus} resizeMode='cover' source={images.Ningthty_img} />
+                    <Image
+                      style={AccountTabStyle.imagesetus}
+                      resizeMode="cover"
+                      source={images.IngrediantsTwo}
+                    />
                   </TouchableOpacity>
                   <TouchableOpacity style={AccountTabStyle.setviewwidth}>
-                    <Text style={AccountTabStyle.sumanyatextset}>Sumanya K.</Text>
-                    <Text style={AccountTabStyle.setgimailtext}>sumanyak@gmail.com</Text>
-                    <Text style={AccountTabStyle.setgimailtextwo}>+91 xxxxxxxxxxx</Text>
-                    <Text style={AccountTabStyle.addreshtext}>21-22-31, Masab street, hyderabad.</Text>
+                    <Text style={AccountTabStyle.sumanyatextset}>
+                      Waleed Shahzad
+                    </Text>
+                    <Text style={AccountTabStyle.setgimailtext}>
+                      waleed@gmail.com
+                    </Text>
+                    <Text style={AccountTabStyle.setgimailtextwo}>
+                      +923224991944
+                    </Text>
+                    <Text style={AccountTabStyle.addreshtext}>
+                      Lahore,Punjab Pakistan
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -176,12 +205,13 @@ const HomeTabsety = () => {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={modalVisible}
-          >
+            visible={modalVisible}>
             <View style={Style.setbgcolorgrsay}>
               <View style={Style.centeredView}>
                 <View style={Style.modalView}>
-                  <TouchableOpacity style={Style.icomvlose} onPress={() => setModalVisible(!modalVisible)}>
+                  <TouchableOpacity
+                    style={Style.icomvlose}
+                    onPress={() => setModalVisible(!modalVisible)}>
                     <Icon
                       size={35}
                       name="close"
@@ -190,19 +220,25 @@ const HomeTabsety = () => {
                   </TouchableOpacity>
                   <View style={Style.margintop}>
                     <View style={Style.registertextset}>
-                      <Text style={Style.settext}>Are You Sure You Want To Sign Out ?</Text>
+                      <Text style={Style.settext}>
+                        Are You Sure You Want To Sign Out ?
+                      </Text>
                     </View>
                   </View>
                   <View style={Style.buttonminview}>
                     <View style={Style.setokbuttontwo}>
-                      <Button title="Signout"
+                      <Button
+                        title="Signout"
                         buttonTextStyle={Style.setbuttontextstyle}
                         buttonStyle={Style.setbuttonstyletwo}
-                        onPress={() => navigation.navigate(RouteName.LOGIN_AND_REGISTRATION)}
+                        onPress={() =>
+                          navigation.navigate(RouteName.LOGIN_AND_REGISTRATION)
+                        }
                       />
                     </View>
                     <View style={Style.setokbuttontwo}>
-                      <Button title="Cancel"
+                      <Button
+                        title="Cancel"
                         buttonTextStyle={{color: colorrdata}}
                         buttonStyle={Style.buttoncolorwhite}
                         onPress={() => setModalVisible(!modalVisible)}
