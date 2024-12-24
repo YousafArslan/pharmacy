@@ -58,10 +58,10 @@ const PopularMedicine = () => {
               {item.hospitalname}
             </Text>
             <Text style={PopularCuisinesStyle.textboldstyletwo}>
-              Region: {item.region}
+              <Text style={{fontWeight: 'bold'}}>Region:</Text> {item.region}
             </Text>
             <Text style={PopularCuisinesStyle.textboldstyletwo}>
-              Retailer: {item.text}
+              <Text style={{fontWeight: 'bold'}}>Retailer:</Text> {item.text}
             </Text>
           </View>
         </View>

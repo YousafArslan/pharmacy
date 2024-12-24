@@ -1164,9 +1164,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag}
       />
     ),
-    hospitalname: 'Avastin Pharmacy',
-    text: 'Alerid-D Tablet',
-    region: 'Johar Town',
+    hospitalname: 'Shaukat Khanum Memorial Hospital',
+    text: 'wholesale',
+    medicine: 'Ascoril LS Syrup', // Added medicine key
+    region: 'Lahore',
   },
   {
     id: 2,
@@ -1177,9 +1178,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'Herceptin Pharmacy',
-    text: 'Alerid-D Tablet',
-    region: 'Johar Town',
+    hospitalname: 'Aga Khan University Hospital',
+    text: 'wholesale',
+    medicine: 'Combiflam Tablet', // Added medicine key
+    region: 'Karachi',
   },
   {
     id: 3,
@@ -1190,9 +1192,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'Arthak Hospital and ICU',
-    text: 'Alerid-D Tablet',
-    region: 'Johar Town',
+    hospitalname: 'Liaquat National Hospital',
+    text: 'wholesale',
+    medicine: 'Enzoflam Tablet', // Added medicine key
+    region: 'Karachi',
   },
   {
     id: 4,
@@ -1203,9 +1206,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'Herceptin Pharmacy Pharmacy',
-    region: 'Johar Town',
-    text: 'Alerid-D Tablet',
+    hospitalname: 'Indus Hospital',
+    text: 'wholesale',
+    medicine: 'Hifenac-P Tablet', // Added medicine key
+    region: 'Karachi',
   },
   {
     id: 5,
@@ -1216,9 +1220,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'Shree Navjivan Children Hospital',
-    region: 'Johar Town',
-    text: 'Alerid-D Tablet',
+    hospitalname: 'Jinnah Hospital',
+    text: 'wholesale',
+    medicine: 'Hifenac-MR Tablet', // Added medicine key
+    region: 'Lahore',
   },
   {
     id: 6,
@@ -1229,9 +1234,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'Sahyog Hospital Pvt. Ltd.',
-    region: 'Johar Town',
-    text: 'Alerid-D Tablet',
+    hospitalname: 'PIMS Hospital',
+    text: 'wholesale',
+    medicine: 'Hyocimax-S Tablet', // Added medicine key
+    region: 'Islamabad',
   },
   {
     id: 7,
@@ -1242,9 +1248,10 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'MabThera/Rituxan',
-    region: 'Johar Town',
-    text: 'Alerid-D Tablet',
+    hospitalname: 'Fatima Memorial Hospital',
+    text: 'wholesale',
+    medicine: 'Histafree-M Tablet', // Added medicine key
+    region: 'Lahore',
   },
   {
     id: 8,
@@ -1255,11 +1262,15 @@ export const HospitalListingdata = [
         source={images.Baby_care_imag_six}
       />
     ),
-    hospitalname: 'MabThera/Rituxan',
-    region: 'Johar Town',
-    text: 'Alerid-D Tablet',
+    hospitalname: 'Ziauddin Hospital',
+    text: 'wholesale',
+    medicine: 'HUCOG 5000 HP Injection', // Added medicine key
+    region: 'Karachi',
   },
 ];
+
+
+
 
 export const Docterproductdata = [
   {

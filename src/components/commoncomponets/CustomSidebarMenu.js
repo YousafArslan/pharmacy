@@ -25,6 +25,8 @@ const CustomSidebarMenu = props => {
 
   const handleConfirm = () => {
     // Handle confirm action
+    navigation.navigate(RouteName.LOGIN_AND_REGISTRATION);
+
     setIsVisible(false);
     console.log('Confirmed!');
   };
@@ -37,6 +39,7 @@ const CustomSidebarMenu = props => {
     navigation.toggleDrawer();
     navigation.navigate(e);
   };
+
   return (
     <ScrollView>
       <View style={Styles.customslidebarmenu}>
@@ -133,7 +136,7 @@ const CustomSidebarMenu = props => {
             color={colorrdata}
             size={23}
           />
-          <Text style={Styles.hometextstyle}>Items</Text>
+          <Text style={Styles.hometextstyle}>Medicines</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={Styles.flexrowset}

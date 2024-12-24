@@ -369,10 +369,11 @@ export function HomeScsreenTabAll() {
         component={MedicineTabScreenStack}
         options={{
           tabBarIcon: ({focused, color}) => (
-            <TabBarIcontwo
-              focused={focused}
-              tintColor={color}
-              name="shoppingcart"
+            <IconJ
+              name="drug-pack"
+              style={Style.setbariconmarginright}
+              color={color}
+              size={23}
             />
           ),
         }}

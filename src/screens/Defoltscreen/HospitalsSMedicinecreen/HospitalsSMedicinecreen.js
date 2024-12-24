@@ -31,9 +31,11 @@ const HospitalsSMedicinecreen = () => {
           <View style={Hospitalmediction.setflextext}>
             <Text
               style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
-              {item.hospitalname}
+              {item.medicine}
             </Text>
-            <Text style={Hospitalmediction.textboldstyletwo}>{item.text}</Text>
+            {/* <Text style={Hospitalmediction.textboldstyletwo}>
+              {item.medicine}
+            </Text> */}
           </View>
         </View>
       </View>

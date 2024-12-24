@@ -7,7 +7,7 @@ const RouteName = {
   CONFORMLOCATION_SET: 'ConformLocation',
   HOME_SCREEN: 'Homescreen',
   // POPULAR_SCREEN : "PopularCuisines",
-  POPULAR_SCREEN: 'PopularScreen',
+  POPULAR_SCREEN: 'Customers',
   // FRIECE_RICE_LISTING_SCREEN : "HospitalsSMedicinecreen",
   HOSPITAL_MEDICINE_SCREEN: 'Medicine',
   PRODUCT_LIST_ITEM: 'ProductItemList',

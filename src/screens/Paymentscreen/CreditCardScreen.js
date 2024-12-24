@@ -146,6 +146,7 @@ const CreditCardScreen = ({navigation}) => {
                   title="Save"
                   buttonStyle={Creditcard.setbuttonstylesavecard}
                   buttonTextStyle={Creditcard.setbuttontextstyle}
+                  onPress={() => console.log('Save')}
                 />
 
                 <Button
