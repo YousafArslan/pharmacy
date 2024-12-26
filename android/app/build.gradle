@@ -1,0 +1,70 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+// React Native Vector Icons Configuration
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.pharmacy"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+dependencies {
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-maps')
+
+    // Selectively compile the correct JavaScript engine depending on the Gradle property
+    def hermesPath = "../../node_modules/hermes-engine/android/";
+    def jscFlavor = 'org.webkit:android-jsc:+'
+    if (rootProject.ext.enableHermes) {
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation jscFlavor
+    }
+}
+
+// Task to ensure React Native Vector Icons fonts are copied into the correct build folders
+task copyFonts(type: Copy) {
+    from('../../node_modules/react-native-vector-icons/Fonts')
+    into('src/main/assets/fonts')
+}
+
+preBuild.dependsOn(copyFonts)

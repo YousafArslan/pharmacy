@@ -1,0 +1,121 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Gilroy-Bold.otf",
+      "sha1": "fe1baa1fc6cb9de9c3747463dc56b0aea6e0fcd2"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Bold.ttf",
+      "sha1": "7fe4d8cf5325dd47363d0f80fefb40ac7df5d5a6"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Light.ttf",
+      "sha1": "510faebaff56ce8b518fc84bdd1aefeefae00b65"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Medium.ttf",
+      "sha1": "d7f893124bd4fff78805e69df31385ae113368be"
+    },
+    {
+      "path": "assets/fonts/Gilroy-Regular.ttf",
+      "sha1": "a737c19356e50cb9a50eb64ca7446c80dd3aa3e3"
+    },
+    {
+      "path": "assets/fonts/Gilroy-UltraLight.ttf",
+      "sha1": "1cfbfa447c336558c8ab3389bb11015adebf744f"
+    },
+    {
+      "path": "assets/fonts/Metropolis-ExtraLight.otf",
+      "sha1": "4e32ad3684f35e79b7848c2fd4d65af08bc89571"
+    },
+    {
+      "path": "assets/fonts/Metropolis-Light.otf",
+      "sha1": "7343a3bc45f78ff430c2a331e62ba341dce32cb1"
+    },
+    {
+      "path": "assets/fonts/Metropolis-Medium.otf",
+      "sha1": "33003090ffdb3de00c156e7352968299b1ef3a2c"
+    },
+    {
+      "path": "assets/fonts/Metropolis-Regular.otf",
+      "sha1": "30d3eccad93be00d6e5c7dbd3b83afe78bab2175"
+    },
+    {
+      "path": "assets/fonts/Metropolis-SemiBold.otf",
+      "sha1": "5c29af7216ca0cd477140d5dcfc1e6b903ca8e48"
+    },
+    {
+      "path": "assets/fonts/Metropolis-Thin.otf",
+      "sha1": "67997a5c1c364666c8c93640b5f407236e627af8"
+    },
+    {
+      "path": "assets/fonts/Nunito-Bold.ttf",
+      "sha1": "7221ce766960c57f76b37028c1a64352dfcc8e32"
+    },
+    {
+      "path": "assets/fonts/Nunito-ExtraBold.ttf",
+      "sha1": "91d04b8576443582259cf57bb7a04e3ea7f6892e"
+    },
+    {
+      "path": "assets/fonts/Nunito-ExtraLight.ttf",
+      "sha1": "101ddd979e388fdd83c193b896125ee5be1dc8e1"
+    },
+    {
+      "path": "assets/fonts/Nunito-Italic.ttf",
+      "sha1": "f130c80be917eb1bd6079ca7fc7b30ef37089ada"
+    },
+    {
+      "path": "assets/fonts/Nunito-Light.ttf",
+      "sha1": "2e44df30094b35c8a1a80a54d673d9733907ab21"
+    },
+    {
+      "path": "assets/fonts/Nunito-Medium.ttf",
+      "sha1": "7221ce766960c57f76b37028c1a64352dfcc8e32"
+    },
+    {
+      "path": "assets/fonts/Nunito-Regular.ttf",
+      "sha1": "b1029b1d966d1732e6241677773393a313585fb3"
+    },
+    {
+      "path": "assets/fonts/Nunito-SemiBold.ttf",
+      "sha1": "3e61467ff34842c4e963dc41472d409e11b6017b"
+    },
+    {
+      "path": "assets/fonts/Poppins-Bold.ttf",
+      "sha1": "b9b65c039a1f10a5cb5e0726c6e7e18e98a8e517"
+    },
+    {
+      "path": "assets/fonts/Poppins-Medium.ttf",
+      "sha1": "e837165aedb031ea74872c5983a3217d1c190a1a"
+    },
+    {
+      "path": "assets/fonts/Poppins_Bold.ttf",
+      "sha1": "b9b65c039a1f10a5cb5e0726c6e7e18e98a8e517"
+    },
+    {
+      "path": "assets/fonts/Roboto-Light.ttf",
+      "sha1": "2e3148d213b15328ebebba14e828fb3bf79634ee"
+    },
+    {
+      "path": "assets/fonts/Roboto-Medium.ttf",
+      "sha1": "08bab5b1ab478e8af2279b613d3a32636b85cc65"
+    },
+    {
+      "path": "assets/fonts/Roboto-Regular.ttf",
+      "sha1": "cb0cb91a31f43293bd7042ddab945ce161c29d3d"
+    },
+    {
+      "path": "assets/fonts/Roboto-Thin.ttf",
+      "sha1": "0fd03ae48dc48825c79b346fd981f55a01acf9e1"
+    },
+    {
+      "path": "assets/fonts/Roboto.ttf",
+      "sha1": "1d1d41fcadc571decb6444211b7993b99ce926e2"
+    },
+    {
+      "path": "assets/fonts/Roboto_medium.ttf",
+      "sha1": "adbc3bde424bcf7dbc38f148005c8319825891f2"
+    }
+  ]
+}
