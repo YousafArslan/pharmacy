@@ -6,6 +6,7 @@ export default StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 10,
+    marginTop: 50,
   },
   bgcolorset: {
     backgroundColor: ColorTheme.BGScreen,
@@ -23,12 +24,8 @@ export default StyleSheet.create({
     borderBottomWidth: 1.5,
     paddingBottom: 15,
     paddingTop: 15,
-    borderWidth: 1,
-    borderColor: '#000',
   },
-  settingandlogout: {
-    marginTop: 40,
-  },
+
   setwidth: {
     width: 40,
   },

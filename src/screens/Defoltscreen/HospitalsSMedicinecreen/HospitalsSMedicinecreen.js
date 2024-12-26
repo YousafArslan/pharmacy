@@ -15,31 +15,32 @@ const HospitalsSMedicinecreen = () => {
   const navigation = useNavigation();
   const Tabletnamedata = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.PRODUCT_DETAILS_SCREEN), { img: item.image })}>
-        <View style={Hospitalmediction.setbgborderview}>
-          <Text style={Hospitalmediction.textHospitalmedictionet}>{item.text}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={Hospitalmediction.setbgborderview}>
+        <Text style={Hospitalmediction.textHospitalmedictionet}>
+          {item.text}
+        </Text>
+      </View>
     );
-  }
+  };
 
   const HospitalListingdataitem = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.PRODUCT_DETAILS_SCREEN), { img: item.image, title: item.text, hname: item.hospitalname })}>
-        <View style={Hospitalmediction.setflexviewdata}>
-          <View>
-            {item.image}
-          </View>
-          <View style={Hospitalmediction.textflexview}>
-            <View style={Hospitalmediction.setflextext}>
-              <Text style={[Hospitalmediction.textboldstyle, { color: colorrdata }]}>{item.hospitalname}</Text>
-              <Text style={Hospitalmediction.textboldstyletwo}>{item.text}</Text>
-            </View>
+      <View style={Hospitalmediction.setflexviewdata}>
+        <View>{item.image}</View>
+        <View style={Hospitalmediction.textflexview}>
+          <View style={Hospitalmediction.setflextext}>
+            <Text
+              style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
+              {item.medicine}
+            </Text>
+            {/* <Text style={Hospitalmediction.textboldstyletwo}>
+              {item.medicine}
+            </Text> */}
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
-  }
+  };
   return (
     <View style={Hospitalmediction.minstyleviewphotograpgy}>
       <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />

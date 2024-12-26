@@ -12,54 +12,62 @@ import { ScrollView } from 'react-native-virtualized-view';
 
 const PopularMedicine = () => {
   const navigation = useNavigation();
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const [searchdata, setsearchdata] = useState("");
-  console.log(searchdata)
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const [searchdata, setsearchdata] = useState('');
+  console.log(searchdata);
 
-  const [searchdataset] = useState([
-    {
-      "id": 1,
-      "text": 'Glynase-MF Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 2,
-      "text": 'Ganaton Total Capsule SR',
-      "iconname": 'search1',
-    },
-    {
-      "id": 3,
-      "text": 'Allegra-M Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 4,
-      "text": 'Combiflam Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 5,
-      "text": 'Drotin-M Tablet',
-      "iconname": 'search1',
-    },
-  ])
+  // const [searchdataset] = useState([
+  //   {
+  //     "id": 1,
+  //     "text": 'Glynase-MF Tablet',
+  //     "iconname": 'search1',
+  //   },
+  //   {
+  //     "id": 2,
+  //     "text": 'Ganaton Total Capsule SR',
+  //     "iconname": 'search1',
+  //   },
+  //   {
+  //     "id": 3,
+  //     "text": 'Allegra-M Tablet',
+  //     "iconname": 'search1',
+  //   },
+  //   {
+  //     "id": 4,
+  //     "text": 'Combiflam Tablet',
+  //     "iconname": 'search1',
+  //   },
+  //   {
+  //     "id": 5,
+  //     "text": 'Drotin-M Tablet',
+  //     "iconname": 'search1',
+  //   },
+  // ])
   const HospitalListingdataitem = (item, index) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.HOSPITAL_MEDICINE_SCREEN), { img: item.image })}>
-        <View style={[PopularCuisinesStyle.setflexviewdata, PopularCuisinesStyle.searchtextlist]}>
-          <View>
-            {item.image}
-          </View>
-          <View style={PopularCuisinesStyle.textflexview}>
-            <View style={PopularCuisinesStyle.setflextext}>
-              <Text style={[PopularCuisinesStyle.textboldstyle, { color: colorrdata }]}>{item.hospitalname}</Text>
-              <Text style={PopularCuisinesStyle.textboldstyletwo}>{item.text}</Text>
-            </View>
+      <View
+        style={[
+          PopularCuisinesStyle.setflexviewdata,
+          PopularCuisinesStyle.searchtextlist,
+        ]}>
+        <View>{item.image}</View>
+        <View style={PopularCuisinesStyle.textflexview}>
+          <View style={PopularCuisinesStyle.setflextext}>
+            <Text
+              style={[PopularCuisinesStyle.textboldstyle, {color: colorrdata}]}>
+              {item.hospitalname}
+            </Text>
+            <Text style={PopularCuisinesStyle.textboldstyletwo}>
+              <Text style={{fontWeight: 'bold'}}>Region:</Text> {item.region}
+            </Text>
+            <Text style={PopularCuisinesStyle.textboldstyletwo}>
+              <Text style={{fontWeight: 'bold'}}>Retailer:</Text> {item.text}
+            </Text>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
-  }
+  };
 
   return (
     <View style={PopularCuisinesStyle.minstyleviewphotograpgy}>
@@ -73,7 +81,11 @@ const PopularMedicine = () => {
         <KeyboardAvoidingView enabled>
           <View style={PopularCuisinesStyle.minflexview}>
             <View style={PopularCuisinesStyle.minviewsigninscreen}>
-              <View style={[PopularCuisinesStyle.setbgcolorred, { backgroundColor: colorrdata }]}></View>
+              <View
+                style={[
+                  PopularCuisinesStyle.setbgcolorred,
+                  {backgroundColor: colorrdata},
+                ]}></View>
               <View style={PopularCuisinesStyle.flexinputstyle}>
                 <View style={PopularCuisinesStyle.flextextinput}>
                   <TouchableOpacity>
@@ -82,7 +94,7 @@ const PopularMedicine = () => {
                   <View>
                     <TextInput
                       value={searchdata}
-                      onChangeText={(text) => setsearchdata(text)}
+                      onChangeText={text => setsearchdata(text)}
                       placeholder="Search Pharmacy nearby"
                       placeholderTextColor={'lightgrey'}
                       style={PopularCuisinesStyle.setinputtext}
@@ -96,7 +108,7 @@ const PopularMedicine = () => {
               <View style={PopularCuisinesStyle.setbgcolorviewmin}>
                 <View style={PopularCuisinesStyle.bgcolorsetvikewstyle}>
                   {/* <Text style={PopularCuisinesStyle.textPopularCuisinesStyleearches}>Recent Searches</Text> */}
-                  <SearchFilter data={searchdataset} searchdata={searchdata} setsearchdata={setsearchdata} />
+                  {/* <SearchFilter data={searchdataset} searchdata={searchdata} setsearchdata={setsearchdata} /> */}
                 </View>
                 <View style={PopularCuisinesStyle.setspacecomeview}>
                   {/* <Text style={PopularCuisinesStyle.popularmedicine}>Popular Medicine</Text> */}
@@ -110,7 +122,9 @@ const PopularMedicine = () => {
                   /> */}
                   <FlatList
                     data={HospitalListingdata}
-                    renderItem={({ item, index }) => HospitalListingdataitem(item, index)}
+                    renderItem={({item, index}) =>
+                      HospitalListingdataitem(item, index)
+                    }
                     keyExtractor={item => item.id}
                     showsHorizontalScrollIndicator={false}
                   />
@@ -121,7 +135,6 @@ const PopularMedicine = () => {
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
-
   );
 };
 
