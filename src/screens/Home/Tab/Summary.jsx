@@ -25,13 +25,13 @@ const Summary = props => {
   const orderData = [
     {
       id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
+      // image: (
+      //   <Image
+      //     style={Style.yourorderdata}
+      //     resizeMode="cover"
+      //     source={images.Docter_tablet_imag}
+      //   />
+      // ),
       vadapavtext: 'Avastin Pharmacy',
       sitytext: 'Kukatpally,Hyderabad',
       price: '110.00',
@@ -46,13 +46,13 @@ const Summary = props => {
     },
     {
       id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
+      // image: (
+      //   <Image
+      //     style={Style.yourorderdata}
+      //     resizeMode="cover"
+      //     source={images.Docter_tablet_imag}
+      //   />
+      // ),
       vadapavtext: 'Avastin Pharmacy',
       sitytext: 'Kukatpally,Hyderabad',
       price: '110.00',

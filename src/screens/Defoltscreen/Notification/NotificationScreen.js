@@ -17,18 +17,18 @@ const NotificationScreen = () => {
           <View style={NotificationStyle.minflexview}>
             <View style={NotificationStyle.minviewsigninscreen}>
              <TouchableOpacity style={NotificationStyle.flexdiractionrow}>
-               <View>
+               {/* <View>
                <Image style={NotificationStyle.imagesetus} resizeMode='cover' source={images.Docter_tablet_imag} />
-               </View>
+               </View> */}
                <View style={NotificationStyle.setparegraphwidth}>
                  <Text style={NotificationStyle.textparegraph}>This is the first notification issued by the Medical Health Services Recruitment Board. Altogether, there are 12,755 vacancies in the Health department.</Text>
                <Text style={NotificationStyle.twonavemberscreen}>02 Nov</Text>
                </View>
              </TouchableOpacity>
              <TouchableOpacity style={NotificationStyle.flexdiractionrowtwo}>
-               <View>
+               {/* <View>
                <Image style={NotificationStyle.imagesetus} resizeMode='cover' source={images.Docter_tablet_imag} />
-               </View>
+               </View> */}
                <View style={NotificationStyle.setparegraphwidthtwo}>
                  <Text style={NotificationStyle.textparegraph}>AP Doctors Recruitment 2022: Apply for Doctor, Medical Officer, Management Officer Posts and Check details here.</Text>
                <Text style={NotificationStyle.twonavemberscreen}>02 Nov</Text>

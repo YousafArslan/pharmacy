@@ -21,7 +21,7 @@ const AddOrderitemScreen = () => {
               <View style={Addorderitemset.trackorderviewwhite}>
                 <View style={Addorderitemset.setminviewflex}>
                   <View style={Addorderitemset.setimagewisdth}>
-                    <Image style={Addorderitemset.imagesetus} resizeMode='cover' source={images.Docter_tablet_imag} />
+                    {/* <Image style={Addorderitemset.imagesetus} resizeMode='cover' source={images.Docter_tablet_imag} /> */}
                   </View>
                   <View style={Addorderitemset.setviewwoidth70}>
                     <Text style={[Addorderitemset.settextcolor, { color: colorrdata }]}>Garlic Pearl - Natural Way to Healthy Heart & Digestion</Text>

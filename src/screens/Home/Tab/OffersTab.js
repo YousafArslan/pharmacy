@@ -67,9 +67,9 @@ const OffersTab = () => {
                     <TouchableOpacity onPress={() => Largediscount()} style={OffersTabStyle.setbgcolorican}>
                       <Icon name="right" size={13} color={'#4F4F4F'} />
                     </TouchableOpacity>
-                    <View style={OffersTabStyle.flexendimage} >
+                    {/* <View style={OffersTabStyle.flexendimage} >
                       <Image style={OffersTabStyle.setboxinimage} resizeMode='cover' source={images.Docter_tablet_imag} />
-                    </View>
+                    </View> */}
                   </View>
                   <View style={OffersTabStyle.largwhiteboxtwo}>
                     <Text style={OffersTabStyle.largetextOffersTabStyleet}>Try New</Text>
@@ -77,9 +77,9 @@ const OffersTab = () => {
                     <TouchableOpacity onPress={() => Largediscount()} style={OffersTabStyle.setbgcoloricantwo}>
                       <Icon name="right" size={13} color={'#4F4F4F'} />
                     </TouchableOpacity>
-                    <View style={OffersTabStyle.flexendimage} >
+                    {/* <View style={OffersTabStyle.flexendimage} >
                       <Image style={OffersTabStyle.setboxinimage} resizeMode='cover' source={images.Docter_tablet_imag} />
-                    </View>
+                    </View> */}
                   </View>
                 </View>
                 <View style={OffersTabStyle.setviewspacetext}>

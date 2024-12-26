@@ -127,7 +127,7 @@ const slides = [
     text: <Icon name="chevrons-right" size={27} color="white" />,
     longtitle: 'Best Price Guarantee',
     image: <Image style={Styles.imagesetus} resizeMode='cover' source={images.medicine_image} />,
-    imagetwo: <Image style={Styles.longimagetwo} resizeMode='center' source={images.Slider_one_img} />,
+    // imagetwo: <Image style={Styles.longimagetwo} resizeMode='center' source={images.Slider_one_img} />,
   },
   {
     key: 's2',

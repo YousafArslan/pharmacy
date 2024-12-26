@@ -107,9 +107,9 @@ const CheckOutScreen = ({route}) => {
                   </View>
                   <View style={Styles.flexminviewcount}>
                     <View style={Styles.flexiconandimagetext}>
-                      <TouchableOpacity onPress={()=> navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
+                      {/* <TouchableOpacity onPress={()=> navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
                         <Image style={Styles.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag} />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <View>
                         <Text style={Styles.pistahouse}>{doctoreDetaile.text}</Text>
                       </View>
