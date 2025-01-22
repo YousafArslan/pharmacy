@@ -37,9 +37,7 @@ const LoginScreen = () => {
       return;
     }
     setDisplayAlert(1);
-    return(
-      navigation.navigate(RouteName.OTP_VERIFY_SCREEN)
-    )   
+    return navigation.navigate(RouteName.HOME_SCREEN);   
   };
   return (
     <View>     

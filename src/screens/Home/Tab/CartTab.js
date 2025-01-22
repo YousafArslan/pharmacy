@@ -32,7 +32,8 @@ const CartTab = ({route}) => {
   }, [navigation]);
 
   return (
-    <View style={[CartTabStyle.minstyleviewphotograpgy, CartTabStyle.bgcolorset]}>
+    <View
+      style={[CartTabStyle.minstyleviewphotograpgy, CartTabStyle.bgcolorset]}>
       <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
@@ -42,182 +43,405 @@ const CartTab = ({route}) => {
         }}>
         <KeyboardAvoidingView enabled>
           <View style={[CartTabStyle.minflexview, CartTabStyle.bgcolorset]}>
-            <View style={[CartTabStyle.minviewsigninscreen, CartTabStyle.bgcolorset]}>
-           
+            <View
+              style={[
+                CartTabStyle.minviewsigninscreen,
+                CartTabStyle.bgcolorset,
+              ]}>
               <View backgroundColor={colorrdata}>
-                <View style={[CartTabStyle.setwhitebox, CartTabStyle.cartboxwrap, CartTabStyle.bgcolorset]}>
-                  <View style={[CartTabStyle.flexsetviewwhitebox, CartTabStyle.bgcolorset]}>
+                <View
+                  style={[
+                    CartTabStyle.setwhitebox,
+                    CartTabStyle.cartboxwrap,
+                    CartTabStyle.bgcolorset,
+                  ]}>
+                  <View
+                    style={[
+                      CartTabStyle.flexsetviewwhitebox,
+                      CartTabStyle.bgcolorset,
+                    ]}>
                     <View style={CartTabStyle.twoflexview}>
                       <View style={CartTabStyle.settextflexview}>
-                        <Text style={CartTabStyle.yourordertextset}>Your Order</Text>
+                        <Text style={CartTabStyle.yourordertextset}>
+                          Your Order
+                        </Text>
                       </View>
                       <View style={CartTabStyle.flexicondighit}>
-                        <Text><Icon name="shopping-bag" size={20} color={'#010101'} /></Text>
+                        <Text>
+                          <Icon
+                            name="shopping-bag"
+                            size={20}
+                            color={'#010101'}
+                          />
+                        </Text>
                         <Text style={CartTabStyle.twodigitset}>2</Text>
                       </View>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate(RouteName.HOME_TAB)}>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate(RouteName.HOME_TAB)}>
                       <IconF name="close" size={20} color={'#010101'} />
                     </TouchableOpacity>
                   </View>
-                 
+
                   <View>
-                    <View style={[CartTabStyle.flexminviewcount, CartTabStyle.bgcolorset]}>
+                    <View
+                      style={[
+                        CartTabStyle.flexminviewcount,
+                        CartTabStyle.bgcolorset,
+                      ]}>
                       <View style={CartTabStyle.flexiconandimagetext}>
-                        <TouchableOpacity onPress={() => navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
-                          <Image style={CartTabStyle.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(
+                              RouteName.PRODUCT_DETAILS_SCREEN,
+                            )
+                          }>
+                          <Image
+                            style={CartTabStyle.setimagehightwidth}
+                            resizeMode="contain"
+                            source={images.Baby_care_imag_six}
+                          />
                         </TouchableOpacity>
                         <View>
-                        
-                          <Text style={CartTabStyle.pistahouse}>Alerid-D Tablet</Text>
+                          <Text style={CartTabStyle.pistahouse}>
+                            Alerid-D Tablet
+                          </Text>
                         </View>
                       </View>
-                      <View style={[CartTabStyle.flexiconandimagetext, CartTabStyle.bgcolorset]}>
-                        <View style={[CartTabStyle.setplusminusflex, CartTabStyle.bgcolorset, { borderColor: colorrdata }]}>
-                          <TouchableOpacity onPress={() => { if (count > 1) { setCount(count - 1) } }}>
+                      <View
+                        style={[
+                          CartTabStyle.flexiconandimagetext,
+                          CartTabStyle.bgcolorset,
+                        ]}>
+                        <View
+                          style={[
+                            CartTabStyle.setplusminusflex,
+                            CartTabStyle.bgcolorset,
+                            {borderColor: colorrdata},
+                          ]}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (count > 1) {
+                                setCount(count - 1);
+                              }
+                            }}>
                             <IconA name="minus" size={20} color={colorrdata} />
                           </TouchableOpacity>
-                          <Text style={[CartTabStyle.minustextstyle, { color: colorrdata }]}>{count}</Text>
+                          <Text
+                            style={[
+                              CartTabStyle.minustextstyle,
+                              {color: colorrdata},
+                            ]}>
+                            {count}
+                          </Text>
                           <TouchableOpacity onPress={() => setCount(count + 1)}>
                             <IconA name="plus" size={20} color={colorrdata} />
                           </TouchableOpacity>
                         </View>
-                        {Applycoupon === 0 ?
+                        {Applycoupon === 0 ? (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {175 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {175 * count}
+                            </Text>
                           </TouchableOpacity>
-                          :
+                        ) : (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {105 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {105 * count}
+                            </Text>
                           </TouchableOpacity>
-                        }
+                        )}
                       </View>
                     </View>
-                    <View style={[CartTabStyle.flexminviewcount, CartTabStyle.bgcolorset]}>
+                    <View
+                      style={[
+                        CartTabStyle.flexminviewcount,
+                        CartTabStyle.bgcolorset,
+                      ]}>
                       <View style={CartTabStyle.flexiconandimagetext}>
-                        <TouchableOpacity onPress={() => navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
-                          <Image style={CartTabStyle.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(
+                              RouteName.PRODUCT_DETAILS_SCREEN,
+                            )
+                          }>
+                          <Image
+                            style={CartTabStyle.setimagehightwidth}
+                            resizeMode="contain"
+                            source={images.Baby_care_imag_six}
+                          />
                         </TouchableOpacity>
                         <View>
-                        
-                          <Text style={CartTabStyle.pistahouse}>Alerid-D Tablet</Text>
+                          <Text style={CartTabStyle.pistahouse}>
+                            Alerid-D Tablet
+                          </Text>
                         </View>
                       </View>
-                      <View style={[CartTabStyle.flexiconandimagetext, CartTabStyle.bgcolorset]}>
-                        <View style={[CartTabStyle.setplusminusflex, CartTabStyle.bgcolorset, { borderColor: colorrdata }]}>
-                          <TouchableOpacity onPress={() => { if (count > 1) { setCount(count - 1) } }}>
+                      <View
+                        style={[
+                          CartTabStyle.flexiconandimagetext,
+                          CartTabStyle.bgcolorset,
+                        ]}>
+                        <View
+                          style={[
+                            CartTabStyle.setplusminusflex,
+                            CartTabStyle.bgcolorset,
+                            {borderColor: colorrdata},
+                          ]}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (count > 1) {
+                                setCount(count - 1);
+                              }
+                            }}>
                             <IconA name="minus" size={20} color={colorrdata} />
                           </TouchableOpacity>
-                          <Text style={[CartTabStyle.minustextstyle, { color: colorrdata }]}>{count}</Text>
+                          <Text
+                            style={[
+                              CartTabStyle.minustextstyle,
+                              {color: colorrdata},
+                            ]}>
+                            {count}
+                          </Text>
                           <TouchableOpacity onPress={() => setCount(count + 1)}>
                             <IconA name="plus" size={20} color={colorrdata} />
                           </TouchableOpacity>
                         </View>
-                        {Applycoupon === 0 ?
+                        {Applycoupon === 0 ? (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {175 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {175 * count}
+                            </Text>
                           </TouchableOpacity>
-                          :
+                        ) : (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {105 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {105 * count}
+                            </Text>
                           </TouchableOpacity>
-                        }
+                        )}
                       </View>
                     </View>
-                    <View style={[CartTabStyle.flexminviewcount, CartTabStyle.bgcolorset]}>
+                    <View
+                      style={[
+                        CartTabStyle.flexminviewcount,
+                        CartTabStyle.bgcolorset,
+                      ]}>
                       <View style={CartTabStyle.flexiconandimagetext}>
-                        <TouchableOpacity onPress={() => navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
-                          <Image style={CartTabStyle.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(
+                              RouteName.PRODUCT_DETAILS_SCREEN,
+                            )
+                          }>
+                          <Image
+                            style={CartTabStyle.setimagehightwidth}
+                            resizeMode="contain"
+                            source={images.Baby_care_imag_six}
+                          />
                         </TouchableOpacity>
                         <View>
-                        
-                          <Text style={CartTabStyle.pistahouse}>Alerid-D Tablet</Text>
+                          <Text style={CartTabStyle.pistahouse}>
+                            Alerid-D Tablet
+                          </Text>
                         </View>
                       </View>
-                      <View style={[CartTabStyle.flexiconandimagetext, CartTabStyle.bgcolorset]}>
-                        <View style={[CartTabStyle.setplusminusflex, CartTabStyle.bgcolorset, { borderColor: colorrdata }]}>
-                          <TouchableOpacity onPress={() => { if (count > 1) { setCount(count - 1) } }}>
+                      <View
+                        style={[
+                          CartTabStyle.flexiconandimagetext,
+                          CartTabStyle.bgcolorset,
+                        ]}>
+                        <View
+                          style={[
+                            CartTabStyle.setplusminusflex,
+                            CartTabStyle.bgcolorset,
+                            {borderColor: colorrdata},
+                          ]}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (count > 1) {
+                                setCount(count - 1);
+                              }
+                            }}>
                             <IconA name="minus" size={20} color={colorrdata} />
                           </TouchableOpacity>
-                          <Text style={[CartTabStyle.minustextstyle, { color: colorrdata }]}>{count}</Text>
+                          <Text
+                            style={[
+                              CartTabStyle.minustextstyle,
+                              {color: colorrdata},
+                            ]}>
+                            {count}
+                          </Text>
                           <TouchableOpacity onPress={() => setCount(count + 1)}>
                             <IconA name="plus" size={20} color={colorrdata} />
                           </TouchableOpacity>
                         </View>
-                        {Applycoupon === 0 ?
+                        {Applycoupon === 0 ? (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {175 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {175 * count}
+                            </Text>
                           </TouchableOpacity>
-                          :
+                        ) : (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {105 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {105 * count}
+                            </Text>
                           </TouchableOpacity>
-                        }
+                        )}
                       </View>
                     </View>
-                    <View style={[CartTabStyle.flexminviewcount, CartTabStyle.bgcolorset]}>
+                    <View
+                      style={[
+                        CartTabStyle.flexminviewcount,
+                        CartTabStyle.bgcolorset,
+                      ]}>
                       <View style={CartTabStyle.flexiconandimagetext}>
-                        <TouchableOpacity onPress={() => navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)}>
-                          <Image style={CartTabStyle.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(
+                              RouteName.PRODUCT_DETAILS_SCREEN,
+                            )
+                          }>
+                          <Image
+                            style={CartTabStyle.setimagehightwidth}
+                            resizeMode="contain"
+                            source={images.Baby_care_imag_six}
+                          />
                         </TouchableOpacity>
                         <View>
-                         
-                          <Text style={CartTabStyle.pistahouse}>Alerid-D Tablet</Text>
+                          <Text style={CartTabStyle.pistahouse}>
+                            Alerid-D Tablet
+                          </Text>
                         </View>
                       </View>
-                      <View style={[CartTabStyle.flexiconandimagetext, CartTabStyle.bgcolorset]}>
-                        <View style={[CartTabStyle.setplusminusflex, CartTabStyle.bgcolorset, { borderColor: colorrdata }]}>
-                          <TouchableOpacity onPress={() => { if (count > 1) { setCount(count - 1) } }}>
+                      <View
+                        style={[
+                          CartTabStyle.flexiconandimagetext,
+                          CartTabStyle.bgcolorset,
+                        ]}>
+                        <View
+                          style={[
+                            CartTabStyle.setplusminusflex,
+                            CartTabStyle.bgcolorset,
+                            {borderColor: colorrdata},
+                          ]}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (count > 1) {
+                                setCount(count - 1);
+                              }
+                            }}>
                             <IconA name="minus" size={20} color={colorrdata} />
                           </TouchableOpacity>
-                          <Text style={[CartTabStyle.minustextstyle, { color: colorrdata }]}>{count}</Text>
+                          <Text
+                            style={[
+                              CartTabStyle.minustextstyle,
+                              {color: colorrdata},
+                            ]}>
+                            {count}
+                          </Text>
                           <TouchableOpacity onPress={() => setCount(count + 1)}>
                             <IconA name="plus" size={20} color={colorrdata} />
                           </TouchableOpacity>
                         </View>
-                        {Applycoupon === 0 ?
+                        {Applycoupon === 0 ? (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {175 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {175 * count}
+                            </Text>
                           </TouchableOpacity>
-                          :
+                        ) : (
                           <TouchableOpacity>
-                            <Text style={[CartTabStyle.digitalsawtwext, { color: colorrdata }]}>{pricesymboldata} {105 * count}</Text>
+                            <Text
+                              style={[
+                                CartTabStyle.digitalsawtwext,
+                                {color: colorrdata},
+                              ]}>
+                              {pricesymboldata} {105 * count}
+                            </Text>
                           </TouchableOpacity>
-                        }
+                        )}
                       </View>
                     </View>
-                    
-                   
                   </View>
                 </View>
-
               </View>
             </View>
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
-      <View style={[CartTabStyle.positionabsolutesetbutton, CartTabStyle.bgcolorset]}>
+      <View
+        style={[
+          CartTabStyle.positionabsolutesetbutton,
+          CartTabStyle.bgcolorset,
+        ]}>
         <View style={CartTabStyle.accountbutton}>
-          {Applycoupon === 0 ?
+          {Applycoupon === 0 ? (
             <View style={CartTabStyle.textcenyet}>
               <View>
-                <Text style={CartTabStyle.digitaltextsettwo}>{pricesymboldata} {175 * count}</Text>
-                <Text style={[CartTabStyle.viewdetailesbilltext, { color: colorrdata }]}>Total Amount</Text>
+                <Text style={CartTabStyle.digitaltextsettwo}>
+                  {pricesymboldata} {175 * count}
+                </Text>
+                <Text
+                  style={[
+                    CartTabStyle.viewdetailesbilltext,
+                    {color: colorrdata},
+                  ]}>
+                  Total Amount
+                </Text>
               </View>
             </View>
-            :
+          ) : (
             <View style={CartTabStyle.textcenyet}>
               <View>
-                <Text style={CartTabStyle.digitaltextsettwo}>{pricesymboldata} {140 * count}</Text>
-                <Text style={[CartTabStyle.viewdetailesbilltext, { color: colorrdata }]}>Total Amount</Text>
+                <Text style={CartTabStyle.digitaltextsettwo}>
+                  {pricesymboldata} {140 * count}
+                </Text>
+                <Text
+                  style={[
+                    CartTabStyle.viewdetailesbilltext,
+                    {color: colorrdata},
+                  ]}>
+                  Total Amount
+                </Text>
               </View>
             </View>
-          }
+          )}
           <View style={CartTabStyle.setbuttonwidthview}>
-            <Button title="Checkout"
+            <Button
+              title="Checkout"
               buttonTextStyle={CartTabStyle.textstylepayment}
-              buttonStyle={{ backgroundColor: colorrdata }}
-              onPress={() => navigation.navigate(RouteName.CHECK_OUT)}
+              buttonStyle={{backgroundColor: colorrdata}}
+              onPress={() => console.log('Checkout')}
             />
           </View>
         </View>

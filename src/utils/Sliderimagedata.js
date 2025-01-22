@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Image } from 'react-native';
+import {Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconS from 'react-native-vector-icons/Entypo';
 import Style from '../styles/CommonStyle/Style';
@@ -7,41 +7,66 @@ import images from '../images';
 import IconR from 'react-native-vector-icons/Ionicons';
 import IconE from 'react-native-vector-icons/Entypo';
 import IconA from 'react-native-vector-icons/MaterialIcons';
-import { Rating } from 'react-native-ratings';
+import {Rating} from 'react-native-ratings';
 
 export const carouselItems = [
-    {
-        title: 'Avastin Pharmacy',
-        paregraphtitle: 'For multiple users.',
-        imge: <Image style={Style.imagsetstyle} resizeMode="cover" source={images.Ningthty_eighty_img} />,
-        bottomtext: 'When they arrived at the Pharmacy, Alex was packing',
-        imagbottomtext: 'SET THEM NOW',
-        seticon: <Icon name="angle-right" size={13} />,
-    },
-    {
-        title: 'Herceptin Pharmacy',
-        paregraphtitle: 'For multiple users.',
-        imge: <Image style={Style.imagsetstyle} resizeMode="cover" source={images.Ningthty_eighty_img} />,
-        bottomtext: 'We have a Pharmacy report from inner city Cleveland.',
-        imagbottomtext: 'SET THEM NOW',
-        seticon: <Icon name="angle-right" size={13} />,
-    },
-    {
-        title: 'MabThera/Rituxan',
-        paregraphtitle: 'For multiple users.',
-        imge: <Image style={Style.imagsetstyle} resizeMode='cover' source={images.Ningthty_eighty_img} />,
-        bottomtext: 'We are going to take you to the Pharmacy.',
-        imagbottomtext: 'SET THEM NOW',
-        seticon: <Icon name="angle-right" size={13} />,
-    },
-    {
-        title: 'Covid Essentials',
-        paregraphtitle: 'For multiple users.',
-        imge: <Image style={Style.imagsetstyle} resizeMode='cover' source={images.Ningthty_eighty_img} />,
-        bottomtext: 'I myself will remain in Pharmacy at Ostrolenka till I recover.',
-        imagbottomtext: 'SET THEM NOW',
-        seticon: <Icon name="angle-right" size={13} />,
-    },
+  {
+    title: 'Avastin Pharmacy',
+    paregraphtitle: 'For multiple users.',
+    imge: (
+      <Image
+        style={Style.imagsetstyle}
+        resizeMode="cover"
+        source={images.Ningthty_eighty_img}
+      />
+    ),
+    bottomtext: 'When they arrived at the Pharmacy, Alex was packing',
+    imagbottomtext: 'SET THEM NOW',
+    seticon: <Icon name="angle-right" size={13} />,
+  },
+  {
+    title: 'Herceptin Pharmacy',
+    paregraphtitle: 'For multiple users.',
+    imge: (
+      <Image
+        style={Style.imagsetstyle}
+        resizeMode="cover"
+        source={images.Ningthty_eighty_img}
+      />
+    ),
+    bottomtext: 'We have a Pharmacy report from inner city Cleveland.',
+    imagbottomtext: 'SET THEM NOW',
+    seticon: <Icon name="angle-right" size={13} />,
+  },
+  {
+    title: 'MabThera/Rituxan',
+    paregraphtitle: 'For multiple users.',
+    imge: (
+      <Image
+        style={Style.imagsetstyle}
+        resizeMode="cover"
+        source={images.Ningthty_eighty_img}
+      />
+    ),
+    bottomtext: 'We are going to take you to the Pharmacy.',
+    imagbottomtext: 'SET THEM NOW',
+    seticon: <Icon name="angle-right" size={13} />,
+  },
+  {
+    title: 'Covid Essentials',
+    paregraphtitle: 'For multiple users.',
+    imge: (
+      <Image
+        style={Style.imagsetstyle}
+        resizeMode="cover"
+        source={images.Ningthty_eighty_img}
+      />
+    ),
+    bottomtext:
+      'I myself will remain in Pharmacy at Ostrolenka till I recover.',
+    imagbottomtext: 'SET THEM NOW',
+    seticon: <Icon name="angle-right" size={13} />,
+  },
 ];
 export const MedicineCategoryHomeTab = [
     {
@@ -696,90 +721,156 @@ export const FastPharmacyOfferTab = [
     },
 ]
 export const Tabletname = [
-    {
-        "id": 1,
-        "text": 'Ascoril LS Syrup',
-    },
-    {
-        "id": 2,
-        "text": 'Combiflam Tablet',
-    },
-    {
-        "id": 3,
-        "text": 'Enzoflam Tablet',
-    },
-    {
-        "id": 4,
-        "text": 'Hifenac-P Tablet',
-    },
-    {
-        "id": 5,
-        "text": 'Hifenac-MR Tablet',
-    },
-    {
-        "id": 6,
-        "text": 'Hyocimax-S Tablet',
-    },
-    {
-        "id": 7,
-        "text": 'Histafree-M Tablet',
-    },
-    {
-        "id": 8,
-        "text": 'HUCOG 5000 HP Injection',
-    },
-]
+  {
+    id: 1,
+    text: 'Ascoril LS Syrup',
+  },
+  {
+    id: 2,
+    text: 'Combiflam Tablet',
+  },
+  {
+    id: 3,
+    text: 'Enzoflam Tablet',
+  },
+  {
+    id: 4,
+    text: 'Hifenac-P Tablet',
+  },
+  {
+    id: 5,
+    text: 'Hifenac-MR Tablet',
+  },
+  {
+    id: 6,
+    text: 'Hyocimax-S Tablet',
+  },
+  {
+    id: 7,
+    text: 'Histafree-M Tablet',
+  },
+  {
+    id: 8,
+    text: 'HUCOG 5000 HP Injection',
+  },
+];
 export const HospitalListingdata = [
+  {
+    id: 1,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag}
+      />
+    ),
+    hospitalname: 'Shaukat Khanum Memorial Hospital',
+    text: 'wholesale',
+    medicine: 'Ascoril LS Syrup', // Added medicine key
+    region: 'Lahore',
+  },
+  {
+    id: 2,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Aga Khan University Hospital',
+    text: 'wholesale',
+    medicine: 'Combiflam Tablet', // Added medicine key
+    region: 'Karachi',
+  },
+  {
+    id: 3,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Liaquat National Hospital',
+    text: 'wholesale',
+    medicine: 'Enzoflam Tablet', // Added medicine key
+    region: 'Karachi',
+  },
+  {
+    id: 4,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Indus Hospital',
+    text: 'wholesale',
+    medicine: 'Hifenac-P Tablet', // Added medicine key
+    region: 'Karachi',
+  },
+  {
+    id: 5,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Jinnah Hospital',
+    text: 'wholesale',
+    medicine: 'Hifenac-MR Tablet', // Added medicine key
+    region: 'Lahore',
+  },
+  {
+    id: 6,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'PIMS Hospital',
+    text: 'wholesale',
+    medicine: 'Hyocimax-S Tablet', // Added medicine key
+    region: 'Islamabad',
+  },
+  {
+    id: 7,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Fatima Memorial Hospital',
+    text: 'wholesale',
+    medicine: 'Histafree-M Tablet', // Added medicine key
+    region: 'Lahore',
+  },
+  {
+    id: 8,
+    image: (
+      <Image
+        style={Style.imagsetstylefredrice}
+        resizeMode="cover"
+        source={images.Baby_care_imag_six}
+      />
+    ),
+    hospitalname: 'Ziauddin Hospital',
+    text: 'wholesale',
+    medicine: 'HUCOG 5000 HP Injection', // Added medicine key
+    region: 'Karachi',
+  },
+];
 
-    {
-        "id": 1,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag} />,
-        "hospitalname": 'Avastin Pharmacy',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 2,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'Herceptin Pharmacy',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 3,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'Arthak Hospital and ICU',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 4,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'Herceptin Pharmacy Pharmacy',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 5,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'Shree Navjivan Children Hospital',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 6,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'Sahyog Hospital Pvt. Ltd.',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 7,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'MabThera/Rituxan',
-        "text": 'Alerid-D Tablet',
-    },
-    {
-        "id": 8,
-        "image": <Image style={Style.imagsetstylefredrice} resizeMode="cover" source={images.Baby_care_imag_six} />,
-        "hospitalname": 'MabThera/Rituxan',
-        "text": 'Alerid-D Tablet',
-    },
-]
+
+
 
 export const Docterproductdata = [
     {
@@ -1164,236 +1255,315 @@ export const yourorderdata = [
     },
 ]
 export const setuserparfromance = [
-    {
-        "id": 1,
-        "title": "user 1",
-        "seticonview": <IconE name="check" size={20} color={'#4FA987'} />,
-    },
-    {
-        "id": 2,
-        "title": "user 2",
-        "seticonview": <IconE name="check" size={20} color={'#4FA987'} />,
-    },
-    {
-        "id": 3,
-        "title": "user 3",
-        "seticonview": <IconE name="close" size={20} color={'red'} />,
-    },
-    {
-        "id": 4,
-        "title": "user 4",
-        "seticonview": <IconE name="close" size={20} color={'red'} />,
-    }
-]
+  {
+    id: 1,
+    title: 'user 1',
+    seticonview: <IconE name="check" size={20} color={'#4FA987'} />,
+  },
+  {
+    id: 2,
+    title: 'user 2',
+    seticonview: <IconE name="check" size={20} color={'#4FA987'} />,
+  },
+  {
+    id: 3,
+    title: 'user 3',
+    seticonview: <IconE name="close" size={20} color={'red'} />,
+  },
+  {
+    id: 4,
+    title: 'user 4',
+    seticonview: <IconE name="close" size={20} color={'red'} />,
+  },
+];
 export const orderlistyourperfromance = [
-    {
-        "id": 1,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'Fried Rice',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": 'Desi, Middle-Eastern',
-    },
-    {
-        "id": 2,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Combo',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": '1 Kacchi biriyani',
-    },
-    {
-        "id": 3,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Combo',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": '1 Kacchi biriyani',
-    },
-    {
-        "id": 4,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Combo',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": '1 Kacchi biriyani',
-    },
-    {
-        "id": 5,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Combo',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": '1 Kacchi biriyani',
-    },
-    {
-        "id": 6,
-        "image": <Image style={Style.imageroundyorgrprrfromance} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Combo',
-        "textsmall": 'Yesterday 3pm',
-        "price": '250',
-        "paregraphtetx": '1 Kacchi biriyani',
-    },
-]
+  {
+    id: 1,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'Fried Rice',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: 'Desi, Middle-Eastern',
+  },
+  {
+    id: 2,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Combo',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: '1 Kacchi biriyani',
+  },
+  {
+    id: 3,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Combo',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: '1 Kacchi biriyani',
+  },
+  {
+    id: 4,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Combo',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: '1 Kacchi biriyani',
+  },
+  {
+    id: 5,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Combo',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: '1 Kacchi biriyani',
+  },
+  {
+    id: 6,
+    image: (
+      <Image
+        style={Style.imageroundyorgrprrfromance}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Combo',
+    textsmall: 'Yesterday 3pm',
+    price: '250',
+    paregraphtetx: '1 Kacchi biriyani',
+  },
+];
 export const Recentorderlist = [
-    {
-        "id": 1,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_one_img} />,
-        "text": 'KFC Nuggets',
-        "texttwo": 'Desi, Italian, +3 more',
-        "textfour": '200',
-        "freedelevary": 'Free Delivery',
-    },
-    {
-        "id": 2,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_two_img} />,
-        "text": 'Burger More',
-        "texttwo": 'Burgers, Bevarages',
-        "textfour": '200',
-    },
-    {
-        "id": 3,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_three_img} />,
-        "text": 'Hot Deals',
-        "texttwo": 'Suhani Restaurant',
-        "textfour": '190',
-        "freedelevary": 'Free Delivery',
-    },
-    {
-        "id": 4,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_five_img} />,
-        "text": 'Hot Deals',
-        "texttwo": 'Suhani Restaurant',
-        "textfour": '260',
-        "freedelevary": 'Free Delivery',
-    },
-    {
-        "id": 5,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_aeight_img} />,
-        "text": 'Hot Deals',
-        "texttwo": 'Suhani Restaurant',
-        "textfour": '240',
-    },
-    {
-        "id": 6,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_saven_img} />,
-        "text": 'Hot Deals',
-        "texttwo": 'Suhani Restaurant',
-        "textfour": '200',
-        "freedelevary": 'Free Delivery',
-    },
-    {
-        "id": 7,
-        "image": <Image style={Style.resetordersetbox} resizeMode="cover" source={images.Foode_aeight_img} />,
-        "text": 'Hot Deals',
-        "texttwo": 'Suhani Restaurant',
-        "textfour": '200',
-        "freedelevary": 'Free Delivery',
-    },
-]
+  {
+    id: 1,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_one_img}
+      />
+    ),
+    text: 'KFC Nuggets',
+    texttwo: 'Desi, Italian, +3 more',
+    textfour: '200',
+    freedelevary: 'Free Delivery',
+  },
+  {
+    id: 2,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_two_img}
+      />
+    ),
+    text: 'Burger More',
+    texttwo: 'Burgers, Bevarages',
+    textfour: '200',
+  },
+  {
+    id: 3,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_three_img}
+      />
+    ),
+    text: 'Hot Deals',
+    texttwo: 'Suhani Restaurant',
+    textfour: '190',
+    freedelevary: 'Free Delivery',
+  },
+  {
+    id: 4,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_five_img}
+      />
+    ),
+    text: 'Hot Deals',
+    texttwo: 'Suhani Restaurant',
+    textfour: '260',
+    freedelevary: 'Free Delivery',
+  },
+  {
+    id: 5,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_aeight_img}
+      />
+    ),
+    text: 'Hot Deals',
+    texttwo: 'Suhani Restaurant',
+    textfour: '240',
+  },
+  {
+    id: 6,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_saven_img}
+      />
+    ),
+    text: 'Hot Deals',
+    texttwo: 'Suhani Restaurant',
+    textfour: '200',
+    freedelevary: 'Free Delivery',
+  },
+  {
+    id: 7,
+    image: (
+      <Image
+        style={Style.resetordersetbox}
+        resizeMode="cover"
+        source={images.Foode_aeight_img}
+      />
+    ),
+    text: 'Hot Deals',
+    texttwo: 'Suhani Restaurant',
+    textfour: '200',
+    freedelevary: 'Free Delivery',
+  },
+];
 export const statelist = [
-    {
-        "id": 1,
-        "textsimple": 'Flexon Tablet',
-        "pricetextset": '43',
-    },
-    {
-        "id": 2,
-        "textsimple": 'Folvite 5mg Tablet',
-        "pricetextset": '3',
-    },
-    {
-        "id": 3,
-        "textsimple": 'Indocap SR Capsule',
-        "pricetextset": '76',
-    },
-    {
-        "id": 1,
-        "textsimple": 'Imodium Capsule',
-        "pricetextset": '46',
-    },
-    {
-        "id": 4,
-        "textsimple": 'Ibugesic Plus Tablet',
-        "pricetextset": '59',
-    },
-    {
-        "id": 5,
-        "textsimple": 'IPCA MMF 500 Tablet',
-        "pricetextset": '22',
-    },
-    {
-        "id": 6,
-        "textsimple": 'Librax 5 mg/2.5 mg Tablet',
-        "pricetextset": '16',
-    },
-    {
-        "id": 7,
-        "textsimple": 'Levocet Tablet',
-        "pricetextset": '43',
-    },
-    {
-        "id": 8,
-        "textsimple": 'Omnacortil 10 Tablet DT',
-        "pricetextset": '30',
-    },
-    {
-        "id": 9,
-        "textsimple": 'Okacet Tablet',
-        "pricetextset": '39',
-    },
-    {
-        "id": 10,
-        "textsimple": 'Omnacortil Oral Solution',
-        "pricetextset": '32',
-    },
-    {
-        "id": 11,
-        "textsimple": 'Orofer FCM Injection',
-        "pricetextset": '48',
-    },
-    {
-        "id": 12,
-        "textsimple": 'Omez-Dsr Capsule',
-        "pricetextset": '47',
-    },
-    {
-        "id": 13,
-        "textsimple": 'Regestrone 5mg Tablet',
-        "pricetextset": '64',
-    },
-    {
-        "id": 14,
-        "textsimple": 'Rabesec-D SR Capsule',
-        "pricetextset": '77',
-    },
-    {
-        "id": 15,
-        "textsimple": 'T-Bact 2% Ointment',
-        "pricetextset": '13',
-    },
-    {
-        "id": 16,
-        "textsimple": 'TusQ-DX Liquid',
-        "pricetextset": '8',
-    },
-    {
-        "id": 17,
-        "textsimple": 'Trajenta 5mg Tablet',
-        "pricetextset": '10',
-    },
-    {
-        "id": 18,
-        "textsimple": 'Telmikind-AM Tablet',
-        "pricetextset": '67',
-    },
-    {
-        "id": 19,
-        "textsimple": 'Thrombophob Gel',
-        "pricetextset": '73',
-    },
-]
+  {
+    id: 1,
+    textsimple: 'Flexon Tablet',
+    pricetextset: '43',
+  },
+  {
+    id: 2,
+    textsimple: 'Folvite 5mg Tablet',
+    pricetextset: '3',
+  },
+  {
+    id: 3,
+    textsimple: 'Indocap SR Capsule',
+    pricetextset: '76',
+  },
+  {
+    id: 1,
+    textsimple: 'Imodium Capsule',
+    pricetextset: '46',
+  },
+  {
+    id: 4,
+    textsimple: 'Ibugesic Plus Tablet',
+    pricetextset: '59',
+  },
+  {
+    id: 5,
+    textsimple: 'IPCA MMF 500 Tablet',
+    pricetextset: '22',
+  },
+  {
+    id: 6,
+    textsimple: 'Librax 5 mg/2.5 mg Tablet',
+    pricetextset: '16',
+  },
+  {
+    id: 7,
+    textsimple: 'Levocet Tablet',
+    pricetextset: '43',
+  },
+  {
+    id: 8,
+    textsimple: 'Omnacortil 10 Tablet DT',
+    pricetextset: '30',
+  },
+  {
+    id: 9,
+    textsimple: 'Okacet Tablet',
+    pricetextset: '39',
+  },
+  {
+    id: 10,
+    textsimple: 'Omnacortil Oral Solution',
+    pricetextset: '32',
+  },
+  {
+    id: 11,
+    textsimple: 'Orofer FCM Injection',
+    pricetextset: '48',
+  },
+  {
+    id: 12,
+    textsimple: 'Omez-Dsr Capsule',
+    pricetextset: '47',
+  },
+  {
+    id: 13,
+    textsimple: 'Regestrone 5mg Tablet',
+    pricetextset: '64',
+  },
+  {
+    id: 14,
+    textsimple: 'Rabesec-D SR Capsule',
+    pricetextset: '77',
+  },
+  {
+    id: 15,
+    textsimple: 'T-Bact 2% Ointment',
+    pricetextset: '13',
+  },
+  {
+    id: 16,
+    textsimple: 'TusQ-DX Liquid',
+    pricetextset: '8',
+  },
+  {
+    id: 17,
+    textsimple: 'Trajenta 5mg Tablet',
+    pricetextset: '10',
+  },
+  {
+    id: 18,
+    textsimple: 'Telmikind-AM Tablet',
+    pricetextset: '67',
+  },
+  {
+    id: 19,
+    textsimple: 'Thrombophob Gel',
+    pricetextset: '73',
+  },
+];
 export const Slides = [
+<<<<<<< HEAD
     {
         key: 's1',
         text: 'chevrons-right',
@@ -1417,3 +1587,27 @@ export const Slides = [
       },
     
 ]
+=======
+  {
+    key: 's1',
+    text: 'chevrons-right',
+    longtitle: 'Best Price Guarantee',
+    image: images.medicine_image,
+    imagetwo: images.Slider_one_img,
+  },
+  {
+    key: 's2',
+    text: 'chevrons-right',
+    longtitletwo: 'Quality Assurance',
+    image: images.medicine_image,
+    imagetwo: images.Slider_two_img,
+  },
+  {
+    key: 's3',
+    text: 'chevrons-right',
+    longtitle: 'No Minimum Buy',
+    image: images.medicine_image,
+    imagetwo: images.Slider_three_img,
+  },
+];
+>>>>>>> 44d9c67482f076c2678da9841212a48e10a89a3f
