@@ -62,8 +62,6 @@ export default Root;
 
 function HomeTabScreenStack({ navigation }) {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  // const drawerStatus = useContext(DrawerStatusContext);
-  console.log("drawerStatus");
   
   return (
     <Stack.Navigator initialRouteName="HomeTab">

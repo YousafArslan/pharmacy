@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
   StatusBar,
   FlatList,
   KeyboardAvoidingView,
-  TouchableOpacity,
+  // TouchableOpacity,
   Image,
 } from 'react-native';
 import IconR from 'react-native-vector-icons/Ionicons';
@@ -17,11 +17,34 @@ import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
 import images from '../../../images';
 import {Style} from '../../../styles';
 import IconA from 'react-native-vector-icons/MaterialIcons';
+import axios from 'axios';
 
 const Summary = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const {navigation} = props;
-  console.log("in here")
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DATA&pParam=D307^sa',
+        );
+        setData(response.data); // Update state with the response
+      } catch (err) {
+        setError(err.message); // Handle error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const orderData = [
     {
       id: 1,
@@ -66,6 +89,7 @@ const Summary = props => {
       repeatordertext: 'Repeat Order',
     },
   ];
+  // console.log("data",data)
 
   const orderDataitem = (item, index) => {
     return (
@@ -74,14 +98,20 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-                <View>{item.image}</View>
+                <View>
+                  <Image
+                    style={Style.yourorderdata}
+                    resizeMode="cover"
+                    source={images.Docter_tablet_imag}
+                  />
+                </View>
                 <View style={SummaryStyle.priceflextext}>
                   <View style={SummaryStyle.setwidth70}>
                     <Text style={SummaryStyle.vadapavtextstyeleset}>
-                      {item.vadapavtext}
+                      {item.delman_name}
                     </Text>
                     <Text style={SummaryStyle.addreshrtext}>
-                      {item.sitytext}
+                      {item.dist_id}
                     </Text>
                   </View>
                 </View>
@@ -91,35 +121,17 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomviewtwo}>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Summary ID</Text>
-              <Text style={SummaryStyle.blacktitle}>123</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.dist_id}</Text>
             </View>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Delivery Man</Text>
-              <Text style={SummaryStyle.blacktitle}>Waleed</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.assigned_to}</Text>
             </View>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Amount</Text>
-              <Text style={SummaryStyle.blacktitle}>100</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.amount}</Text>
             </View>
           </View>
-          {/* <View style={SummaryStyle.flexrowsettextrejected}>
-            {index === 0 || index === 2 || index === 3 || index === 5 || index === 7?
-              <TouchableOpacity style={SummaryStyle.flexreowdilevry}>
-                <Text><IconR name={item.righticon} color={colorrdata} size={25} /></Text>
-                <Text style={[SummaryStyle.rejectedtextstyle, { color: colorrdata }]}>{item.rejectedtext}</Text>
-              </TouchableOpacity>
-             :null}
-              {index === 1 || index === 4 || index === 6 ?
-              <TouchableOpacity style={SummaryStyle.flexreowdilevry}>
-                <Text><IconM name={item.righticon} color={'red'} size={25} /></Text>
-                <Text style={[SummaryStyle.rejectedtextstyle, { color: 'red' }]}>{item.rejectedtext}</Text>
-              </TouchableOpacity>
-             :null}
-            <TouchableOpacity style={SummaryStyle.setflexitemview} onPress={() => navigation.navigate(RouteName.CART_TAB)}>
-              <Text>{item.refreshicon}</Text>
-              <Text style={SummaryStyle.rejectedtextstyle}>{item.repeatordertext}</Text>
-            </TouchableOpacity>
-          </View> */}
         </View>
       </View>
     );
@@ -138,11 +150,15 @@ const Summary = props => {
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
-                <FlatList
-                  data={orderData}
-                  renderItem={({item, index}) => orderDataitem(item, index)}
-                  keyExtractor={item => item.id}
-                />
+                {loading && <Text>Loading...</Text>}
+                {error && <p>Error: {error}</p>}
+                {data && (
+                  <FlatList
+                    data={data}
+                    renderItem={({item, index}) => orderDataitem(item, index)}
+                    keyExtractor={item => item.dss_id}
+                  />
+                )}
               </View>
             </View>
           </View>

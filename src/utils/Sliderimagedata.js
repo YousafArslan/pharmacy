@@ -1174,16 +1174,16 @@ export const setuserparfromance = [
         "title": "user 2",
         "seticonview": <IconE name="check" size={20} color={'#4FA987'} />,
     },
-    {
-        "id": 3,
-        "title": "user 3",
-        "seticonview": <IconE name="close" size={20} color={'red'} />,
-    },
-    {
-        "id": 4,
-        "title": "user 4",
-        "seticonview": <IconE name="close" size={20} color={'red'} />,
-    }
+    // {
+    //     "id": 3,
+    //     "title": "user 3",
+    //     "seticonview": <IconE name="close" size={20} color={'red'} />,
+    // },
+    // {
+    //     "id": 4,
+    //     "title": "user 4",
+    //     "seticonview": <IconE name="close" size={20} color={'red'} />,
+    // }
 ]
 export const orderlistyourperfromance = [
     {
