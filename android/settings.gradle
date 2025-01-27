@@ -1,11 +1,6 @@
+pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+plugins { id("com.facebook.react.settings") }
+extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 rootProject.name = 'Pharmacy'
 include ':app'
-
-// Applying settings for the React Native CLI autolink feature
-apply from: "$rootDir/../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"
-applyNativeModulesSettingsGradle(settings)
-
-
-// This ensures that the React Native Gradle plugin is correctly included.
-// Adjust the path if your project structure is different.
-includeBuild("$rootDir/../node_modules/@react-native/gradle-plugin")
+includeBuild('../node_modules/@react-native/gradle-plugin')
