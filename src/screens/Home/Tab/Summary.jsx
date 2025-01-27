@@ -5,7 +5,7 @@ import {
   StatusBar,
   FlatList,
   KeyboardAvoidingView,
-  // TouchableOpacity,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 import IconR from 'react-native-vector-icons/Ionicons';
@@ -15,7 +15,7 @@ import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
 import images from '../../../images';
-import {Style} from '../../../styles';
+import {Style, YourOrderScreenStyle} from '../../../styles';
 import IconA from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 
@@ -91,31 +91,30 @@ const Summary = props => {
       repeatordertext: 'Repeat Order',
     },
   ];
-  // console.log("data",data)
 
-  const orderDataitem = (item, index) => {
+  const orderDataitem = (item, index, navigation) => {
     return (
       <View>
         <View style={SummaryStyle.yoreorderstylebox}>
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-                <View>
-                  <Image
-                    style={Style.yourorderdata}
-                    resizeMode="cover"
-                    source={images.Docter_tablet_imag}
-                  />
-                </View>
+                <View>{item.image}</View>
                 <View style={SummaryStyle.priceflextext}>
-                  <View style={SummaryStyle.setwidth70}>
-                    <Text style={SummaryStyle.vadapavtextstyeleset}>
-                      {item.delman_name}
-                    </Text>
-                    <Text style={SummaryStyle.addreshrtext}>
-                      {item.dist_id}
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                    style={YourOrderScreenStyle.setwidth70}
+                    onPress={() =>
+                      navigation.navigate(RouteName.YOUR_ORDER_SCREEN)
+                    }>
+                    <View style={SummaryStyle.setwidth70}>
+                      <Text style={SummaryStyle.vadapavtextstyeleset}>
+                        {item.delman_name}
+                      </Text>
+                      <Text style={SummaryStyle.addreshrtext}>
+                        {item.dist_id}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -157,7 +156,7 @@ const Summary = props => {
                 {data && (
                   <FlatList
                     data={data}
-                    renderItem={({item, index}) => orderDataitem(item, index)}
+                    renderItem={({item, index}) => orderDataitem(item, index,navigation)}
                     keyExtractor={item => item.dss_id}
                   />
                 )}

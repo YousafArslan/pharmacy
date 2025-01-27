@@ -231,7 +231,6 @@ const RootNavigator = (props) => {
           }}
           component={ForgotPassword}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

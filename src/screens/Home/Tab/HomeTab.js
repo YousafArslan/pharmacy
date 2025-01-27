@@ -375,7 +375,7 @@ const HomeTabset = (props) => {
         <KeyboardAvoidingView enabled>
           <View style={Styles.minflexview}>
             <View style={Styles.minviewsigninscreen}>
-              <Summary/>
+              <Summary navigation={navigation}/>
               {/* componets import */}
               {/* <SearchHeaderScreen /> */}
               {/* <HomeFirstImageSlider /> */}

@@ -121,7 +121,6 @@ const PopularMedicine = () => {
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
-
   );
 };
 

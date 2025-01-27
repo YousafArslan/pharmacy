@@ -8,30 +8,30 @@ export default StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     width: '100%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
   minviewsigninscreen: {
     width: '100%',
-    height: '100%'   
+    height: '100%',
   },
-  alreadyPinText:{
-    color: "black",
+  alreadyPinText: {
+    color: 'black',
     fontSize: 18,
     fontWeight: '700',
     fontFamily: Fonts.Poppins_Bold,
-    marginTop: 10
+    marginTop: 10,
   },
-  enterHereText:{
-    color: "black",
+  enterHereText: {
+    color: 'black',
     fontSize: 18,
     fontWeight: '500',
     fontFamily: Fonts.Poppins_Bold,
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
   minflexview: {
     display: 'flex',
@@ -61,7 +61,7 @@ export default StyleSheet.create({
   setimagviewlogin: {
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   imagesetus: {
     width: 70,
@@ -101,7 +101,7 @@ export default StyleSheet.create({
   tabminview: {
     width: '100%',
     height: '100%',
-    paddingTop: 40,
+    paddingTop: 10,
     paddingHorizontal: 20,
     backgroundColor: ColorTheme.BGWhiteColor,
   },
@@ -143,14 +143,12 @@ export default StyleSheet.create({
     paddingBottom: 12,
   },
   bluebuttonstyle: {
-    backgroundColor: ColorTheme.DroptextColor,
+    backgroundColor: ColorTheme.theme_backgound,
     height: 56,
-    marginBottom: 20,
     borderRadius: 50,
-    shadowOffset: {
-      width: 0,
-      height: Platform.OS === 'ios' ? 0 : 25,
-    },
+    justifyContent: 'center', // Centers children along the main axis
+    alignItems: 'center', // Centers children along the cross axis
+    shadowOffset: {width: 0, height: Platform.OS === 'ios' ? 0 : 25},
     shadowOpacity: 0.58,
     shadowRadius: Platform.OS === 'ios' ? 0 : 25,
     elevation: Platform.OS === 'ios' ? 0 : 0,
@@ -164,7 +162,7 @@ export default StyleSheet.create({
     height: 56,
     paddingbottom: 5,
     paddingTop: 3,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: Platform.OS === 'ios' ? 0 : 0,
@@ -181,17 +179,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    color: ColorTheme.TextBlackColor
+    color: ColorTheme.TextBlackColor,
   },
   setbuttonborderradius: {
-    borderRadius: 150,
-    shadowOffset: {
-      width: 0,
-      height: Platform.OS === 'ios' ? 0 : 25,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: Platform.OS === 'ios' ? 0 : 25,
-    elevation: Platform.OS === 'ios' ? 0 : 0,
+    color: 'white',
   },
   // Sign-UP //
   flexrowbutton: {
@@ -228,7 +219,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '30%',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   googleimage: {
     width: 35,
@@ -241,7 +232,7 @@ export default StyleSheet.create({
   registertextstyle: {
     fontSize: 30,
     fontFamily: Fonts.Nuntion_midum,
-    fontWeight: '700'
+    fontWeight: '700',
   },
   gooleiconsetwhiteshadow: {
     backgroundColor: 'white',
@@ -252,7 +243,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: Platform.OS === 'ios' ? 2 : 4,
@@ -264,10 +255,10 @@ export default StyleSheet.create({
   paddingbottom: {
     paddingBottom: 10,
   },
-  // forget password 
+  // forget password
   setbackarror: {
     width: 15,
-    height: 15
+    height: 15,
   },
   setminviewforgetpassword: {
     width: '100%',
@@ -280,14 +271,14 @@ export default StyleSheet.create({
   forgettextset: {
     fontSize: 36,
     fontFamily: Fonts.Metropolis_Medium,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   messageboxstyle: {
     width: 30,
     height: 25,
     borderRadius: 5,
     marginRight: 10,
-    marginLeft: 7
+    marginLeft: 7,
   },
   settextstyleforget: {
     color: ColorTheme.Color676767,
@@ -305,7 +296,7 @@ export default StyleSheet.create({
   },
   bottomaerrowimg: {
     width: 110,
-    height: 110
+    height: 110,
   },
   flexrowsetsendcode: {
     flexDirection: 'row',
@@ -331,7 +322,7 @@ export default StyleSheet.create({
     marginTop: 20,
   },
   textcolorsetwhite: {
-    color: 'white'
+    color: 'white', // Ensure this is correctly set
   },
   marginright: {
     marginRight: 6,
@@ -359,7 +350,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   flexrowsetminview: {
     flexDirection: 'row',
@@ -433,7 +424,7 @@ export default StyleSheet.create({
     borderRadius: SH(7),
   },
   textinputcolorbutton: {
-    color: 'white'
+    color: 'white',
   },
   resendtextbold: {
     fontSize: 13,
@@ -447,7 +438,7 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 100,
     borderWidth: 5,
-    borderColor: ColorTheme.TextGreyColor
+    borderColor: ColorTheme.TextGreyColor,
   },
   otpinputstyleaet: {
     height: 100,
