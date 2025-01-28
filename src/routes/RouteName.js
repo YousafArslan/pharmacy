@@ -9,7 +9,7 @@ const RouteName = {
   // POPULAR_SCREEN : "PopularCuisines",
   POPULAR_SCREEN: 'Customers',
   // FRIECE_RICE_LISTING_SCREEN : "HospitalsSMedicinecreen",
-  HOSPITAL_MEDICINE_SCREEN: 'Medicine',
+  HOSPITAL_MEDICINE_SCREEN: 'items',
   PRODUCT_LIST_ITEM: 'ProductItemList',
   // SELECT_ITEM_SCREEN_15 : "SelectItem_15",
   PRODUCT_DETAILS_SCREEN: 'ProductDetailesScreen',

@@ -136,7 +136,7 @@ const CustomSidebarMenu = props => {
             color={colorrdata}
             size={23}
           />
-          <Text style={Styles.hometextstyle}>Medicines</Text>
+          <Text style={Styles.hometextstyle}>Items</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={Styles.flexrowset}

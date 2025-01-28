@@ -221,30 +221,24 @@ function MedicineTabScreenStack({navigation}) {
         name="MedicineTab"
         component={HospitalsSMedicinecreen}
         options={{
-          title: 'Medicines',
+          title: 'Items',
           headerShown: true,
           headerShadowVisible: false,
           headerTitleStyle: {
-            color: 'white',
+            color: colorrdata,
             fontWeight: '700',
           },
-          headerStyle: {
-            backgroundColor: colorrdata,
-          },
+
           headerLeft: () => (
-            <View style={Style.flexrowsetaddresh}>
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <IconE
-                  style={Style.setbariconmarginright}
-                  name="navicon"
-                  color={'white'}
-                  size={35}
-                />
-              </TouchableOpacity>
-              <HeaderScreenAddresh />
-            </View>
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <IconP
+                style={Style.setbariconmarginright}
+                name={'menuunfold'}
+                color={colorrdata}
+                size={30}
+              />
+            </TouchableOpacity>
           ),
-          headerRight: () => <ColorPicker />,
         }}
       />
     </Stack.Navigator>
