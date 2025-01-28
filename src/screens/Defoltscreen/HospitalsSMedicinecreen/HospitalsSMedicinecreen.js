@@ -1,99 +1,137 @@
-import React from "react";
-import { Text, View, StatusBar, FlatList, TextInput, KeyboardAvoidingView, TouchableOpacity, } from "react-native";
-import { Hospitalmediction } from '../../../styles';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState, useEffect, useCallback, memo} from 'react';
+import {
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+  FlatList,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {useSelector} from 'react-redux';
 import IconF from 'react-native-vector-icons/FontAwesome';
-import Icon from 'react-native-vector-icons/AntDesign'
-import { RouteName } from '../../../routes';
-import { Tabletname, HospitalListingdata, } from '../../../utils/Sliderimagedata';
-import { useSelector } from "react-redux";
-import { ColorTheme } from "../../../utils";
-import { ScrollView } from 'react-native-virtualized-view';
+import Icon from 'react-native-vector-icons/AntDesign';
+import debounce from 'lodash.debounce';
+import axios from 'axios';
+import {Hospitalmediction} from '../../../styles'; // Ensure this has relevant styling
 
 const HospitalsSMedicinecreen = () => {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const navigation = useNavigation();
-  const Tabletnamedata = (item, index) => {
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.PRODUCT_DETAILS_SCREEN), { img: item.image })}>
-        <View style={Hospitalmediction.setbgborderview}>
-          <Text style={Hospitalmediction.textHospitalmedictionet}>{item.text}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchData, setSearchData] = useState('');
 
-  const HospitalListingdataitem = (item, index) => {
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.PRODUCT_DETAILS_SCREEN), { img: item.image, title: item.text, hname: item.hospitalname })}>
-        <View style={Hospitalmediction.setflexviewdata}>
-          <View>
-            {item.image}
-          </View>
-          <View style={Hospitalmediction.textflexview}>
-            <View style={Hospitalmediction.setflextext}>
-              <Text style={[Hospitalmediction.textboldstyle, { color: colorrdata }]}>{item.hospitalname}</Text>
-              <Text style={Hospitalmediction.textboldstyletwo}>{item.text}</Text>
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'http://quirkysofttech.com/Account/QD_GET?pType=QD_ITEM_DATA&pParam=D307', // Different endpoint
+      );
+      setData(response.data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const debouncedSetSearchData = useCallback(
+    debounce(text => {
+      setSearchData(text);
+    }, 500),
+    [],
+  );
+
+  const handleSearchChange = text => {
+    setSearchInput(text);
+    debouncedSetSearchData(text);
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedSetSearchData.cancel();
+    };
+  }, [debouncedSetSearchData]);
+
+  const RenderItems = memo(({item}) => (
+    <View
+      style={[
+        Hospitalmediction.setflexviewdata,
+        Hospitalmediction.searchtextlist,
+      ]}>
+      <View style={Hospitalmediction.textflexview}>
+        <View style={Hospitalmediction.setflextext}>
+          <Text style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
+            {item.item_name}
+          </Text>
+          <Text style={Hospitalmediction.textboldstyletwo}>
+            <Text style={{fontWeight: 'bold'}}>Company:</Text>{' '}
+            {item.company_name}
+          </Text>
+          <Text style={Hospitalmediction.textboldstyletwo}>
+            <Text style={{fontWeight: 'bold'}}>Group:</Text>
+            {item.group_name}
+          </Text>
+        </View>
+      </View>
+    </View>
+  ));
+
+  return (
+    <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+      <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />
+      <View style={Hospitalmediction.minstyleviewphotograpgy}>
+        <View style={Hospitalmediction.minflexview}>
+          <View style={Hospitalmediction.minviewsigninscreen}>
+            <View
+              style={[
+                Hospitalmediction.setbgcolorred,
+                {backgroundColor: colorrdata},
+              ]}
+            />
+            <View style={Hospitalmediction.flexinputstyle}>
+              <View style={Hospitalmediction.flextextinput}>
+                <TouchableOpacity>
+                  <Icon name="search1" size={20} color={'#4F4F4F'} />
+                </TouchableOpacity>
+                <TextInput
+                  value={searchInput}
+                  onChangeText={handleSearchChange}
+                  placeholder="Search Medicine"
+                  placeholderTextColor={'lightgrey'}
+                  style={Hospitalmediction.setinputtext}
+                />
+              </View>
+              <TouchableOpacity style={Hospitalmediction.seticonborder}>
+                <IconF name="filter" size={20} color={'#079D49'} />
+              </TouchableOpacity>
+            </View>
+            <View style={Hospitalmediction.setbgcolorviewmin}>
+              {loading ? (
+                <ActivityIndicator size="large" color={colorrdata} />
+              ) : (
+                <FlatList
+                  data={data.filter(item =>
+                    item.item_name
+                      .toLowerCase()
+                      .includes(searchData.toLowerCase()),
+                  )}
+                  renderItem={({item}) => <RenderItems item={item} />}
+                  keyExtractor={(item, index) => index.toString()}
+                  keyboardShouldPersistTaps="handled"
+                />
+              )}
             </View>
           </View>
         </View>
-      </TouchableOpacity>
-    );
-  }
-  return (
-    <View style={Hospitalmediction.minstyleviewphotograpgy}>
-      <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          width: '100%',
-          height: 'auto',
-        }}>
-        <KeyboardAvoidingView enabled>
-          <View style={Hospitalmediction.minflexview}>
-            <View style={Hospitalmediction.minviewsigninscreen}>
-              <View style={[Hospitalmediction.setbgcolorred, { backgroundColor: colorrdata }]}></View>
-              <View style={Hospitalmediction.flexinputstyle}>
-                <View style={Hospitalmediction.flextextinput}>
-                  <TouchableOpacity>
-                    <Icon name="search1" size={20} color={ColorTheme.theme_backgound} />
-                  </TouchableOpacity>
-                  <View>
-                    <TextInput
-                      placeholder="Search Medicine"
-                      placeholderTextColor={'#4F4F4F'}
-                      style={Hospitalmediction.setinputtext}
-                    />
-                  </View>
-                </View>
-                <TouchableOpacity style={Hospitalmediction.seticonborder}>
-                  <IconF name="filter" size={20} color={'#079D49'} />
-                </TouchableOpacity>
-              </View>
-              <View style={[Hospitalmediction.setspacecomeview,{paddingRight: 20}]}>
-                <FlatList
-                  data={Tabletname}
-                  renderItem={({ item, index }) => Tabletnamedata(item, index)}
-                  keyExtractor={item => item.id}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  style={Hospitalmediction.setflex}
-                  
-                />
-              </View>
-              <View style={Hospitalmediction.bgcolorwhiteset}>
-                <FlatList
-                  data={HospitalListingdata}
-                  renderItem={({ item, index }) => HospitalListingdataitem(item, index)}
-                  keyExtractor={item => item.id}
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

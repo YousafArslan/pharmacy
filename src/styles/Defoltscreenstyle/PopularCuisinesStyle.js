@@ -66,7 +66,7 @@ export default StyleSheet.create({
     borderRadius: 13,
   },
   setbgcolorred: {
-    height: 200,
+    height: 130,
     position: 'absolute',
     top: 0,
     width: '100%',

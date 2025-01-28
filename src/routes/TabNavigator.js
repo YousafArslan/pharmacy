@@ -150,8 +150,40 @@ function CartTabScreenStack({ navigation }) {
     </Stack.Navigator>
   );
 }
-function AccountTabScreenStack({ navigation }) {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+
+function MedicineTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  return (
+    <Stack.Navigator initialRouteName="CartTab">
+      <Stack.Screen
+        name="MedicineTab"
+        component={HospitalsSMedicinecreen}
+        options={{
+          title: 'Items',
+          headerShown: true,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            color: colorrdata,
+            fontWeight: '700',
+          },
+
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <IconP
+                style={Style.setbariconmarginright}
+                name={'menuunfold'}
+                color={colorrdata}
+                size={30}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function AccountTabScreenStack({navigation}) {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   return (
     <Stack.Navigator initialRouteName="AccountTab">
       <Stack.Screen

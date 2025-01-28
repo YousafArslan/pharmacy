@@ -1,126 +1,137 @@
-import React, { useState } from "react";
-import { Text, View, StatusBar, TextInput, FlatList, KeyboardAvoidingView, TouchableOpacity, } from "react-native";
-import {PopularCuisinesStyle} from '../../../styles';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState, useEffect, useCallback, memo} from 'react';
+import {
+  Text,
+  View,
+  StatusBar,
+  TextInput,
+  FlatList,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {useSelector} from 'react-redux';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {  HospitalListingdata } from '../../../utils/Sliderimagedata';
-import { RouteName } from '../../../routes';
-import { useSelector } from "react-redux";
-import { SearchFilter } from '../../../components';
-import { ScrollView } from 'react-native-virtualized-view';
+import debounce from 'lodash.debounce';
+import axios from 'axios';
+import {PopularCuisinesStyle} from '../../../styles';
 
 const PopularMedicine = () => {
-  const navigation = useNavigation();
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const [searchdata, setsearchdata] = useState("");
-  console.log(searchdata)
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchData, setSearchData] = useState('');
 
-  const [searchdataset] = useState([
-    {
-      "id": 1,
-      "text": 'Glynase-MF Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 2,
-      "text": 'Ganaton Total Capsule SR',
-      "iconname": 'search1',
-    },
-    {
-      "id": 3,
-      "text": 'Allegra-M Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 4,
-      "text": 'Combiflam Tablet',
-      "iconname": 'search1',
-    },
-    {
-      "id": 5,
-      "text": 'Drotin-M Tablet',
-      "iconname": 'search1',
-    },
-  ])
-  const HospitalListingdataitem = (item, index) => {
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate((RouteName.HOSPITAL_MEDICINE_SCREEN), { img: item.image })}>
-        <View style={[PopularCuisinesStyle.setflexviewdata, PopularCuisinesStyle.searchtextlist]}>
-          <View>
-            {item.image}
-          </View>
-          <View style={PopularCuisinesStyle.textflexview}>
-            <View style={PopularCuisinesStyle.setflextext}>
-              <Text style={[PopularCuisinesStyle.textboldstyle, { color: colorrdata }]}>{item.hospitalname}</Text>
-              <Text style={PopularCuisinesStyle.textboldstyletwo}>{item.text}</Text>
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        'http://quirkysofttech.com/Account/QD_GET?pType=QD_CUST_DATA&pParam=D307',
+      );
+      setData(response.data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const debouncedSetSearchData = useCallback(
+    debounce(text => {
+      setSearchData(text);
+    }, 500),
+    [],
+  );
+
+  const handleSearchChange = text => {
+    setSearchInput(text);
+    debouncedSetSearchData(text);
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedSetSearchData.cancel();
+    };
+  }, [debouncedSetSearchData]);
+
+  const RenderCustomers = memo(({item}) => (
+    <View
+      style={[
+        PopularCuisinesStyle.setflexviewdata,
+        PopularCuisinesStyle.searchtextlist,
+      ]}>
+      <View>{item.image}</View>
+      <View style={PopularCuisinesStyle.textflexview}>
+        <View style={PopularCuisinesStyle.setflextext}>
+          <Text style={[PopularCuisinesStyle, {color: colorrdata}]}>
+            {item.cust_name}
+          </Text>
+          <Text style={PopularCuisinesStyle}>
+            <Text style={{fontWeight: 'bold'}}>Region:</Text> {item.region_name}
+          </Text>
+          <Text style={PopularCuisinesStyle}>
+            <Text style={{fontWeight: 'bold'}}>Customer Type:</Text>{' '}
+            {item.type_name}
+          </Text>
+        </View>
+      </View>
+    </View>
+  ));
+
+  return (
+    <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+      <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />
+      <View style={PopularCuisinesStyle.minstyleviewphotograpgy}>
+        <View style={PopularCuisinesStyle.minflexview}>
+          <View style={PopularCuisinesStyle.minviewsigninscreen}>
+            <View
+              style={[
+                PopularCuisinesStyle.setbgcolorred,
+                {backgroundColor: colorrdata},
+              ]}
+            />
+            <View style={PopularCuisinesStyle.flexinputstyle}>
+              <View style={PopularCuisinesStyle.flextextinput}>
+                <TouchableOpacity>
+                  <Icon name="search1" size={20} color={'#4F4F4F'} />
+                </TouchableOpacity>
+                <TextInput
+                  value={searchInput}
+                  onChangeText={handleSearchChange}
+                  placeholder="Search Pharmacy nearby"
+                  placeholderTextColor={'lightgrey'}
+                  style={PopularCuisinesStyle.setinputtext}
+                />
+              </View>
+              <TouchableOpacity style={PopularCuisinesStyle.seticonborder}>
+                <IconF name="filter" size={20} color={'#079D49'} />
+              </TouchableOpacity>
+            </View>
+            <View style={PopularCuisinesStyle.setbgcolorviewmin}>
+              {loading ? (
+                <ActivityIndicator size="large" color={colorrdata} />
+              ) : (
+                <FlatList
+                  data={data.filter(item =>
+                    item.cust_name
+                      .toLowerCase()
+                      .includes(searchData.toLowerCase()),
+                  )}
+                  renderItem={({item}) => <RenderCustomers item={item} />}
+                  keyExtractor={(item, index) => index.toString()}
+                  keyboardShouldPersistTaps="handled"
+                />
+              )}
             </View>
           </View>
         </View>
-      </TouchableOpacity>
-    );
-  }
-
-  return (
-    <View style={PopularCuisinesStyle.minstyleviewphotograpgy}>
-      <StatusBar barStyle="dark-content" backgroundColor={colorrdata} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          width: '100%',
-          height: 'auto',
-        }}>
-        <KeyboardAvoidingView enabled>
-          <View style={PopularCuisinesStyle.minflexview}>
-            <View style={PopularCuisinesStyle.minviewsigninscreen}>
-              <View style={[PopularCuisinesStyle.setbgcolorred, { backgroundColor: colorrdata }]}></View>
-              <View style={PopularCuisinesStyle.flexinputstyle}>
-                <View style={PopularCuisinesStyle.flextextinput}>
-                  <TouchableOpacity>
-                    <Icon name="search1" size={20} color={'#4F4F4F'} />
-                  </TouchableOpacity>
-                  <View>
-                    <TextInput
-                      value={searchdata}
-                      onChangeText={(text) => setsearchdata(text)}
-                      placeholder="Search Pharmacy nearby"
-                      placeholderTextColor={'lightgrey'}
-                      style={PopularCuisinesStyle.setinputtext}
-                    />
-                  </View>
-                </View>
-                <TouchableOpacity style={PopularCuisinesStyle.seticonborder}>
-                  <IconF name="filter" size={20} color={'#079D49'} />
-                </TouchableOpacity>
-              </View>
-              <View style={PopularCuisinesStyle.setbgcolorviewmin}>
-                <View style={PopularCuisinesStyle.bgcolorsetvikewstyle}>
-                  {/* <Text style={PopularCuisinesStyle.textPopularCuisinesStyleearches}>Recent Searches</Text> */}
-                  <SearchFilter data={searchdataset} searchdata={searchdata} setsearchdata={setsearchdata} />
-                </View>
-                <View style={PopularCuisinesStyle.setspacecomeview}>
-                  {/* <Text style={PopularCuisinesStyle.popularmedicine}>Popular Medicine</Text> */}
-                  {/* <FlatList
-                    data={MedicineCategoryHomeTab}
-                    renderItem={({ item, index }) => MedicineCategoryHomeTabdata(item, index)}
-                    keyExtractor={item => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    style={PopularCuisinesStyle.setflex}
-                  /> */}
-                  <FlatList
-                    data={HospitalListingdata}
-                    renderItem={({ item, index }) => HospitalListingdataitem(item, index)}
-                    keyExtractor={item => item.id}
-                    showsHorizontalScrollIndicator={false}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
