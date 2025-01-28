@@ -46,52 +46,6 @@ const Summary = props => {
 
   //Adding commit to merge
 
-
-  const orderData = [
-    {
-      id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
-      vadapavtext: 'Avastin Pharmacy',
-      sitytext: 'Kukatpally,Hyderabad',
-      price: '110.00',
-      items: 'ITEMS',
-      onevx: 'Flexon Tablet',
-      orderontext: 'ORDERED ON',
-      timetextset: '02 Jun 2022 at 3:16 PM',
-      rejectedtext: 'Delivered',
-      righticon: 'md-checkmark-done',
-      refreshicon: <IconA name="refresh" color={'green'} size={20} />,
-      repeatordertext: 'Repeat Order',
-    },
-    {
-      id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
-      vadapavtext: 'Avastin Pharmacy',
-      sitytext: 'Kukatpally,Hyderabad',
-      price: '110.00',
-      items: 'ITEMS',
-      onevx: 'Flexon Tablet',
-      orderontext: 'ORDERED ON',
-      timetextset: '02 Jun 2022 at 3:16 PM',
-      rejectedtext: 'Delivered',
-      righticon: 'md-checkmark-done',
-      refreshicon: <IconA name="refresh" color={'green'} size={20} />,
-      repeatordertext: 'Repeat Order',
-    },
-  ];
-
   const orderDataitem = (item, index, navigation) => {
     return (
       <View>
@@ -99,12 +53,20 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-                <View>{item.image}</View>
+                <View>
+                  <Image
+                    style={Style.yourorderdata}
+                    resizeMode="cover"
+                    source={images.Docter_tablet_imag}
+                  />
+                </View>
                 <View style={SummaryStyle.priceflextext}>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
-                    onPress={() =>
-                      navigation.navigate(RouteName.YOUR_ORDER_SCREEN)
+                    onPress={() => {
+                      navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dss_id })
+                    }
+                      
                     }>
                     <View style={SummaryStyle.setwidth70}>
                       <Text style={SummaryStyle.vadapavtextstyeleset}>
@@ -156,7 +118,9 @@ const Summary = props => {
                 {data && (
                   <FlatList
                     data={data}
-                    renderItem={({item, index}) => orderDataitem(item, index,navigation)}
+                    renderItem={({item, index}) =>
+                      orderDataitem(item, index, navigation)
+                    }
                     keyExtractor={item => item.dss_id}
                   />
                 )}

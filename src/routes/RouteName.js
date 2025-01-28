@@ -26,6 +26,7 @@ const RouteName = {
   ALL_BOOK_MARK_SCREEN: 'AllBookMarkScreen',
   NOTIFICATION_SCREEN: 'DrawerNavigationNotification',
   YOUR_ORDER_SCREEN: 'Invoices',
+  SUMMARY_INVOICE: 'SummaryInvoice',
   YOUR_CHAT: 'DrawerChatScreen',
   OTP_VERIFY_SCREEN: 'OtpVeryfyScreen',
   // FASTFOOD_BOAT_SCREEN : "FastFoodBoat",

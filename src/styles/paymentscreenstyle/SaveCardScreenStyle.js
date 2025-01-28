@@ -101,10 +101,10 @@ export default StyleSheet.create({
   },
   bottomContainer: {
     position: 'relative',
-    // bottom: 100,
+    bottom: 20,
     left: 0,
     right: 0,
-    top: 100,
+    top: 70,
     paddingTop: 10,
   },
   bottomPricing: {
