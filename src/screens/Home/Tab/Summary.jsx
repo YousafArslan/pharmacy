@@ -8,15 +8,12 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import IconR from 'react-native-vector-icons/Ionicons';
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
 import images from '../../../images';
 import {Style, YourOrderScreenStyle} from '../../../styles';
-import IconA from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 
 const Summary = props => {
@@ -31,7 +28,7 @@ const Summary = props => {
       setLoading(true);
       try {
         const response = await axios.get(
-          'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DATA&pParam=D307^sa',
+          'https://im-quirky.com/api/dss',
         );
         setData(response.data); // Update state with the response
       } catch (err) {

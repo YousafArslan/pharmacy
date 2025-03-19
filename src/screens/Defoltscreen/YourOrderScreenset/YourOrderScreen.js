@@ -39,7 +39,7 @@ const YourOrderScreen = ({navigation}) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const link = orderId ? `http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^${orderId}` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
+        const link = orderId ? `https://im-quirky.com/api/dssDetail/0006417` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
         const response = await axios.get(link);
         setInvoiceData(response.data); // Update state with the response
       } catch (err) {

@@ -27,8 +27,12 @@ const PopularMedicine = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'http://quirkysofttech.com/Account/QD_GET?pType=QD_CUST_DATA&pParam=D307',
+        'https://im-quirky.com/api/customers',
       );
+      // const response = await axios.get(
+      //   'http://quirkysofttech.com/Account/QD_GET?pType=QD_CUST_DATA&pParam=D307',
+      // );
+      console.log("customers api response",response)
       setData(response.data || []);
     } catch (error) {
       console.error('Error fetching data:', error);
