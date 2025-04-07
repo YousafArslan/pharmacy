@@ -5,7 +5,8 @@ import { colors, Fonts } from '../utils';
 import {
   LoginandRegistrationScreen, WelcomePhrmacy, LocationHomeOfficeScreen, ConformLocation, PopularMedicine
   , HospitalsSMedicinecreen, ProductItemList, ProductDetailesScreen, PaymentScreen, AllBookMarkScreen,
-  CreditCardScreen, PaytmSuccessFully, RatingScreen, EditLocationScreen, EditProfileScreen, SplashScreen, GetstartedSliderscreen, DrawerChatScreen, DrawerNavigationNotification, DrawerSettingsScreen, DrawerTrackOrder, DrawerNavigationYourOrderScreen, OtpVeryfyScreen, AddOrderitemScreen, CheckOutScreen, ForgotPassword, OffersTab
+  CreditCardScreen, PaytmSuccessFully, RatingScreen, EditLocationScreen, EditProfileScreen, SplashScreen, GetstartedSliderscreen, DrawerChatScreen, DrawerNavigationNotification, DrawerSettingsScreen, DrawerTrackOrder, DrawerNavigationYourOrderScreen, OtpVeryfyScreen, AddOrderitemScreen, CheckOutScreen, ForgotPassword, OffersTab,
+  YourOrderScreen
 } from '../screens';
 import DrawerHelpScreen from '../screens/Defoltscreen/HelpScreenSet/DrawerHelpScreen';
 import { RouteName, TabNavigator } from '../routes';
@@ -76,6 +77,20 @@ const RootNavigator = (props) => {
             marginLeft: 17,
           },
         }} component={ProductItemList} />
+
+        <Stack.Screen name={RouteName.SUMMARY_INVOICE} options={{
+          headerShown: true,
+          headerShadowVisible: false,
+          title: 'Sale Summary Details',
+          headerTintColor: colorrdata,
+          headerTitleStyle: {
+            color: colorrdata,
+            fontSize: 17,
+            fontSize: 20,
+            marginLeft: 0,
+            paddingLeft:0
+          },
+        }} component={YourOrderScreen} />
 
         <Stack.Screen name={RouteName.PRODUCT_DETAILS_SCREEN} options={{ headerShown: false }} component={ProductDetailesScreen} />
 

@@ -13,7 +13,6 @@ const PaytmSuccessFully = () => {
   useEffect(() => {
     let interval;    
       interval = setInterval(() => {
-        console.log('In setInterval');
         navigation.navigate(RouteName.HOME_TAB);
         clearInterval(interval);
       }, 3000);

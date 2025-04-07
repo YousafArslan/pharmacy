@@ -159,7 +159,6 @@ const HomeTabsety = () => {
                 <Text style={AccountTabStyle.abouttextstyle}>About</Text>
               </TouchableOpacity>
               <View style={AccountTabStyle.centeredView}>
-                {console.log(DisplayAlert, 'print')}
                 {DisplayAlert !== 0 ?
                   <SweetaelertModal message='Update Successful' link={RouteName.OFFERS_TAB} />
                   :

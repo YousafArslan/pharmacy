@@ -161,7 +161,6 @@ const CheckOutScreen = ({route}) => {
                     </View>
                   </View>
                   <View style={Styles.centeredView}>
-                    {console.log(DisplayAlert, 'print')}
                     {DisplayAlert !== 0 ?
                       <SweetaelertModal message='Applied Successful' link={RouteName.CHECK_OUT} />
                       :

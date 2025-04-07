@@ -19,7 +19,6 @@ import { useRoute } from '@react-navigation/native';
 const YourOrderScreen = ({navigation}) => {
 
   const route = useRoute();
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const [invoiceData, setInvoiceData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,7 +38,7 @@ const YourOrderScreen = ({navigation}) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const link = orderId ? `https://im-quirky.com/api/dssDetail/0006417` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
+        const link = orderId ? `https://im-quirky.com/api/dssDetail/${orderId}` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
         const response = await axios.get(link);
         setInvoiceData(response.data); // Update state with the response
       } catch (err) {
@@ -118,7 +117,7 @@ const YourOrderScreen = ({navigation}) => {
             <View style={YourOrderScreenStyle.minviewsigninscreen}>
               <View style={YourOrderScreenStyle.paddingtopset}>
                 {loading && <Text>Loading...</Text>}
-                {error && <p>Error: {error}</p>}
+                {error && <Text>Error: {error}</Text>}
                 {invoiceData && (
                   <FlatList
                     data={invoiceData}

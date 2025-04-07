@@ -28,7 +28,6 @@ const CustomSidebarMenu = props => {
     navigation.navigate(RouteName.LOGIN_AND_REGISTRATION);
 
     setIsVisible(false);
-    console.log('Confirmed!');
   };
 
   const handleCancel = () => {

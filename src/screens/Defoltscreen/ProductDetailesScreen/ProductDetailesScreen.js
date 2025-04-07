@@ -17,7 +17,6 @@ import { ScrollView } from 'react-native-virtualized-view';
 const ProductDetailesScreen = ({ route }) => {
   const { img , title, hname} = route.params;
 
-  console.log('img', img);
   const [count, setCount] = useState(1);
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const { doctoreDetaile } = useSelector(state => state.doctorDataReducer) || { doctoreDetaile };

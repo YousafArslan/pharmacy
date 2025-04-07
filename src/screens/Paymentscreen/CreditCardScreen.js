@@ -32,7 +32,6 @@ const CreditCardScreen = ({navigation}) => {
   const handleConfirm = () => {
     // Handle confirm action
     setIsVisible(false);
-    console.log('Confirmed!');
   };
 
   const handleCancel = () => {
@@ -143,7 +142,6 @@ const CreditCardScreen = ({navigation}) => {
                   title="Save"
                   buttonStyle={Creditcard.setbuttonstylesavecard}
                   buttonTextStyle={Creditcard.setbuttontextstyle}
-                  onPress={() => console.log('Save')}
                 />
 
                 <Button

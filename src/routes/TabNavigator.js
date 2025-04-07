@@ -340,7 +340,7 @@ export function HomeScsreenTabAll() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={RouteName.YOUR_ORDER_SCREEN}
         component={MyOrderTabScreenStack1}
         options={{
@@ -352,7 +352,7 @@ export function HomeScsreenTabAll() {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name={RouteName.POPULAR_SCREEN}
         component={CustomerScreenStack}

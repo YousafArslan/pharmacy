@@ -60,6 +60,7 @@ const Summary = props => {
                 <View style={SummaryStyle.priceflextext}>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
+                    disabled={item?.dss_status === 1}
                     onPress={() => {
                       navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dss_id })
                     }
@@ -90,6 +91,10 @@ const Summary = props => {
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Amount</Text>
               <Text style={SummaryStyle.blacktitle}>{item.amount}</Text>
+            </View>
+            <View style={SummaryStyle.setlistdataitems}>
+              <Text style={SummaryStyle.setitemstext}>Status</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.dss_status === 0 ? "In Progress" : "Completed"}</Text>
             </View>
           </View>
         </View>

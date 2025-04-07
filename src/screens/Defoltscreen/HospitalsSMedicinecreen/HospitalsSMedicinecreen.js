@@ -27,7 +27,7 @@ const HospitalsSMedicinecreen = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        'http://quirkysofttech.com/Account/QD_GET?pType=QD_ITEM_DATA&pParam=D307', // Different endpoint
+        'https://im-quirky.com/api/items', // Different endpoint
       );
       setData(response.data || []);
     } catch (error) {
