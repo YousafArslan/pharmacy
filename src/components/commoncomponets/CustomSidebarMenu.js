@@ -139,7 +139,7 @@ const CustomSidebarMenu = props => {
         </TouchableOpacity>
         <TouchableOpacity
           style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.POPULAR_SCREEN)}>
+          onPress={() => Onpressfunction(RouteName.CUSTOMERS)}>
           <IconJ
             name="persons"
             style={Styles.setwidth}

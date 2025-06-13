@@ -6,7 +6,6 @@ import Summary from './Summary';
 
 const HomeTabset = (props) => {
   const { navigation } = props;
-
   return (
     <View style={[Styles.minstyleviewphotograpgy, Styles.bgcolorset]}>
       <StatusBar barStyle="dark-content" backgroundColor={'white'} />

@@ -11,8 +11,8 @@ const SearchHeaderScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={Styles.bgcolorset}>
-      <TouchableOpacity style={[Styles.flexinputstyle, Styles.bgcolorset]} onPress={() => navigation.navigate(RouteName.POPULAR_SCREEN)}>
-        <TouchableOpacity style={Styles.flextextinput} onPress={() => navigation.navigate(RouteName.POPULAR_SCREEN)}>
+      <TouchableOpacity style={[Styles.flexinputstyle, Styles.bgcolorset]} onPress={() => navigation.navigate(RouteName.CUSTOMERS)}>
+        <TouchableOpacity style={Styles.flextextinput} onPress={() => navigation.navigate(RouteName.CUSTOMERS)}>
           <TouchableOpacity>
             <Icon name="search1" size={20} color={'#4F4F4F'} />
           </TouchableOpacity>

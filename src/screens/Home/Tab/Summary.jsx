@@ -12,9 +12,10 @@ import {useSelector} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
-import images from '../../../images';
 import {Style, YourOrderScreenStyle} from '../../../styles';
 import axios from 'axios';
+import NoDataSVG from './NoDataSVG';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Summary = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -28,9 +29,13 @@ const Summary = props => {
       setLoading(true);
       try {
         const response = await axios.get(
-          'https://im-quirky.com/api/dss',
+          'https://im-quirky.com/api/dss/D307',
         );
-        setData(response.data); // Update state with the response
+        if(response.status === 200 && response.data?.length===0){
+          setError("No summaries found for today");
+        }else{
+          setData(response.data); // Update state with the response
+        }
       } catch (err) {
         setError(err.message); // Handle error
       } finally {
@@ -40,7 +45,7 @@ const Summary = props => {
 
     fetchData();
   }, []);
-
+console.log("data",data)
   //Adding commit to merge
 
   const orderDataitem = (item, index, navigation) => {
@@ -51,18 +56,18 @@ const Summary = props => {
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
                 <View>
-                  <Image
+                  {/* <Image
                     style={Style.yourorderdata}
                     resizeMode="cover"
                     source={images.Docter_tablet_imag}
-                  />
+                  /> */}
                 </View>
                 <View style={SummaryStyle.priceflextext}>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     disabled={item?.dss_status === 1}
                     onPress={() => {
-                      navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dss_id })
+                      navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dist_id })
                     }
                       
                     }>
@@ -115,8 +120,17 @@ const Summary = props => {
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
+             
                 {loading && <Text>Loading...</Text>}
-                {error && <p>Error: {error}</p>}
+                {error && <View style={{
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 600 // or use flexGrow: 1 in contentContainerStyle
+  }}>
+                <Icon name="file-search" size={100} color={'#D7D6D6'} /> 
+                <Text>{error}</Text>
+                </View>}
                 {data && (
                   <FlatList
                     data={data}

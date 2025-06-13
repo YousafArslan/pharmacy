@@ -12,6 +12,12 @@ export default StyleSheet.create({
   bgcolorset: {
     backgroundColor: ColorTheme.BGScreen,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent black background
+  },  
   smaili: {
     width: SH(110),
     height: SH(110),
@@ -67,10 +73,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   setbuttonstyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    justifyContent: "space-between",
     marginTop: 26,
-    height: 120,
+    height: 100,
     // backgroundColor: ColorTheme.theme_backgound,
   },
   setwidthimage: {
@@ -95,9 +101,12 @@ export default StyleSheet.create({
   },
   setbuttonstylesavecard: {
     borderRadius: 100,
+    width:150,
+    marginRight:5
   },
   setbuttontextstyle: {
     color: 'white',
+    fontSize:15
   },
   bottomContainer: {
     position: 'relative',

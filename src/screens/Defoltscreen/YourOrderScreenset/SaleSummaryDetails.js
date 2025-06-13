@@ -16,7 +16,7 @@ import images from '../../../images';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 
-const YourOrderScreen = ({navigation}) => {
+const SaleSummaryDetails = ({navigation}) => {
 
   const route = useRoute();
   const [invoiceData, setInvoiceData] = useState(null);
@@ -51,10 +51,10 @@ const YourOrderScreen = ({navigation}) => {
     fetchData();
   }, [orderId]);
 
-  const yourorderdataitem = (item, index) => {
+  const saleSummaryDetails = (item, index) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(RouteName.CREDIT_CARD_SCREEN_SET)}>
+        onPress={() => navigation.navigate(RouteName.CHEQUE_DETAILS)}>
         <View style={YourOrderScreenStyle.yoreorderstylebox}>
           <View style={YourOrderScreenStyle.borderbottomview}>
             <View style={YourOrderScreenStyle.flexminviewset}>
@@ -70,7 +70,7 @@ const YourOrderScreen = ({navigation}) => {
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     onPress={() =>
-                      navigation.navigate(RouteName.CREDIT_CARD_SCREEN_SET)
+                      navigation.navigate(RouteName.CHEQUE_DETAILS,{ item: item })
                     }>
                     <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>
                       {item.cust_name}
@@ -122,7 +122,7 @@ const YourOrderScreen = ({navigation}) => {
                   <FlatList
                     data={invoiceData}
                     renderItem={({item, index}) =>
-                      yourorderdataitem(item, index)
+                      saleSummaryDetails(item, index)
                     }
                     keyExtractor={item => item.id}
                   />
@@ -136,4 +136,4 @@ const YourOrderScreen = ({navigation}) => {
   );
 };
 
-export default YourOrderScreen;
+export default SaleSummaryDetails;

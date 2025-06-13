@@ -87,6 +87,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     width: '79%',
   },
+  priceflexSaleSummarytext: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '43%',
+  },
   borderbottomview: {
     borderBottomColor: ColorTheme.LighGrey,
     // borderStyle:'dashed',
