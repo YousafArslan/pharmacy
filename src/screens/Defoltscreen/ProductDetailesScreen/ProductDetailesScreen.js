@@ -11,7 +11,6 @@ import images from '../../../images';
 import { RouteName } from '../../../routes';
 import { SH, useTogglePasswordVisibility } from '../../../utils';
 import { useSelector, useDispatch } from "react-redux";
-import { price_symbol_action } from '../../../redux/action/CommonAction';
 import { ScrollView } from 'react-native-virtualized-view';
 
 const ProductDetailesScreen = ({ route }) => {
@@ -22,11 +21,6 @@ const ProductDetailesScreen = ({ route }) => {
   const { doctoreDetaile } = useSelector(state => state.doctorDataReducer) || { doctoreDetaile };
   const { pricesymboldata } = useSelector(state => state.commonReducer) || {};
   const dispatch = useDispatch();
-  let PriceSymbol = '$';
-
-  useEffect(() => {
-    dispatch(price_symbol_action(PriceSymbol));
-  }, []);
 
   const { hearticon, hearticonworthsetthree } =
     useTogglePasswordVisibility();

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Modal, View, Text, TextInput, ScrollView} from 'react-native';
-import {Colorpicker, Creditcard} from '../../styles';
+import {CartTabStyle, Colorpicker, Creditcard} from '../../styles';
 import {Button} from '../../components';
 import Styles from '../../styles/Tab/CartTabStyle';
 import Dialog from '../../components/commoncomponets/Modal';
@@ -12,6 +12,7 @@ const ChequeDetailsModal = ({
   onNavigateCart,
   colorrdata,
 }) => {
+  console.log("colorrdata",colorrdata)
 
   
   const [chequeDate, setChequeDate] = useState('');
@@ -141,18 +142,22 @@ const ChequeDetailsModal = ({
                     />
                   </View>
 
-                  <View style={Creditcard.setbuttonstyle}>
+                  <View style={Creditcard.setcheckbuttonstyle}>
+                  <Button title="Checkout"
+                    buttonTextStyle={CartTabStyle.textstylepayment}
+                    buttonStyle={{ backgroundColor: colorrdata }}
+                  />
                     <Button
-                      title="Save"
-                      buttonStyle={Creditcard.setbuttonstylesavecard}
-                      buttonTextStyle={Creditcard.setbuttontextstyle}
+                      title="Cancel"
+                      buttonStyle={Creditcard.setcheckbuttonstylesavecard}
+                      buttonTextStyle={Creditcard.setcheckbuttontextstyle}
                       onPress={() => onSubmit()}
                     />
 
                     <Button
-                      title="Sales Return"
-                      buttonStyle={Creditcard.setbuttonstylesavecard}
-                      buttonTextStyle={Creditcard.setbuttontextstyle}
+                      title="Add"
+                      buttonStyle={Creditcard.setcheckbuttonstylesavecard}
+                      buttonTextStyle={Creditcard.setcheckbuttontextstyle}
                       onPress={onClose}
                       // onPress={onNavigateCart}
                     />

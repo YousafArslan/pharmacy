@@ -79,6 +79,13 @@ export default StyleSheet.create({
     height: 100,
     // backgroundColor: ColorTheme.theme_backgound,
   },
+  setcheckbuttonstyle: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    marginTop: 26,
+    height: 100,
+    // backgroundColor: ColorTheme.theme_backgound,
+  },
   setwidthimage: {
     height: 230,
     width: '100%',
@@ -104,9 +111,20 @@ export default StyleSheet.create({
     width:150,
     marginRight:5
   },
+  setcheckbuttonstylesavecard: {
+    borderRadius: 100,
+    width:150,
+    marginRight:5,
+    color:"red",
+    backgroundColor:"black"
+  },
   setbuttontextstyle: {
     color: 'white',
     fontSize:15
+  },
+  setcheckbuttontextstyle: {
+    color: 'white',
+    fontSize:15,
   },
   bottomContainer: {
     position: 'relative',

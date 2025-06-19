@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -12,20 +12,23 @@ import {RouteName} from '../../routes';
 import {useSelector} from 'react-redux';
 import {yourorderdata} from '../../utils/Sliderimagedata';
 import ChequeDetailsModal from './ChequeDetailsModal';
+import { useRoute } from '@react-navigation/native';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const route = useRoute()
+  console.log("route",route)
   const [chequeDate, setChequeDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    // Retrieve and store params when they change
-    if (route.params) {
-      console.log(route.params.id);
-    }
+  // useEffect(() => {
+  //   // Retrieve and store params when they change
+  //   if (route.params) {
+  //     console.log(route.params.id);
+  //   }
 
-    // Ensure params persist
-    navigation.setParams({ item: route.params?.item });
-  }, [route.params,navigation]);
+  //   // Ensure params persist
+  //   navigation.setParams({ item: route.params?.item });
+  // }, [route.params,navigation]);
   const handleClose = () => {
     setIsVisible(false);
   };

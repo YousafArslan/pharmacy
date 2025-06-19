@@ -8,7 +8,6 @@ import { Button } from '../../../components';
 import { RouteName } from '../../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
-import { price_symbol_action } from '../../../redux/action/CommonAction';
 import images from '../../../images';
 
 const CartTab = ({route}) => {
@@ -25,7 +24,6 @@ const CartTab = ({route}) => {
   let PriceSymbol = '$';
 
   useEffect(() => {
-    dispatch(price_symbol_action(PriceSymbol))
     navigation.addListener('focus', () => {
       setDisplayAlert(0);
     });

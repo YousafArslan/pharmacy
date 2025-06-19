@@ -45,7 +45,6 @@ const Summary = props => {
 
     fetchData();
   }, []);
-console.log("data",data)
   //Adding commit to merge
 
   const orderDataitem = (item, index, navigation) => {
