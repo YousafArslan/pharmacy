@@ -1,28 +1,56 @@
-import React, {useState} from 'react';
-import {Modal, View, Text, TextInput, ScrollView} from 'react-native';
-import {CartTabStyle, Colorpicker, Creditcard} from '../../styles';
-import {Button} from '../../components';
-import Styles from '../../styles/Tab/CartTabStyle';
+import React, { useState } from 'react';
+import { Modal, View, Text, TextInput, ScrollView } from 'react-native';
+import { Creditcard } from '../../styles';
+import { Button } from '../../components';
 import Dialog from '../../components/commoncomponets/Modal';
 import axios from 'axios';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
-const ChequeDetailsModal = ({
-  isVisible,
-  onClose,
-  onNavigateCart,
-  colorrdata,
-}) => {
-  console.log("colorrdata",colorrdata)
-
-  
-  const [chequeDate, setChequeDate] = useState('');
-  const [chequeNumber, setChequeNumber] = useState('');
-  const [bankName, setBankName] = useState('');
-  const [branchName, setBranchName] = useState('');
-  const [amount, setAmount] = useState('');
+const ChequeDetailsModal = ({ isVisible, onClose }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
 
-  const handleDateChange = text => {
+  // Formik setup
+  const formik = useFormik({
+    initialValues: {
+      chequeNumber: '',
+      chequeDate: '',
+      bankName: '',
+      branchName: '',
+      amount: '',
+    },
+    validationSchema: Yup.object({
+      chequeNumber: Yup.string().required('Cheque Number is required'),
+      chequeDate: Yup.string().required('Cheque Date is required'),
+      bankName: Yup.string().required('Bank Name is required'),
+      branchName: Yup.string().required('Branch Name is required'),
+      amount: Yup.number().required('Amount is required').positive('Amount must be a positive number'),
+    }),
+    onSubmit: async (values) => {
+      const payload = [{
+        "row_id": 105,
+        "dss_id": "DSS123",
+        "dist_id": "DIST456",
+        "user_name": "john_doe",
+        "cust_id": "CUST789",
+        "cust_name": "Jane Smith",
+        "cheque_no": values.chequeNumber,
+        "cheque_date": values.chequeDate,
+        "cheque_bank": values.bankName,
+        "cheque_branch": values.branchName,
+        "cheque_amount": +values.amount
+      }];
+
+      try {
+        const response = await axios.post('https://im-quirky.com/api/cheques/upload', payload);
+        onClose(); // Close modal on success
+      } catch (error) {
+        console.error('Error uploading cheque:', error);
+      }
+    },
+  });
+
+  const handleDateChange = (text) => {
     const dateRegex = /^(\d{0,2})\/?(\d{0,2})\/?(\d{0,4})$/;
     let match = text.match(dateRegex);
     if (match) {
@@ -36,46 +64,13 @@ const ChequeDetailsModal = ({
       if (month.length === 2) newDate += '/';
       newDate += year;
 
-      setChequeDate(newDate.substr(0, 10));
-    }
-  };
-
-  const handleConfirm = () => {
-    setConfirmVisible(false);
-    onClose();
-    // optionally process form submission
-  };
-
-
-  const onSubmit = async () => {
-    const payload = [{
-    "row_id": 105,
-    "dss_id": "DSS123",
-    "dist_id": "DIST456",
-    "user_name": "john_doe",
-    "cust_id": "CUST789",
-    "cust_name": "Jane Smith",
-    "cheque_no": chequeNumber,
-    "cheque_date": chequeDate,
-    "cheque_bank": bankName,
-    "cheque_branch": branchName,
-    "cheque_amount": +amount
-  }];
-  
-    try {
-      const response = await axios.post(
-        'https://im-quirky.com/api/cheques/upload',
-        payload
-      );
-      onClose()
-    } catch (error) {
-      console.error('Error uploading cheque:', error);
+      formik.setFieldValue('chequeDate', newDate.substr(0, 10));
     }
   };
 
   return (
     <View>
-      <Modal visible={isVisible} animationType="slide" >
+      <Modal visible={isVisible} animationType="slide">
         <View style={Creditcard.modalContainer}>
           <View
             style={{
@@ -84,93 +79,108 @@ const ChequeDetailsModal = ({
               borderRadius: 10,
               padding: 20,
               maxHeight: '90%',
-            }}>
+            }}
+          >
             <ScrollView contentContainerStyle={Creditcard.keybordtopviewstyle}>
               <View style={Creditcard.minflexview}>
                 <Text style={Creditcard.titleStyle}>Add Cheque Details</Text>
                 <View style={Creditcard.minviewsigninscreen}>
+                  {/* Cheque Number */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Cheque Number</Text>
                     <TextInput
                       placeholder="Enter Cheque Number"
-                      onChangeText={text => setChequeNumber(text)}
-                      value={chequeNumber}
+                      onChangeText={formik.handleChange('chequeNumber')}
+                      value={formik.values.chequeNumber}
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+                    {formik.touched.chequeNumber && formik.errors.chequeNumber && (
+                      <Text style={{ color: 'red' }}>{formik.errors.chequeNumber}</Text>
+                    )}
                   </View>
 
+                  {/* Cheque Date */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Cheque Date</Text>
                     <TextInput
                       placeholder="DD/MM/YYYY"
                       onChangeText={handleDateChange}
-                      value={chequeDate}
+                      value={formik.values.chequeDate}
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+                    {formik.touched.chequeDate && formik.errors.chequeDate && (
+                      <Text style={{ color: 'red' }}>{formik.errors.chequeDate}</Text>
+                    )}
                   </View>
 
+                  {/* Bank Name */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Bank</Text>
                     <TextInput
                       placeholder="Enter Bank Name"
-                      onChangeText={text => setBankName(text)}
-                      value={bankName}
+                      onChangeText={formik.handleChange('bankName')}
+                      value={formik.values.bankName}
                       style={Creditcard.inputstyle}
                     />
+                    {formik.touched.bankName && formik.errors.bankName && (
+                      <Text style={{ color: 'red' }}>{formik.errors.bankName}</Text>
+                    )}
                   </View>
 
+                  {/* Branch Name */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Branch</Text>
                     <TextInput
                       placeholder="Enter Branch Name"
-                      onChangeText={text => setBranchName(text)}
-                      value={branchName}
+                      onChangeText={formik.handleChange('branchName')}
+                      value={formik.values.branchName}
                       style={Creditcard.inputstyle}
                     />
+                    {formik.touched.branchName && formik.errors.branchName && (
+                      <Text style={{ color: 'red' }}>{formik.errors.branchName}</Text>
+                    )}
                   </View>
 
+                  {/* Amount */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Amount</Text>
                     <TextInput
                       placeholder="Enter Amount"
-                      onChangeText={text => setAmount(text)}
-                      value={amount}
+                      onChangeText={formik.handleChange('amount')}
+                      value={formik.values.amount}
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+                    {formik.touched.amount && formik.errors.amount && (
+                      <Text style={{ color: 'red' }}>{formik.errors.amount}</Text>
+                    )}
                   </View>
 
+                  {/* Buttons */}
                   <View style={Creditcard.setcheckbuttonstyle}>
-                  <Button title="Checkout"
-                    buttonTextStyle={CartTabStyle.textstylepayment}
-                    buttonStyle={{ backgroundColor: colorrdata }}
-                  />
                     <Button
                       title="Cancel"
-                      buttonStyle={Creditcard.setcheckbuttonstylesavecard}
-                      buttonTextStyle={Creditcard.setcheckbuttontextstyle}
-                      onPress={() => onSubmit()}
+                      buttonStyle={Creditcard.setbuttonstylesavecard}
+                      buttonTextStyle={Creditcard.setbuttontextstyle}
+                      onPress={onClose}
                     />
-
                     <Button
                       title="Add"
-                      buttonStyle={Creditcard.setcheckbuttonstylesavecard}
-                      buttonTextStyle={Creditcard.setcheckbuttontextstyle}
-                      onPress={onClose}
-                      // onPress={onNavigateCart}
+                      buttonStyle={Creditcard.setbuttonstylesavecard}
+                      buttonTextStyle={Creditcard.setbuttontextstyle}
+                      onPress={formik.handleSubmit} // Trigger form submission
                     />
                   </View>
                 </View>
               </View>
-
             </ScrollView>
 
             <Dialog
               isVisible={confirmVisible}
               onClose={() => setConfirmVisible(false)}
-              onConfirm={handleConfirm}
+              onConfirm={() => setConfirmVisible(false)}
               onCancel={() => setConfirmVisible(false)}
               title="Deliver This Invoice?"
               confirmText="Confirm"
