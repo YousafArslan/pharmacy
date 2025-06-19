@@ -30,7 +30,6 @@ const ConformLocation = () => {
   useEffect(() => {
     Geolocation.getCurrentPosition((pos) => {
       const crd = pos.coords;
-      console.log('position', crd.latitude);
       if (crd) {
         setPosition({
           latitude: crd.latitude,

@@ -7,11 +7,10 @@ export default StyleSheet.create({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
-
+    justifyContent: 'center',
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
   backgroundimagstyle: {
     height: '100%',
@@ -47,7 +46,7 @@ export default StyleSheet.create({
     fontSize: 16,
     // fontWeight:'600',
     fontFamily: Fonts.Metropolis_Medium,
-    width: '100%'
+    width: '100%',
   },
   textpassworedsert: {
     color: ColorTheme.InputTextColor,
@@ -55,7 +54,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: Fonts.Metropolis_Medium,
-    width: '100%'
+    width: '100%',
   },
   minboxview: {
     paddingTop: 10,
@@ -101,17 +100,17 @@ export default StyleSheet.create({
   flexrowtwxt: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%'
+    width: '100%',
   },
   setwidthboldtext: {
-    width: '70%'
+    width: '70%',
   },
   flexrowtwxtTWO: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#EDEDED'
+    borderBottomColor: '#EDEDED',
   },
   flexrupidigitaltext: {
     flexDirection: 'row',
@@ -228,8 +227,8 @@ export default StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
     backgroundColor: ColorTheme.BGGreyColor,
     opacity: 0.9,
@@ -244,7 +243,7 @@ export default StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: ColorTheme.BtnOpenBGColor,
@@ -254,12 +253,12 @@ export default StyleSheet.create({
   },
   textStyle: {
     color: ColorTheme.TextWhiteColor,
-    fontWeight: "bold",
-    textAlign: "center"
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: 'center',
   },
   setdeleverylocationstyle: {
     color: ColorTheme.LocanColor,
@@ -316,7 +315,7 @@ export default StyleSheet.create({
   },
   minstyleviewphotograpgys: {
     backgroundColor: 'white',
-    height: '100%'
+    height: '100%',
   },
   locationsurchinputshadow: {
     backgroundColor: ColorTheme.BGWhiteColor,
@@ -351,7 +350,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    backgroundColor: ColorTheme.BGWhiteColor
+    backgroundColor: ColorTheme.BGWhiteColor,
   },
   seticonborder: {
     borderWidth: 1,
@@ -410,7 +409,7 @@ export default StyleSheet.create({
     elevation: Platform.OS === 'ios' ? 0 : 3,
     position: 'absolute',
     right: 20,
-    top: -20
+    top: -20,
   },
   imagsetstyle: {
     width: 90,
@@ -509,7 +508,7 @@ export default StyleSheet.create({
   },
   setbariconmarginright: {
     paddingLeft: 5,
-    marginLeft:5
+    marginLeft: 5,
   },
   flexrowsetaddresh: {
     flexDirection: 'row',
@@ -517,10 +516,10 @@ export default StyleSheet.create({
     marginTop: 5,
   },
   repeatordericon: {
-    color: ColorTheme.TextGreyColor
+    color: ColorTheme.TextGreyColor,
   },
   cancelbtn: {
-    backgroundColor: ColorTheme.BGWhiteColor
+    backgroundColor: ColorTheme.BGWhiteColor,
   },
   icomvloseselectwrap: {
     width: '100%',
@@ -528,14 +527,36 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     textAlign: 'right',
-    paddingHorizontal: '5%'
+    paddingHorizontal: '5%',
   },
   icomvloseselectwraptwo: {
     position: 'absolute',
     right: 0,
-    top: -7
+    top: -7,
   },
   icomvloseselect: {
     width: 'auto',
-  }
+  },
+  uploadView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  uploadButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+    width: 100,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 50,
+    overflow: 'hidden',
+  },
+  uploadText: {
+    color: 'black',
+    fontSize: 16,
+  },
+  imageUpload: {
+    width: '100%',
+    height: '100%',
+  },
 });

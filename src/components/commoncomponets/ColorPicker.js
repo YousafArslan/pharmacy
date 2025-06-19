@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, Modal, TouchableOpacity } from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
 import { Colorpicker } from '../../styles';
-import { color_picker_set_action } from "../../redux/action/CommonAction";
+import {setColorPicker} from '../../redux/common/common.slice';
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from '../../components';
 import images from "../../images";
@@ -14,7 +14,7 @@ const ColorPickerset = () => {
   const dispatch = useDispatch();
   const onColorChange = (selectedColor) => {
     setCurrentColor(selectedColor);
-    dispatch(color_picker_set_action(selectedColor))
+    dispatch(setColorPicker(selectedColor))
   };
 
   return (

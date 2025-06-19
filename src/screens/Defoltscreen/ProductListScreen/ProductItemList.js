@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, View, Image, StatusBar, FlatList, KeyboardAvoidingView, TouchableOpacity, } from "react-native";
 import {ProductitemList} from '../../../styles';
 import { useNavigation } from '@react-navigation/native';
 import { RouteName } from '../../../routes';
 import { Docterproductdata } from '../../../utils';
-import { useDispatch } from "react-redux";
-import { get_doctore_detailes_action } from '../../../redux/action/DoctoreDataAction';
 import { colors} from '../../../utils';
 import { useSelector } from "react-redux";
 import Icon from "react-native-vector-icons/AntDesign";
-import { price_symbol_action } from '../../../redux/action/CommonAction';
 import { ScrollView } from 'react-native-virtualized-view';
 
 const ProductItemList = () => {
@@ -17,20 +14,8 @@ const ProductItemList = () => {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const { pricesymboldata } = useSelector(state => state.commonReducer) || {};
   const navigation = useNavigation();
-  const [hearticon, Sethearticon] = useState(0);
-  const dispatch = useDispatch();
   const [liked, setLiked] = useState([]);
 
-  let PriceSymbol = '$';
-
-  const doctordata = (docterdata) => {
-    dispatch(get_doctore_detailes_action(docterdata))
-    navigation.navigate(RouteName.PRODUCT_DETAILS_SCREEN)
-  }
-  useEffect(() => {
-    dispatch(price_symbol_action(PriceSymbol))  
-  }, []);
- 
   const Docterproductdataitem = (item, index) => {
     return (
       <TouchableOpacity style={ProductitemList.bgwhiteboxminviewWrap}>

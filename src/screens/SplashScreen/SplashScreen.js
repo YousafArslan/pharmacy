@@ -4,7 +4,7 @@ import images from '../../images';
 import Style from '../../styles/CommonStyle/Style';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { color_picker_set_action } from "../../redux/action/CommonAction";
+import {setColorPicker} from '../../redux/common/common.slice';
 import { useSelector } from "react-redux";
 import { RouteName } from '../../routes';
 
@@ -18,7 +18,7 @@ const SplashScreen = () => {
         setTimeout(async () => {
             navigation.replace(RouteName.HOME_SCREEN);
         }, 2);
-        dispatch(color_picker_set_action('hsl(234, 92.8%, 72.7%)'))
+        dispatch(setColorPicker('hsl(234, 92.8%, 72.7%)'))
     }, []);
 
     return (

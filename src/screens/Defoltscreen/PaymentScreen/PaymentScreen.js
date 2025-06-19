@@ -87,7 +87,7 @@ const MangePaymentMethode = () => {
             <View style={PaymentStyle.minviewsigninscreen}>
               <View>
                 <Text style={[PaymentStyle.cardtextstyle, { color: colorrdata }]}>Cards</Text>
-                <TouchableOpacity style={PaymentStyle.setflexrowarrowleft} onPress={() => navigation.replace(RouteName.CREDIT_CARD_SCREEN_SET)}>
+                <TouchableOpacity style={PaymentStyle.setflexrowarrowleft} onPress={() => navigation.replace(RouteName.CHEQUE_DETAILS)}>
                   <View style={PaymentStyle.flexrowcreditcard}>
                     <View style={PaymentStyle.iconsetborderwidth}>
                       <Icon name="creditcard" size={25} color={'gray'} />

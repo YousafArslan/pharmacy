@@ -1,2 +1,2 @@
 export {default as DrawerNavigationYourOrderScreen} from './DrawerNavigationYourOrderScreen';
-export {default as YourOrderScreen} from './YourOrderScreen';
+export {default as SaleSummaryDetails} from './SaleSummaryDetails';

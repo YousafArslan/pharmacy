@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import {YourOrderScreen} from '../../../screens';
+import {SaleSummaryDetails} from '../../../screens';
 import {CustomSidebarMenu} from '../../../components';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import Styles from '../../../styles/CommonStyle/Style';
@@ -35,10 +35,10 @@ const NavigationDrawerStructure = (props) => {
 function firstScreenStack({ navigation }) {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   return (
-    <Stack.Navigator initialRouteName="YourOrderScreen">
+    <Stack.Navigator initialRouteName="SaleSummaryDetails">
       <Stack.Screen
-        name="YourOrderScreen"
-        component={YourOrderScreen}
+        name="SaleSummaryDetails"
+        component={SaleSummaryDetails}
         options={{
           title: 'Your Orders', headerShown: true,
           headerTitleStyle: {

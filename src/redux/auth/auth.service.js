@@ -1,0 +1,64 @@
+import axios from "axios";
+import { baseUrl } from "../../../config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+const login = async (req) => {
+  const data = await axios.post(`${baseUrl}/auth/login`, req);
+
+  if (data?.status === 201) {
+    await AsyncStorage.setItem("user", JSON.stringify({token:data.data.token,...data.data.payload}));
+  } else {
+    throw data.message;
+  }
+  return data;
+};
+
+const checkEmail = async (req) => {
+  const data = await axios.post(`${baseUrl}Login/CheckEmail?Email=${req.email}`);
+  if (data?.data?.succeeded) {
+    // localStorage.setItem("glare_ecom", JSON.stringify(data?.data?.data));
+  } else {
+    throw data.message;
+  }
+  return data;
+};
+
+
+const resetPassword = async (req) => {
+
+  // const data = await api.post("/Login/login", req);
+  // const data = await axios.post(`${baseUrl}/Login/login`, req);
+  const data = await axios.post(`${baseUrl}Login/UpdatePassword?Email=${req.email}&Password=${req.password}`);
+  if (data?.data?.succeeded) {
+    // localStorage.setItem("glare_ecom", JSON.stringify(data?.data?.data));
+  } else {
+    throw data.message;
+  }
+  return data;
+};
+
+const register = async (req) => {
+
+  // const { data } = await api.post(`/Users/create`, req);
+  // const { data } = await api.post(`${baseUrl}/Users/create`, req);
+  const { data } = await api.post(`${baseUrl}Users/create`, req);
+  if (data?.succeeded) {
+    return data.data;
+  } else throw data.message;
+};
+
+const logout = () => {
+  localStorage.removeItem("glare_ecom");
+};
+
+const authService = {
+  logout,
+  login,
+  register,
+  checkEmail,
+  resetPassword
+};
+
+export default authService;

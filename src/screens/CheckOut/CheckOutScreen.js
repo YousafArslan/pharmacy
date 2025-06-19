@@ -9,7 +9,6 @@ import {Button, SweetaelertModal} from '../../components';
 import {RouteName} from '../../routes';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from "react-redux";
-import { price_symbol_action } from '../../redux/action/CommonAction';
 import images from '../../images';
 
 const CheckOutScreen = ({route}) => {
@@ -21,10 +20,8 @@ const CheckOutScreen = ({route}) => {
   const [count, setCount] = useState(1);
   const [Applycoupon, setApplycoupon] = useState(0);
   const dispatch = useDispatch();
-  let PriceSymbol = '$';
 
-  useEffect(() => {
-    dispatch(price_symbol_action(PriceSymbol));       
+  useEffect(() => {   
     navigation.addListener('focus', () => {
       setDisplayAlert(0);
     });
@@ -161,7 +158,6 @@ const CheckOutScreen = ({route}) => {
                     </View>
                   </View>
                   <View style={Styles.centeredView}>
-                    {console.log(DisplayAlert, 'print')}
                     {DisplayAlert !== 0 ?
                       <SweetaelertModal message='Applied Successful' link={RouteName.CHECK_OUT} />
                       :

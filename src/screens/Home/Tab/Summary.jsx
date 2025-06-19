@@ -5,19 +5,17 @@ import {
   StatusBar,
   FlatList,
   KeyboardAvoidingView,
-  // TouchableOpacity,
+  TouchableOpacity,
   Image,
 } from 'react-native';
-import IconR from 'react-native-vector-icons/Ionicons';
-import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useSelector} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
-import images from '../../../images';
-import {Style} from '../../../styles';
-import IconA from 'react-native-vector-icons/MaterialIcons';
+import {Style, YourOrderScreenStyle} from '../../../styles';
 import axios from 'axios';
+import NoDataSVG from './NoDataSVG';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Summary = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -31,9 +29,13 @@ const Summary = props => {
       setLoading(true);
       try {
         const response = await axios.get(
-          'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DATA&pParam=D307^sa',
+          'https://im-quirky.com/api/dss/D307',
         );
-        setData(response.data); // Update state with the response
+        if(response.status === 200 && response.data?.length===0){
+          setError("No summaries found for today");
+        }else{
+          setData(response.data); // Update state with the response
+        }
       } catch (err) {
         setError(err.message); // Handle error
       } finally {
@@ -43,55 +45,9 @@ const Summary = props => {
 
     fetchData();
   }, []);
+  //Adding commit to merge
 
-
-  const orderData = [
-    {
-      id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
-      vadapavtext: 'Avastin Pharmacy',
-      sitytext: 'Kukatpally,Hyderabad',
-      price: '110.00',
-      items: 'ITEMS',
-      onevx: 'Flexon Tablet',
-      orderontext: 'ORDERED ON',
-      timetextset: '02 Jun 2022 at 3:16 PM',
-      rejectedtext: 'Delivered',
-      righticon: 'md-checkmark-done',
-      refreshicon: <IconA name="refresh" color={'green'} size={20} />,
-      repeatordertext: 'Repeat Order',
-    },
-    {
-      id: 1,
-      image: (
-        <Image
-          style={Style.yourorderdata}
-          resizeMode="cover"
-          source={images.Docter_tablet_imag}
-        />
-      ),
-      vadapavtext: 'Avastin Pharmacy',
-      sitytext: 'Kukatpally,Hyderabad',
-      price: '110.00',
-      items: 'ITEMS',
-      onevx: 'Flexon Tablet',
-      orderontext: 'ORDERED ON',
-      timetextset: '02 Jun 2022 at 3:16 PM',
-      rejectedtext: 'Delivered',
-      righticon: 'md-checkmark-done',
-      refreshicon: <IconA name="refresh" color={'green'} size={20} />,
-      repeatordertext: 'Repeat Order',
-    },
-  ];
-  // console.log("data",data)
-
-  const orderDataitem = (item, index) => {
+  const orderDataitem = (item, index, navigation) => {
     return (
       <View>
         <View style={SummaryStyle.yoreorderstylebox}>
@@ -99,21 +55,30 @@ const Summary = props => {
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
                 <View>
-                  <Image
+                  {/* <Image
                     style={Style.yourorderdata}
                     resizeMode="cover"
                     source={images.Docter_tablet_imag}
-                  />
+                  /> */}
                 </View>
                 <View style={SummaryStyle.priceflextext}>
-                  <View style={SummaryStyle.setwidth70}>
-                    <Text style={SummaryStyle.vadapavtextstyeleset}>
-                      {item.delman_name}
-                    </Text>
-                    <Text style={SummaryStyle.addreshrtext}>
-                      {item.dist_id}
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                    style={YourOrderScreenStyle.setwidth70}
+                    disabled={item?.dss_status === 1}
+                    onPress={() => {
+                      navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dist_id })
+                    }
+                      
+                    }>
+                    <View style={SummaryStyle.setwidth70}>
+                      <Text style={SummaryStyle.vadapavtextstyeleset}>
+                        {item.delman_name}
+                      </Text>
+                      <Text style={SummaryStyle.addreshrtext}>
+                        {item.dist_id}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -130,6 +95,10 @@ const Summary = props => {
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Amount</Text>
               <Text style={SummaryStyle.blacktitle}>{item.amount}</Text>
+            </View>
+            <View style={SummaryStyle.setlistdataitems}>
+              <Text style={SummaryStyle.setitemstext}>Status</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.dss_status === 0 ? "In Progress" : "Completed"}</Text>
             </View>
           </View>
         </View>
@@ -150,12 +119,23 @@ const Summary = props => {
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
+             
                 {loading && <Text>Loading...</Text>}
-                {error && <p>Error: {error}</p>}
+                {error && <View style={{
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 600 // or use flexGrow: 1 in contentContainerStyle
+  }}>
+                <Icon name="file-search" size={100} color={'#D7D6D6'} /> 
+                <Text>{error}</Text>
+                </View>}
                 {data && (
                   <FlatList
                     data={data}
-                    renderItem={({item, index}) => orderDataitem(item, index)}
+                    renderItem={({item, index}) =>
+                      orderDataitem(item, index, navigation)
+                    }
                     keyExtractor={item => item.dss_id}
                   />
                 )}

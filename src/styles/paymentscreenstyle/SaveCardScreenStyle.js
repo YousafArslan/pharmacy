@@ -10,8 +10,14 @@ export default StyleSheet.create({
     backgroundColor: ColorTheme.sp_Theme,
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent black background
+  },  
   smaili: {
     width: SH(110),
     height: SH(110),
@@ -23,9 +29,11 @@ export default StyleSheet.create({
     borderRadius: 7,
     paddingTop: 5,
     paddingBottom: 5,
+    marginTop: 5,
+    marginBottom: 5,
   },
   setstyleinputtexttwo: {
-    backgroundColor:ColorTheme.LighColorFour,
+    backgroundColor: ColorTheme.LighColorFour,
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 7,
@@ -38,14 +46,19 @@ export default StyleSheet.create({
   minviewsigninscreen: {
     width: '90%',
     marginHorizontal: '5%',
+    marginTop: 10,
   },
   inputstyle: {
     padding: 0,
     color: 'black',
-    width: 200,
+    width: '100%',
     fontFamily: Fonts.Poppins_Medium,
   },
-
+  titleStyle: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 18,
+  },
   textstyle: {
     color: 'black',
     fontFamily: Fonts.Poppins_Medium,
@@ -54,13 +67,24 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   flexrowsetinput: {
     flexDirection: 'row',
   },
   setbuttonstyle: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
     marginTop: 26,
+    height: 100,
+    // backgroundColor: ColorTheme.theme_backgound,
+  },
+  setcheckbuttonstyle: {
+    flexDirection: 'row',
+    justifyContent: "space-between",
+    marginTop: 26,
+    height: 100,
+    // backgroundColor: ColorTheme.theme_backgound,
   },
   setwidthimage: {
     height: 230,
@@ -72,11 +96,11 @@ export default StyleSheet.create({
     height: 210,
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 420,
+    width: 380,
   },
   minstyleviewphotograpgy: {
     flexDirection: 'row',
-    backgroundColor:'white',
+    backgroundColor: 'white',
     marginBottom: 30,
     paddingTop: 30,
     justifyContent: 'center',
@@ -84,8 +108,36 @@ export default StyleSheet.create({
   },
   setbuttonstylesavecard: {
     borderRadius: 100,
+    width:150,
+    marginRight:5
+  },
+  setcheckbuttonstylesavecard: {
+    borderRadius: 100,
+    width:150,
+    marginRight:5,
+    color:"red",
+    backgroundColor:"black"
   },
   setbuttontextstyle: {
-    color: 'white'
-  }
+    color: 'white',
+    fontSize:15
+  },
+  setcheckbuttontextstyle: {
+    color: 'white',
+    fontSize:15,
+  },
+  bottomContainer: {
+    position: 'relative',
+    bottom: 20,
+    left: 0,
+    right: 0,
+    top: 70,
+    paddingTop: 10,
+  },
+  bottomPricing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 10,
+  },
 });

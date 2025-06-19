@@ -59,7 +59,6 @@ const OtpVeryfyScreen = () => {
                   </View>
                 </View>
                 <View style={Login.centeredView}>
-                  {console.log(DisplayAlert, 'print')}
                   {DisplayAlert !== 0 ?
                     <SweetaelertModal message='OTP sent successfully' link={RouteName.OTP_VERIFY_SCREEN} />
                     :
@@ -67,7 +66,6 @@ const OtpVeryfyScreen = () => {
                   }
                 </View>
                 <View style={Login.centeredView}>
-                  {console.log(DisplayAlerttwo, 'print')}
                   {DisplayAlerttwo !== 0 ?
                     <SweetaelertModal message='Login successful' link={RouteName.WELCOME_SUMANYA} />
                     :
