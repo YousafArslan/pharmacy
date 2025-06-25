@@ -34,12 +34,12 @@ const initialState = {
 };
 
 export const LoginAction = createAsyncThunk(
-  'auth/login',
+  'users/login',
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await authService.login(data);
       if (
-        response.status === 201) {
+        response.status === 200) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
         }

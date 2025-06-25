@@ -16,8 +16,9 @@ import { useRoute } from '@react-navigation/native';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const reducer = useSelector(state => state) || {};
   const route = useRoute()
-  console.log("route",route)
+  console.log("reducer",reducer)
   const [chequeDate, setChequeDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   // useEffect(() => {

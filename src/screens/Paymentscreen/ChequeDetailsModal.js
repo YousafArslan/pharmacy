@@ -6,10 +6,12 @@ import Dialog from '../../components/commoncomponets/Modal';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { AddChequeAction } from '../../redux/cheques/cheques.slice';
 
 const ChequeDetailsModal = ({ isVisible, onClose }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
-
+  const dispatch = useDispatch()
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -42,7 +44,8 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
       }];
 
       try {
-        const response = await axios.post('https://im-quirky.com/api/cheques/upload', payload);
+        dispatch(AddChequeAction({data:payload}))
+        // const response = await axios.post('https://im-quirky.com/api/cheques/upload', payload);
         onClose(); // Close modal on success
       } catch (error) {
         console.error('Error uploading cheque:', error);
@@ -70,7 +73,7 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
 
   return (
     <View>
-      <Modal visible={isVisible} animationType="slide">
+      <Modal visible={isVisible} animationType="slide" transparent={true}>
         <View style={Creditcard.modalContainer}>
           <View
             style={{

@@ -7,7 +7,8 @@ import ordersReducer from './orders/orders.slice';
 import customersReducer from './customers/customers.slice';
 import oilStocksReducer from './oilStocks/oilStocks.slice';
 import expensesReducer from './expenses/expenses.slice';
-import paymentsReducer from './payments/payments.slice';
+import chequesReducer from './cheques/cheques.slice';
+import dssReducer from './dss/dss.slice';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     customers :customersReducer,
     oilStocks :oilStocksReducer,
     expense :expensesReducer,
-    payment :paymentsReducer
+    cheques: chequesReducer,
+    dss: dssReducer
   },
 });

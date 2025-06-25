@@ -6,28 +6,33 @@ import {
   FlatList,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Image,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
-import {Style, YourOrderScreenStyle} from '../../../styles';
+import { YourOrderScreenStyle} from '../../../styles';
 import axios from 'axios';
-import NoDataSVG from './NoDataSVG';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetDssByIDAction } from '../../../redux/dss/dss.slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Summary = props => {
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const {navigation} = props;
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
+  const authReducer = useSelector(state=> state)
+  console.log("authReducer",authReducer)
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        let userJSON = await AsyncStorage.getItem('user');
+        let user = JSON.parse(userJSON);
+        dispatch(GetDssByIDAction({data:user}))
         const response = await axios.get(
           'https://im-quirky.com/api/dss/D307',
         );

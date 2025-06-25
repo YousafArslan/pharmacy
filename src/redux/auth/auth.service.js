@@ -5,10 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const login = async (req) => {
-  const data = await axios.post(`${baseUrl}/auth/login`, req);
-
-  if (data?.status === 201) {
-    await AsyncStorage.setItem("user", JSON.stringify({token:data.data.token,...data.data.payload}));
+  const data = await axios.post(`${baseUrl}users/login`, req);
+  if (data?.status === 200) {
+    await AsyncStorage.setItem("user", JSON.stringify({data:data.data}));
   } else {
     throw data.message;
   }
