@@ -10,15 +10,16 @@ import Styles from '../../styles/CommonStyle/CustomeSlidebar';
 import Style from '../../styles/CommonStyle/SweetaelertModalStyle';
 import IconO from 'react-native-vector-icons/MaterialIcons';
 import IconL from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../components';
 import {RouteName} from '../../routes';
 import Dialog from './Modal';
+import { logout } from "../../redux/auth/auth.slice";
 
 const CustomSidebarMenu = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const [isVisible, setIsVisible] = useState(false);
-
+  const dispatch = useDispatch()
   const handleClose = () => {
     setIsVisible(false);
   };
@@ -257,7 +258,11 @@ const CustomSidebarMenu = props => {
         <View style={Styles.settingandlogout}>
           <TouchableOpacity
             style={Styles.flexrowset}
-            onPress={() => setIsVisible(true)}>
+            onPress={() => {
+              debugger
+              navigation.replace(RouteName.LOGIN_AND_REGISTRATION);
+              dispatch(logout())
+            }}>
             <IconE
               name="log-out"
               style={Styles.setwidth}

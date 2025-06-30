@@ -8,6 +8,7 @@ import {setColorPicker} from '../../redux/common/common.slice';
 import { useSelector } from "react-redux";
 import { RouteName } from '../../routes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../redux/auth/auth.slice';
 
 StatusBar.setBackgroundColor('#010012');
 
@@ -18,7 +19,6 @@ const SplashScreen = () => {
     
     useEffect(() => {
       setTimeout(async () => {
-        debugger
         let userJSON = await AsyncStorage.getItem('user');
         let user = JSON.parse(userJSON);
         if (user) {
