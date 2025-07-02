@@ -20,6 +20,7 @@
     "@react-navigation/stack": "6.2.3",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.7.9",
+    "formik": "^2.4.6",
     "i18next": "^22.4.15",
     "lodash": "^4.17.21",
     "lottie-react-native": "^5.1.4",
@@ -38,6 +39,7 @@
     "react-native-screens": "^3.34.0",
     "react-native-snap-carousel": "^4.0.0-beta.6",
     "react-native-svg": "^15.12.0",
+    "react-native-toast-notifications": "^3.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-virtualized-view": "^1.0.0",
     "react-native-wheel-color-picker": "1.2.0",
@@ -45,7 +47,8 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

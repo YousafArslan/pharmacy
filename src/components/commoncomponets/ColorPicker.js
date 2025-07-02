@@ -12,6 +12,7 @@ const ColorPickerset = () => {
   const { colorrdata } = useSelector(state => state.commonReducer) || { colorrdata };
   const [currentColor, setCurrentColor] = useState(colorrdata);
   const dispatch = useDispatch();
+  const reducer = useSelector(state=> state.commonReducer)
   const onColorChange = (selectedColor) => {
     setCurrentColor(selectedColor);
     dispatch(setColorPicker(selectedColor))

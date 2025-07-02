@@ -16,19 +16,11 @@ import { useRoute } from '@react-navigation/native';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const reducer = useSelector(state => state) || {};
   const route = useRoute()
-  console.log("route",route)
+  console.log("reducer",reducer)
   const [chequeDate, setChequeDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  // useEffect(() => {
-  //   // Retrieve and store params when they change
-  //   if (route.params) {
-  //     console.log(route.params.id);
-  //   }
-
-  //   // Ensure params persist
-  //   navigation.setParams({ item: route.params?.item });
-  // }, [route.params,navigation]);
   const handleClose = () => {
     setIsVisible(false);
   };

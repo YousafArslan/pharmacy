@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import {setColorPicker} from '../../redux/common/common.slice';
 import { useSelector } from "react-redux";
 import { RouteName } from '../../routes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../redux/auth/auth.slice';
 
 StatusBar.setBackgroundColor('#010012');
 
@@ -14,11 +16,20 @@ const SplashScreen = () => {
     const { colorrdata } = useSelector(state => state.commonReducer) || {};
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    
     useEffect(() => {
-        setTimeout(async () => {
-            navigation.replace(RouteName.HOME_SCREEN);
-        }, 2);
-        dispatch(setColorPicker('hsl(234, 92.8%, 72.7%)'))
+      setTimeout(async () => {
+        let userJSON = await AsyncStorage.getItem('user');
+        let user = JSON.parse(userJSON);
+        if (user) {
+          navigation.replace(RouteName.HOME_SCREEN);
+          dispatch(login(user))
+        } else {
+          navigation.replace(RouteName.LOGIN_AND_REGISTRATION);
+        }
+      }, 0);
+      // navigation.replace(RouteName.HOME_SCREEN);
+      dispatch(setColorPicker('hsl(234, 92.8%, 72.7%)'));
     }, []);
 
     return (
