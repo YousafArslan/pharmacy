@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,53 +8,32 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Style, YourOrderScreenStyle} from '../../../styles';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import {Image} from 'react-native';
 import images from '../../../images';
-import axios from 'axios';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+import {GetSaleSummaryDetailsAction} from '../../../redux/dss/dss.slice';
 
 const SaleSummaryDetails = ({navigation}) => {
-
   const route = useRoute();
-  const [invoiceData, setInvoiceData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [orderId, setOrderId] = useState(null);
+  const dispatch = useDispatch();
+  const dssReducer = useSelector(state => state.dss);
 
   useEffect(() => {
-    // Retrieve and store params when they change
     if (route.params?.id) {
-      setOrderId(route.params.id);
+      dispatch(GetSaleSummaryDetailsAction({data: route.params?.id}));
     }
-
-    // Ensure params persist
-    navigation.setParams({ id: route.params?.id });
-  }, [route.params?.id,navigation]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const link = orderId ? `https://im-quirky.com/api/dssDetail/${orderId}` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
-        const response = await axios.get(link);
-        setInvoiceData(response.data); // Update state with the response
-      } catch (err) {
-        setError(err.message); // Handle error
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [orderId]);
+  }, [route.params?.id]);
 
   const saleSummaryDetails = (item, index) => {
+    console.log('item', item);
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(RouteName.CHEQUE_DETAILS)}>
+        onPress={() => navigation.navigate(RouteName.CHEQUE_DETAILS)}
+        // disabled={item?.is_delivered}
+      >
         <View style={YourOrderScreenStyle.yoreorderstylebox}>
           <View style={YourOrderScreenStyle.borderbottomview}>
             <View style={YourOrderScreenStyle.flexminviewset}>
@@ -70,12 +49,23 @@ const SaleSummaryDetails = ({navigation}) => {
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     onPress={() =>
-                      navigation.navigate(RouteName.CHEQUE_DETAILS,{ item: item })
-                    }>
-                    <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>
+                      navigation.navigate(RouteName.CHEQUE_DETAILS, {
+                        item: item,
+                      })
+                    }
+                    disabled={item?.is_delivered}>
+                    <Text
+                      style={[
+                        YourOrderScreenStyle.vadapavtextstyeleset,
+                        {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                      ]}>
                       {item.cust_name}
                     </Text>
-                    <Text style={YourOrderScreenStyle.addreshrtext}>
+                    <Text
+                      style={[
+                        YourOrderScreenStyle.addreshrtext,
+                        {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                      ]}>
                       {item.dist_id}
                     </Text>
                   </TouchableOpacity>
@@ -85,12 +75,34 @@ const SaleSummaryDetails = ({navigation}) => {
           </View>
           <View style={YourOrderScreenStyle.borderbottomviewtwo}>
             <View style={YourOrderScreenStyle.setlistdataitems}>
-              <Text style={YourOrderScreenStyle.setitemstext}>Invoice ID</Text>
-              <Text style={YourOrderScreenStyle.blacktitle}>{item.inv_id}</Text>
+              <Text
+                style={[
+                  YourOrderScreenStyle.setitemstext,
+                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                ]}>
+                Invoice ID
+              </Text>
+              <Text
+                style={[
+                  YourOrderScreenStyle.blacktitle,
+                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                ]}>
+                {item.inv_id}
+              </Text>
             </View>
             <View style={YourOrderScreenStyle.setlistdataitems}>
-              <Text style={YourOrderScreenStyle.setitemstext}>Amount</Text>
-              <Text style={YourOrderScreenStyle.blacktitle}>
+              <Text
+                style={[
+                  YourOrderScreenStyle.setitemstext,
+                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                ]}>
+                Amount
+              </Text>
+              <Text
+                style={[
+                  YourOrderScreenStyle.blacktitle,
+                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                ]}>
                 {item.inv_value}
               </Text>
             </View>
@@ -99,6 +111,7 @@ const SaleSummaryDetails = ({navigation}) => {
       </TouchableOpacity>
     );
   };
+
   return (
     <View
       style={[
@@ -116,11 +129,15 @@ const SaleSummaryDetails = ({navigation}) => {
           <View style={YourOrderScreenStyle.minflexview}>
             <View style={YourOrderScreenStyle.minviewsigninscreen}>
               <View style={YourOrderScreenStyle.paddingtopset}>
-                {loading && <Text>Loading...</Text>}
-                {error && <Text>Error: {error}</Text>}
-                {invoiceData && (
+                {dssReducer?.getSaleSummaryDetailsLoading && (
+                  <Text>Loading...</Text>
+                )}
+                {dssReducer?.getSaleSummaryDetailsError && (
+                  <Text>Error: {dssReducer?.getSaleSummaryDetailsError}</Text>
+                )}
+                {dssReducer?.getSaleSummaryDetails && (
                   <FlatList
-                    data={invoiceData}
+                    data={dssReducer?.getSaleSummaryDetails}
                     renderItem={({item, index}) =>
                       saleSummaryDetails(item, index)
                     }

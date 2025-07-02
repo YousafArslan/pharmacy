@@ -7,11 +7,14 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import apiBaseUrl from '../../utils/api';
+import { useDispatch } from 'react-redux';
+import { AddChequeAction } from '../../redux/cheques/cheques.slice';
 
 const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const dispatch = useDispatch()
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -87,7 +90,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
 
   return (
     <View>
-      <Modal visible={isVisible} animationType="slide">
+      <Modal visible={isVisible} animationType="slide" transparent={true}>
         <View style={Creditcard.modalContainer}>
           <View
             style={{

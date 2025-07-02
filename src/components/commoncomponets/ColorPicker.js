@@ -17,7 +17,6 @@ const ColorPickerset = () => {
     setCurrentColor(selectedColor);
     dispatch(setColorPicker(selectedColor))
   };
-  console.log("reducer",reducer)
 
   return (
     <View>
