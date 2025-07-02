@@ -184,6 +184,13 @@ const ChequeDetailScreen = ({navigation}) => {
         ) : (
           <Text>No cheques found.</Text>
         )}
+        <ChequeDetailsModal
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          onNavigateCart={() => navigation.navigate(RouteName.CART_TAB)}
+          colorrdata={colorrdata}
+          refetchCheques={fetchCheques}
+        />
       </ScrollView>
 
       <View style={YourOrderScreenStyle.openReturnButtonContainer}>

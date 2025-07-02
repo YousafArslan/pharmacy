@@ -38,7 +38,7 @@ const SaleSummaryDetails = ({navigation}) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const link = orderId ? `https://im-quirky.com/api/dssDetail/${orderId}` :'http://quirkysofttech.com/Account/QD_GET?pType=QD_DSS_DETAIL_DATA&pParam=D307^0004695'
+        const link = `https://im-quirky.com/api/dssDetail/D307`;
         const response = await axios.get(link);
         setInvoiceData(response.data); // Update state with the response
       } catch (err) {
