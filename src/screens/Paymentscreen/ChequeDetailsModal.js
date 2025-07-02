@@ -13,6 +13,7 @@ import { AddChequeAction } from '../../redux/cheques/cheques.slice';
 const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [rowId, setRowId] = useState(105);
 
   const dispatch = useDispatch()
   // Formik setup
@@ -35,7 +36,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
     }),
     onSubmit: async values => {
       const payload = {
-        row_id: 105,
+        row_id: rowId,
         dss_id: 'DSS123',
         dist_id: 'DIST456',
         user_name: 'john_doe',
@@ -48,11 +49,12 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
         cheque_amount: +values.amount,
       };
 
-      console.log('🚀 ~ ChequeDetailsModal ~ payload:', payload);
       try {
         await axios.post(`${apiBaseUrl}/cheques/upload`, payload);
-        setErrorMessage(''); // Clear any previous error
-        handleClose(); // Use handleClose to clear error and close modal
+        setErrorMessage('');
+        setRowId(prev => prev + 1);
+        formik.resetForm();
+        handleClose();
         refetchCheques();
       } catch (error) {
         const msg =
@@ -106,7 +108,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
                 {/* Error Message */}
                 {errorMessage ? (
                   <Text style={{color: 'red', marginBottom: 10}}>
-                    {errorMessage}
+                    {errorMessage}x
                   </Text>
                 ) : null}
                 <View style={Creditcard.minviewsigninscreen}>
@@ -115,6 +117,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
                     <Text style={Creditcard.textstyle}>Cheque Number</Text>
                     <TextInput
                       placeholder="Enter Cheque Number"
+                      x
                       onChangeText={formik.handleChange('chequeNumber')}
                       value={formik.values.chequeNumber}
                       style={Creditcard.inputstyle}
@@ -123,7 +126,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
                     {formik.touched.chequeNumber &&
                       formik.errors.chequeNumber && (
                         <Text style={{color: 'red'}}>
-                          {formik.errors.chequeNumber}
+                          x{formik.errors.chequeNumber}
                         </Text>
                       )}
                   </View>
@@ -204,7 +207,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
                       title="Add"
                       buttonStyle={Creditcard.setbuttonstylesavecard}
                       buttonTextStyle={Creditcard.setbuttontextstyle}
-                      onPress={formik.handleSubmit} // Trigger form submission
+                      onPress={formik.handleSubmit}
                     />
                   </View>
                 </View>
