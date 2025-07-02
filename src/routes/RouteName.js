@@ -11,6 +11,7 @@ const RouteName = {
   PRODUCT_LIST_ITEM: 'ProductItemList',
   PRODUCT_DETAILS_SCREEN: 'ProductDetailesScreen',
   OFFERS_TAB: 'OffersTab',
+  IMPORT_DATA: 'ImportData',
   CART_TAB: 'Sale Returns',
   CHECK_OUT: 'CheckOutScreen',
   ACCOUNT_TAB_SET: 'Profile',

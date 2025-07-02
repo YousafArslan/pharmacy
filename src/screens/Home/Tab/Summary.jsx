@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -10,47 +10,24 @@ import {
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
-import { YourOrderScreenStyle} from '../../../styles';
-import axios from 'axios';
+import {YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetDssByIDAction } from '../../../redux/dss/dss.slice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch, useSelector} from 'react-redux';
+import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
 
 const Summary = props => {
   const {navigation} = props;
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
-  const authReducer = useSelector(state=> state)
-  console.log("authReducer",authReducer)
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.auth);
+  const dssReducer = useSelector(state => state.dss);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        let userJSON = await AsyncStorage.getItem('user');
-        let user = JSON.parse(userJSON);
-        dispatch(GetDssByIDAction({data:user}))
-        const response = await axios.get(
-          'https://im-quirky.com/api/dss/D307',
-        );
-        if(response.status === 200 && response.data?.length===0){
-          setError("No summaries found for today");
-        }else{
-          setData(response.data); // Update state with the response
-        }
-      } catch (err) {
-        setError(err.message); // Handle error
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-  //Adding commit to merge
+    if (authReducer?.currentUser?.data?.user?.dist_id) {
+      dispatch(
+        GetDssByIDAction({data: authReducer?.currentUser?.data?.user?.dist_id}),
+      );
+    }
+  }, [authReducer?.currentUser?.data?.user?.dist_id]);
 
   const orderDataitem = (item, index, navigation) => {
     return (
@@ -59,22 +36,16 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-                <View>
-                  {/* <Image
-                    style={Style.yourorderdata}
-                    resizeMode="cover"
-                    source={images.Docter_tablet_imag}
-                  /> */}
-                </View>
+                <View></View>
                 <View style={SummaryStyle.priceflextext}>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     disabled={item?.dss_status === 1}
                     onPress={() => {
-                      navigation.navigate(RouteName.SUMMARY_INVOICE,{ id: item.dist_id })
-                    }
-                      
-                    }>
+                      navigation.navigate(RouteName.SUMMARY_INVOICE, {
+                        id: item.dist_id,
+                      });
+                    }}>
                     <View style={SummaryStyle.setwidth70}>
                       <Text style={SummaryStyle.vadapavtextstyeleset}>
                         {item.delman_name}
@@ -103,7 +74,9 @@ const Summary = props => {
             </View>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Status</Text>
-              <Text style={SummaryStyle.blacktitle}>{item.dss_status === 0 ? "In Progress" : "Completed"}</Text>
+              <Text style={SummaryStyle.blacktitle}>
+                {item.dss_status === 0 ? 'In Progress' : 'Completed'}
+              </Text>
             </View>
           </View>
         </View>
@@ -124,20 +97,22 @@ const Summary = props => {
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
-             
-                {loading && <Text>Loading...</Text>}
-                {error && <View style={{
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 600 // or use flexGrow: 1 in contentContainerStyle
-  }}>
-                <Icon name="file-search" size={100} color={'#D7D6D6'} /> 
-                <Text>{error}</Text>
-                </View>}
-                {data && (
+                {dssReducer?.getDssByIdLoading && <Text>Loading...</Text>}
+                {dssReducer?.getDssByIdError && (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 600, // or use flexGrow: 1 in contentContainerStyle
+                    }}>
+                    <Icon name="file-search" size={100} color={'#D7D6D6'} />
+                    <Text>{dssReducer?.getDssByIdError}</Text>
+                  </View>
+                )}
+                {dssReducer?.getDssById && (
                   <FlatList
-                    data={data}
+                    data={dssReducer?.getDssById}
                     renderItem={({item, index}) =>
                       orderDataitem(item, index, navigation)
                     }

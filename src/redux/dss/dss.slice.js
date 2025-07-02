@@ -6,6 +6,11 @@ const initialState = {
   getDssByIdSuccess: false,
   getDssByIdLoading: false,
   getDssById: null,
+
+  getSaleSummaryDetailsError: false,
+  getSaleSummaryDetailsSuccess: false,
+  getSaleSummaryDetailsLoading: false,
+  getSaleSummaryDetails: null,
 };
 
 export const GetDssByIDAction = createAsyncThunk(
@@ -13,7 +18,7 @@ export const GetDssByIDAction = createAsyncThunk(
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await dssService.getDssById(data);
-      if (response.status === 201) {
+      if (response.status === 200) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
         }
@@ -31,7 +36,29 @@ export const GetDssByIDAction = createAsyncThunk(
     }
   },
 );
-
+export const GetSaleSummaryDetailsAction = createAsyncThunk(
+  'dssDetails/id',
+  async ({data, moveToNext}, thunkAPI) => {
+    try {
+      const response = await dssService.getSaleSummaryDetails(data);
+      if (response.status === 200) {
+        if (moveToNext) {
+          moveToNext(response?.data?.message, 'success');
+        }
+      }
+      return response;
+    } catch (error) {
+      moveToNext(error?.message, 'error');
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
 
 export const dssSlice = createSlice({
   name: 'dssReducer',
@@ -59,10 +86,27 @@ export const dssSlice = createSlice({
         state.getDssByIdError = true;
         state.getDssById = null;
       })
-      ;
+      .addCase(GetSaleSummaryDetailsAction.pending, state => {
+        if (!state.getSaleSummaryDetailsLoading) {
+          state.getSaleSummaryDetailsLoading = true;
+          state.getSaleSummaryDetailsSuccess = false;
+          state.getSaleSummaryDetailsError = false;
+          state.getSaleSummaryDetails = null;
+        }
+      })
+      .addCase(GetSaleSummaryDetailsAction.fulfilled, (state, action) => {
+        state.getSaleSummaryDetailsLoading = false;
+        state.getSaleSummaryDetailsSuccess = true;
+        state.getSaleSummaryDetailsError = false;
+        state.getSaleSummaryDetails = action.payload.data;
+      })
+      .addCase(GetSaleSummaryDetailsAction.rejected, (state, action) => {
+        state.getSaleSummaryDetailsLoading = false;
+        state.getSaleSummaryDetailsSuccess = false;
+        state.getSaleSummaryDetailsError = true;
+        state.getSaleSummaryDetails = null;
+      });
   },
 });
-
-
 
 export default dssSlice.reducer;

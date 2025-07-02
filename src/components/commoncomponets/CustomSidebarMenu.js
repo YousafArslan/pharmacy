@@ -76,8 +76,8 @@ const CustomSidebarMenu = props => {
           />
           <Text style={Styles.hometextstyle}>Sale Summaries</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.flexrowset} onPress={() => {}}>
-          {/* onPress={() => Onpressfunction(RouteName.OFFERS_TAB)}> */}
+        <TouchableOpacity style={Styles.flexrowset} 
+        onPress={() => Onpressfunction(RouteName.IMPORT_DATA)}>
           <IconH
             name="export2"
             style={Styles.setwidth}
@@ -87,7 +87,7 @@ const CustomSidebarMenu = props => {
           <Text style={Styles.hometextstyle}>Import Data</Text>
         </TouchableOpacity>
         <TouchableOpacity style={Styles.flexrowset} onPress={() => {}}>
-          {/* onPress={() => Onpressfunction(RouteName.OFFERS_TAB)}>*/}
+          {/* onPress={() => Onpressfunction(RouteName.IMPORT_DATA)}>*/}
           <IconH
             name="export"
             style={Styles.setwidth}

@@ -21,15 +21,6 @@ const ChequeDetailScreen = ({navigation}) => {
   console.log("reducer",reducer)
   const [chequeDate, setChequeDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
-  // useEffect(() => {
-  //   // Retrieve and store params when they change
-  //   if (route.params) {
-  //     console.log(route.params.id);
-  //   }
-
-  //   // Ensure params persist
-  //   navigation.setParams({ item: route.params?.item });
-  // }, [route.params,navigation]);
   const handleClose = () => {
     setIsVisible(false);
   };
