@@ -28,12 +28,15 @@ const SaleSummaryDetails = ({navigation}) => {
   }, [route.params?.id]);
 
   const saleSummaryDetails = (item, index) => {
-    console.log('item', item);
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(RouteName.CHEQUE_DETAILS)}
-        // disabled={item?.is_delivered}
-      >
+        onPress={() =>
+          navigation.navigate(RouteName.CHEQUE_DETAILS, {
+            item: item,
+          })
+        }
+        disabled={Boolean(item?.is_delivered)}
+        >
         <View style={YourOrderScreenStyle.yoreorderstylebox}>
           <View style={YourOrderScreenStyle.borderbottomview}>
             <View style={YourOrderScreenStyle.flexminviewset}>
@@ -53,18 +56,18 @@ const SaleSummaryDetails = ({navigation}) => {
                         item: item,
                       })
                     }
-                    disabled={item?.is_delivered}>
+                    disabled={Boolean(item?.is_delivered)}>
                     <Text
                       style={[
                         YourOrderScreenStyle.vadapavtextstyeleset,
-                        {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                        {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                       ]}>
                       {item.cust_name}
                     </Text>
                     <Text
                       style={[
                         YourOrderScreenStyle.addreshrtext,
-                        {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                        {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                       ]}>
                       {item.dist_id}
                     </Text>
@@ -78,14 +81,14 @@ const SaleSummaryDetails = ({navigation}) => {
               <Text
                 style={[
                   YourOrderScreenStyle.setitemstext,
-                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                 ]}>
                 Invoice ID
               </Text>
               <Text
                 style={[
                   YourOrderScreenStyle.blacktitle,
-                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                 ]}>
                 {item.inv_id}
               </Text>
@@ -94,14 +97,14 @@ const SaleSummaryDetails = ({navigation}) => {
               <Text
                 style={[
                   YourOrderScreenStyle.setitemstext,
-                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                 ]}>
                 Amount
               </Text>
               <Text
                 style={[
                   YourOrderScreenStyle.blacktitle,
-                  {color: item?.is_delivered ? 'black' : 'grey'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
                 ]}>
                 {item.inv_value}
               </Text>

@@ -131,7 +131,7 @@ export default StyleSheet.create({
     fontFamily: Fonts.Metropolis_Medium,
   },
   setwidth70: {
-    width: '70%',
+    width: '90%',
   },
   rejectedtextstyle: {
     fontSize: 17,

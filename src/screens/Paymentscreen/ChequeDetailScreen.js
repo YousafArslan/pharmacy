@@ -88,14 +88,14 @@ const ChequeDetailScreen = ({navigation}) => {
               <View style={YourOrderScreenStyle.priceflexSaleSummarytext}>
                 <View style={YourOrderScreenStyle.setwidth70}>
                   <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>
-                    {yourorderdata[0].vadapavtext}
+                    {route?.params?.item?.cust_name}
                   </Text>
-                  <Text style={YourOrderScreenStyle.addreshrtext}>
-                    {yourorderdata[0].sitytext}
+                 <Text style={YourOrderScreenStyle.addreshrtext}>
+                    {route?.params?.item?.dist_id}
                   </Text>
-                  <Text style={YourOrderScreenStyle.addreshrtext}>
+                 {/*   <Text style={YourOrderScreenStyle.addreshrtext}>
                     Invoice # {yourorderdata[0].invoicenumber}
-                  </Text>
+                  </Text> */}
                 </View>
               </View>
               <TouchableOpacity
