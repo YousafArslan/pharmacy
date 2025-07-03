@@ -11,9 +11,21 @@ const getSaleSummaryDetails = async id => {
   return data;
 };
 
+const getOfflineData = async id => {
+  const data = await axiosInstance.get(`${baseUrl}offline/${id}`);
+  debugger
+  if (data?.status === 200) {
+    await AsyncStorage.setItem("offlineData", JSON.stringify(data.data));
+  } else {
+    throw data.message;
+  }
+  return data;
+};
+
 const dssService = {
   getDssById,
-  getSaleSummaryDetails
+  getSaleSummaryDetails,
+  getOfflineData
 };
 
 export default dssService;

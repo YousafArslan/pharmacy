@@ -11,6 +11,11 @@ const initialState = {
   getSaleSummaryDetailsSuccess: false,
   getSaleSummaryDetailsLoading: false,
   getSaleSummaryDetails: null,
+  
+  getOfflineDataError: false,
+  getOfflineDataSuccess: false,
+  getOfflineDataLoading: false,
+  getOfflineData: null,
 };
 
 export const GetDssByIDAction = createAsyncThunk(
@@ -36,11 +41,37 @@ export const GetDssByIDAction = createAsyncThunk(
     }
   },
 );
+
 export const GetSaleSummaryDetailsAction = createAsyncThunk(
   'dssDetails/id',
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await dssService.getSaleSummaryDetails(data);
+      if (response.status === 200) {
+        if (moveToNext) {
+          moveToNext(response?.data?.message, 'success');
+        }
+      }
+      return response;
+    } catch (error) {
+      moveToNext(error?.message, 'error');
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+
+export const GetOfflineDataAction = createAsyncThunk(
+  'offline/id',
+  async ({data, moveToNext}, thunkAPI) => {
+    try {
+      const response = await dssService.getOfflineData(data);
       if (response.status === 200) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
@@ -105,7 +136,28 @@ export const dssSlice = createSlice({
         state.getSaleSummaryDetailsSuccess = false;
         state.getSaleSummaryDetailsError = true;
         state.getSaleSummaryDetails = null;
-      });
+      })
+      .addCase(GetOfflineDataAction.pending, state => {
+        if (!state.getOfflineDataLoading) {
+          state.getOfflineDataLoading = true;
+          state.getOfflineDataSuccess = false;
+          state.getOfflineDataError = false;
+          state.getOfflineData = null;
+        }
+      })
+      .addCase(GetOfflineDataAction.fulfilled, (state, action) => {
+        state.getOfflineDataLoading = false;
+        state.getOfflineDataSuccess = true;
+        state.getOfflineDataError = false;
+        state.getOfflineData = action.payload.data;
+      })
+      .addCase(GetOfflineDataAction.rejected, (state, action) => {
+        state.getOfflineDataLoading = false;
+        state.getOfflineDataSuccess = false;
+        state.getOfflineDataError = true;
+        state.getOfflineData = null;
+      })
+      ;
   },
 });
 
