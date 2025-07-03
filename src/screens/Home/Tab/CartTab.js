@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import images from '../../../images';
 import apiBaseUrl from '../../../utils/api';
 import axios from 'axios';
+import {useToast} from 'react-native-toast-notifications';
 
 const CartTab = ({route}) => {
   const {doctoreDetaile} = useSelector(state => state.doctorDataReducer) || {
@@ -25,6 +26,7 @@ const CartTab = ({route}) => {
   const [invoiceItems, setInvoiceItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState([]);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   let PriceSymbol = '$';
 
@@ -178,7 +180,13 @@ const CartTab = ({route}) => {
               title="Submit"
               buttonTextStyle={CartTabStyle.textstylepayment}
               buttonStyle={{backgroundColor: colorrdata}}
-              onPress={() => console.log('Submitted')}
+              onPress={() =>
+                toast.show('Summary has been submitted', {
+                  type: 'success',
+                  placement: 'center',
+                  style: {backgroundColor: colorrdata},
+                })
+              }
             />
           </View>
         </View>

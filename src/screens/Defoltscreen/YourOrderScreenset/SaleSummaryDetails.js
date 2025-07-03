@@ -20,6 +20,7 @@ const SaleSummaryDetails = ({navigation}) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const dssReducer = useSelector(state => state.dss);
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
 
   useEffect(() => {
     if (route.params?.id) {
@@ -35,8 +36,7 @@ const SaleSummaryDetails = ({navigation}) => {
             item: item,
           })
         }
-        disabled={Boolean(item?.is_delivered)}
-        >
+        disabled={Boolean(item?.is_delivered)}>
         <View style={YourOrderScreenStyle.yoreorderstylebox}>
           <View style={YourOrderScreenStyle.borderbottomview}>
             <View style={YourOrderScreenStyle.flexminviewset}>
@@ -152,6 +152,18 @@ const SaleSummaryDetails = ({navigation}) => {
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
+      <View style={YourOrderScreenStyle.openReturnButtonContainer}>
+        <TouchableOpacity
+          style={[
+            YourOrderScreenStyle.openReturnButton,
+            {backgroundColor: colorrdata},
+          ]}
+          onPress={() => navigation.navigate(RouteName.CART_TAB)}>
+          <Text style={YourOrderScreenStyle.openReturnButtonText}>
+            Open Return
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

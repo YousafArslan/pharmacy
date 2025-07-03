@@ -129,15 +129,9 @@ const RootNavigator = props => {
         <Stack.Screen
           name={RouteName.CART_TAB}
           options={{
-            headerShadowVisible: false,
-            title: 'OPEN RETURNS',
+            title: 'Sale Returns',
+            headerShown: true,
             headerTintColor: colorrdata,
-            headerTitleStyle: {
-              color: colorrdata,
-              fontFamily: Fonts.Metropolis_Medium,
-              fontSize: 17,
-              fontWeight: '700',
-            },
           }}
           component={CartTab}
         />
@@ -300,29 +294,41 @@ const RootNavigator = props => {
           component={PaytmSuccessFully}
         />
 
-        <Stack.Screen name={RouteName.RATING_SCREEN_SET} options={{ headerShown: false }} component={RatingScreen} />
-        <Stack.Screen name={RouteName.OFFERS_TAB} options={{
-          headerShadowVisible: false,
-          title: 'Offers',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontFamily: Fonts.Metropolis_Medium,
-            fontSize: 17,
-            fontWeight: '700',
-          },
-        }} component={OffersTab} />
-        <Stack.Screen name={RouteName.IMPORT_DATA} options={{
-          headerShadowVisible: false,
-          title: 'Import Data',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontFamily: Fonts.Metropolis_Medium,
-            fontSize: 17,
-            fontWeight: '700',
-          },
-        }} component={ImportData} />
+        <Stack.Screen
+          name={RouteName.RATING_SCREEN_SET}
+          options={{headerShown: false}}
+          component={RatingScreen}
+        />
+        <Stack.Screen
+          name={RouteName.OFFERS_TAB}
+          options={{
+            headerShadowVisible: false,
+            title: 'Offers',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontFamily: Fonts.Metropolis_Medium,
+              fontSize: 17,
+              fontWeight: '700',
+            },
+          }}
+          component={OffersTab}
+        />
+        <Stack.Screen
+          name={RouteName.IMPORT_DATA}
+          options={{
+            headerShadowVisible: false,
+            title: 'Import Data',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontFamily: Fonts.Metropolis_Medium,
+              fontSize: 17,
+              fontWeight: '700',
+            },
+          }}
+          component={ImportData}
+        />
 
         <Stack.Screen
           name={RouteName.EDIT_LOCATION_SCREEN}

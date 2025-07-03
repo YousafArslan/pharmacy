@@ -259,9 +259,8 @@ const CustomSidebarMenu = props => {
           <TouchableOpacity
             style={Styles.flexrowset}
             onPress={() => {
-              debugger
               navigation.replace(RouteName.LOGIN_AND_REGISTRATION);
-              dispatch(logout())
+              dispatch(logout());
             }}>
             <IconE
               name="log-out"

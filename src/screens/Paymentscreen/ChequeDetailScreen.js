@@ -90,10 +90,10 @@ const ChequeDetailScreen = ({navigation}) => {
                   <Text style={YourOrderScreenStyle.vadapavtextstyeleset}>
                     {route?.params?.item?.cust_name}
                   </Text>
-                 <Text style={YourOrderScreenStyle.addreshrtext}>
+                  <Text style={YourOrderScreenStyle.addreshrtext}>
                     {route?.params?.item?.dist_id}
                   </Text>
-                 {/*   <Text style={YourOrderScreenStyle.addreshrtext}>
+                  {/*   <Text style={YourOrderScreenStyle.addreshrtext}>
                     Invoice # {yourorderdata[0].invoicenumber}
                   </Text> */}
                 </View>
@@ -201,7 +201,7 @@ const ChequeDetailScreen = ({navigation}) => {
           ]}
           onPress={() => navigation.navigate(RouteName.CART_TAB)}>
           <Text style={YourOrderScreenStyle.openReturnButtonText}>
-            Open Return
+            Sale Return
           </Text>
         </TouchableOpacity>
       </View>
