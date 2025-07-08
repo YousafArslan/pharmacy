@@ -38,12 +38,12 @@ export const LoginAction = createAsyncThunk(
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await authService.login(data);
-      if (
-        response.status === 200) {
+      if (response.status === 200) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
         }
-      } 
+      }
+
       return response;
     } catch (error) {
       moveToNext(error?.message, 'error');

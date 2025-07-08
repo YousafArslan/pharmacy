@@ -49,7 +49,7 @@ const register = async (req) => {
 };
 
 const logout = () => {
-  localStorage.removeItem("glare_ecom");
+  localStorage.removeItem('user');
 };
 
 const authService = {

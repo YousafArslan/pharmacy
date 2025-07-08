@@ -3,6 +3,7 @@ import {axiosInstance} from '../orders/orders.service';
 
 const getDssById = async id => {
   const data = await axiosInstance.get(`${baseUrl}dss/${id}`);
+
   return data;
 };
 

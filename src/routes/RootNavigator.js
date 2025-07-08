@@ -37,6 +37,7 @@ import DrawerHelpScreen from '../screens/Defoltscreen/HelpScreenSet/DrawerHelpSc
 import { RouteName, TabNavigator } from '../routes';
 import { useSelector } from "react-redux";
 import ImportData from '../screens/Home/Tab/ImportData';
+import OpenReturn from '../screens/OpenReturn/OpenReturn';
 const Stack = createStackNavigator();
 const RootNavigator = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -134,6 +135,15 @@ const RootNavigator = props => {
             headerTintColor: colorrdata,
           }}
           component={CartTab}
+        />
+        <Stack.Screen
+          name={RouteName.OPEN_RETURN}
+          options={{
+            title: 'Open Returns',
+            headerShown: true,
+            headerTintColor: colorrdata,
+          }}
+          component={OpenReturn}
         />
 
         <Stack.Screen

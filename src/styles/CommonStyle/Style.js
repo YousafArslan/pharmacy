@@ -52,7 +52,6 @@ export default StyleSheet.create({
     color: ColorTheme.InputTextColor,
     paddingRight: 30,
     fontSize: 16,
-    fontWeight: '600',
     fontFamily: Fonts.Metropolis_Medium,
     width: '100%',
   },

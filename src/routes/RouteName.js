@@ -13,6 +13,7 @@ const RouteName = {
   OFFERS_TAB: 'OffersTab',
   IMPORT_DATA: 'ImportData',
   CART_TAB: 'Sale Returns',
+  OPEN_RETURN: 'Open Returns',
   CHECK_OUT: 'CheckOutScreen',
   ACCOUNT_TAB_SET: 'Profile',
   HOME_TAB: 'Home',
