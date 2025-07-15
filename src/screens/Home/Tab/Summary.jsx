@@ -14,12 +14,24 @@ import {YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
+import NetInfo from '@react-native-community/netinfo';
+import { setConnectionStatus, setLoading, setError } from '../../../redux/network/network.slice'; // Import actions
+
+
 
 const Summary = props => {
   const {navigation} = props;
   const dispatch = useDispatch();
   const authReducer = useSelector(state => state.auth);
   const dssReducer = useSelector(state => state.dss);
+  const isConnected = useSelector(state => state.network.isConnected);
+  const isLoading = useSelector(state => state?.network?.isLoading);
+  const isError = useSelector(state => state?.network?.isError);
+  console.log("isConnected",isConnected);
+  // console.log("isLoading",isLoading);
+  // console.log("isError",isError);
+
+
   useEffect(() => {
     if (authReducer?.currentUser?.user?.dist_id) {
       dispatch(
@@ -27,6 +39,21 @@ const Summary = props => {
       );
     }
   }, [authReducer?.currentUser]);
+
+  useEffect(() => {
+    // Dispatch setLoading to indicate we are checking network status
+    dispatch(setLoading(true));
+    const unsubscribe = NetInfo.addEventListener(state => {
+      console.log("state",state)
+      dispatch(setConnectionStatus(state.isInternetReachable)); // Dispatch the connection status
+      dispatch(setLoading(false)); // Set loading to false when status is received
+    });
+
+    // Clean up the listener when the component unmounts
+    // return () => {
+    //   unsubscribe();
+    // };
+  }, [dispatch]);
 
   const orderDataitem = (item, index, navigation) => {
     return (
@@ -85,6 +112,7 @@ const Summary = props => {
   return (
     <View
       style={[SummaryStyle.minstyleviewphotograpgy, SummaryStyle.bgcolorset]}>
+
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <ScrollView
         keyboardShouldPersistTaps="handled"

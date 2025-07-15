@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl } from '../../../config';
 import {axiosInstance} from '../orders/orders.service';
 
@@ -13,7 +14,6 @@ const getSaleSummaryDetails = async id => {
 
 const getOfflineData = async id => {
   const data = await axiosInstance.get(`${baseUrl}offline/${id}`);
-  debugger
   if (data?.status === 200) {
     await AsyncStorage.setItem("offlineData", JSON.stringify(data.data));
   } else {
