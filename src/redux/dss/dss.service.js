@@ -7,8 +7,8 @@ const getDssById = async id => {
   return data;
 };
 
-const getSaleSummaryDetails = async id => {
-  const data = await axiosInstance.get(`${baseUrl}dssDetail/${id}`);
+const getSaleSummaryDetails = async (payload) => {
+  const data = await axiosInstance.get(`${baseUrl}dssDetail/${payload.dist_id}/${payload.id}`);
   return data;
 };
 

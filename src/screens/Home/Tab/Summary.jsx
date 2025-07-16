@@ -69,7 +69,8 @@ const Summary = props => {
                     disabled={item?.dss_status === 1}
                     onPress={() => {
                       navigation.navigate(RouteName.SUMMARY_INVOICE, {
-                        id: item.dist_id,
+                        dist_id: item.dist_id,
+                        id: item.id,
                       });
                     }}>
                     <View style={SummaryStyle.setwidth70}>
