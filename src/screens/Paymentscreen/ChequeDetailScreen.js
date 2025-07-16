@@ -25,11 +25,13 @@ const ChequeDetailScreen = ({navigation}) => {
   const [cheques, setCheques] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log("route",route);
+  
 
   const fetchCheques = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${apiBaseUrl}/cheques`);
+      const res = await axios.get(`${apiBaseUrl}/cheques/${route.params.item.dist_id}/${route.params.item.id}`);
       setCheques(res.data);
     } catch (err) {
       setError('Failed to fetch cheques');

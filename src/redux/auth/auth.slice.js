@@ -25,11 +25,6 @@ const initialState = {
   isEmailExistLoading: false,
   isEmailExist: null,
 
-  forgotPasswordError: false,
-  forgotPasswordSuccess: false,
-  forgotPasswordLoading: false,
-  forgotPassword: '',
-
   isLoggedIn: false,
 };
 
@@ -46,6 +41,7 @@ export const LoginAction = createAsyncThunk(
 
       return response;
     } catch (error) {
+      console.log("error",error)
       moveToNext(error?.message, 'error');
       const message =
         (error.response &&
@@ -65,33 +61,6 @@ export const CheckEmail = createAsyncThunk(
       const response = await authService.checkEmail(data);
 
       if (response.status === 200) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      } else {
-        moveToNext(response?.data?.message, 'error');
-      }
-      return response;
-    } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  },
-);
-
-export const ResetPassword = createAsyncThunk(
-  'auth/resetPassword',
-  async ({data, moveToNext}, thunkAPI) => {
-    try {
-      const response = await authService.resetPassword(data);
-
-      if (response.data.succeeded) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
         }
@@ -186,21 +155,6 @@ export const authSlice = createSlice({
         state.isEmailExist = action.payload;
         state.isEmailExistLoading = false;
         state.isEmailExistError = true;
-      })
-      .addCase(ResetPassword.pending, state => {
-        state.forgotPasswordLoading = true;
-        state.forgotPassword = '';
-      })
-      .addCase(ResetPassword.fulfilled, (state, action) => {
-        state.forgotPasswordSuccess = true;
-        state.forgotPasswordLoading = false;
-        state.isEmailExistSuccess = false;
-        state.forgotPassword = action.payload;
-      })
-      .addCase(ResetPassword.rejected, (state, action) => {
-        state.forgotPassword = action.payload;
-        state.forgotPasswordLoading = false;
-        state.forgotPasswordError = true;
       })
       .addCase(logout.fulfilled, state => {
         state.currentUser = null;

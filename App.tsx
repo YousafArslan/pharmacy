@@ -24,6 +24,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import NetworkStatus from './NetworkStatus';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -61,9 +62,12 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  
+
 
   return (
     <SafeAreaView style={backgroundStyle}>
+        <NetworkStatus /> 
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}

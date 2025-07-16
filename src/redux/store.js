@@ -9,6 +9,7 @@ import oilStocksReducer from './oilStocks/oilStocks.slice';
 import expensesReducer from './expenses/expenses.slice';
 import chequesReducer from './cheques/cheques.slice';
 import dssReducer from './dss/dss.slice';
+import networkReducer from './network/network.slice';
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     oilStocks :oilStocksReducer,
     expense :expensesReducer,
     cheques: chequesReducer,
-    dss: dssReducer
+    dss: dssReducer,
+    network:networkReducer,
   },
 });

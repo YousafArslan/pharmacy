@@ -3,10 +3,23 @@ import {View, Text} from 'react-native';
 import {OffersTabStyle} from '../../../styles';
 import Style from '../../../styles/CommonStyle/SweetaelertModalStyle';
 import {Button} from '../../../components';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetOfflineDataAction } from '../../../redux/dss/dss.slice';
+import { useToast } from 'react-native-toast-notifications';
 
 const ImportData = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
+  const authReducer = useSelector(state=> state.auth)
+  // const dssReducer = useSelector(state=> state.dss)
+  const toast = useToast();
+
+  const handleOfflineData = () => {
+    startLoading()
+    dispatch(GetOfflineDataAction({data:authReducer?.currentUser?.user?.dist_id}))
+  }
+
 
   const startLoading = () => {
     setLoading(true);
@@ -19,10 +32,17 @@ const ImportData = () => {
         clearInterval(interval);
         setTimeout(() => {
           setLoading(false);
-          alert('Data Successfully Imported');
-        }, 500);
+          toast.show('Data Successfully Imported', {
+            type: "success",
+            placement: 'top',
+            duration: 1000,
+            offset: 10,
+            animationType: 'slide-in',
+          });
+          // alert('Data Successfully Imported');
+        }, 2);
       }
-    }, 20); // 2 seconds total
+    }, 2); // 2 seconds total
   };
 
   return (
@@ -40,7 +60,7 @@ const ImportData = () => {
             title="Import Data"
             buttonTextStyle={Style.setbuttontextstyle}
             buttonStyle={Style.setbuttonstyletwo}
-            onPress={startLoading}
+            onPress={handleOfflineData}
           />
         )}
         {loading && (

@@ -1,9 +1,10 @@
 import { baseUrl } from "../../../config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { axiosInstance } from "../orders/orders.service";
+import axios from "axios";
 
 const login = async (req) => {
-  const data = await axiosInstance.post(`${baseUrl}users/login`, req);
+  const data = await axios.post(`${baseUrl}users/login`, req);
   if (data?.status === 200) {
     await AsyncStorage.setItem("user", JSON.stringify(data.data));
   } else {
@@ -24,19 +25,6 @@ const checkEmail = async req => {
   return data;
 };
 
-const resetPassword = async req => {
-  // const data = await api.post("/Login/login", req);
-  // const data = await axios.post(`${baseUrl}/Login/login`, req);
-  const data = await axiosInstance.post(
-    `${baseUrl}Login/UpdatePassword?Email=${req.email}&Password=${req.password}`,
-  );
-  if (data?.data?.succeeded) {
-    localStorage.setItem('glare_ecom', JSON.stringify(data?.token));
-  } else {
-    throw data.message;
-  }
-  return data;
-};
 
 const register = async (req) => {
 
@@ -57,7 +45,6 @@ const authService = {
   login,
   register,
   checkEmail,
-  resetPassword
 };
 
 export default authService;

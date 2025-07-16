@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {Login, Style} from '../../styles';
 import {useNavigation} from '@react-navigation/native';
-import images from '../../images';
 import {useTogglePasswordVisibility} from '../../utils';
 import {Button} from '../../components';
 import {RouteName} from '../../routes';
