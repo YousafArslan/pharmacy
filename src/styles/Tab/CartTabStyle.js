@@ -386,6 +386,10 @@ export default StyleSheet.create({
     paddingLeft: 20,
     width: '45%',
   },
+  amountView: {
+    paddingLeft: 20,
+    width: '45%',
+  },
   dolardtextset: {
     color: 'black',
     fontSize: 17,
@@ -418,8 +422,11 @@ export default StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
   },
   invoiceCard: {
-    marginBottom: 18,
-    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    padding: 10,
     borderRadius: 12,
     backgroundColor: '#fff',
     shadowColor: '#000',
@@ -429,5 +436,22 @@ export default StyleSheet.create({
     elevation: 3,
     borderWidth: 2,
     borderColor: '#d1d5db',
+  },
+  qtyValue: {
+    fontSize: 16,
+    minWidth: 32,
+    textAlign: 'center',
+  },
+  setinputtext: {
+    height: 48,
+    borderColor: '#d1d5db',
+    borderWidth: 2,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#fff',
+    fontSize: 16,
+    color: '#222',
+    marginBottom: 12,
+    fontFamily: Fonts.Metropolis_Medium,
   },
 });

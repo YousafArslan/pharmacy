@@ -97,21 +97,23 @@ const CartTab = ({route}) => {
                         <View
                           key={item.id || idx}
                           style={CartTabStyle.invoiceCard}>
-                          <Text style={{fontWeight: 'bold', marginBottom: 4}}>
-                            #{idx + 1}
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: 'bold',
-                              marginBottom: 4,
-                            }}>
-                            {item.item_name}
-                          </Text>
-                          <Text>Quantity: {itemQuantities[idx] || 1}</Text>
-                          <Text>Rate: {item.item_rate}</Text>
-                          <Text>Net: {item.item_net}</Text>
-                          <View style={{alignItems: 'center', width: '100%'}}>
+                          <View>
+                            <Text style={{fontWeight: 'bold', marginBottom: 4}}>
+                              #{idx + 1}
+                            </Text>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: 'bold',
+                                marginBottom: 4,
+                              }}>
+                              {item.item_name}
+                            </Text>
+                            <Text>Quantity: {itemQuantities[idx] || 1}</Text>
+                            <Text>Rate: {item.item_rate}</Text>
+                            <Text>Net: {item.item_net}</Text>
+                          </View>
+                          <View>
                             <View style={CartTabStyle.counterDiv}>
                               <TouchableOpacity
                                 onPress={() => handleDecrement(idx)}>

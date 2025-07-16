@@ -158,7 +158,7 @@ const SaleSummaryDetails = ({navigation}) => {
             YourOrderScreenStyle.openReturnButton,
             {backgroundColor: colorrdata},
           ]}
-          onPress={() => navigation.navigate(RouteName.CART_TAB)}>
+          onPress={() => navigation.navigate(RouteName.OPEN_RETURN)}>
           <Text style={YourOrderScreenStyle.openReturnButtonText}>
             Open Return
           </Text>
