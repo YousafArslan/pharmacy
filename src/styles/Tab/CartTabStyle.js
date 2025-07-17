@@ -10,12 +10,12 @@ export default StyleSheet.create({
     width: '100%',
     paddingBottom: 50,
   },
-   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+  bgcolorset: {
+    backgroundColor: ColorTheme.BGScreen,
   },
   minviewsigninscreen: {
     width: '100%',
-    height: '100%'
+    height: '100%',
     // marginHorizontal: '5%',
   },
   minflexview: {
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   checkoutboxwrap: {
-    marginTop: 10
+    marginTop: 10,
   },
   heartimagstyle: {
     height: 160,
@@ -60,14 +60,14 @@ export default StyleSheet.create({
     borderTopRightRadius: 15,
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
-    height: '100%'
+    height: '100%',
   },
   flexicondighit: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   twoflexview: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   flexsetviewwhitebox: {
     flexDirection: 'row',
@@ -107,7 +107,7 @@ export default StyleSheet.create({
   },
   flexhomeaddresh: {
     flexDirection: 'row',
-    width: '50%'
+    width: '50%',
   },
   flexhomeaddreshtwo: {
     flexDirection: 'row',
@@ -230,7 +230,7 @@ export default StyleSheet.create({
     shadowRadius: Platform.OS === 'ios' ? 2 : 50,
     elevation: Platform.OS === 'ios' ? 1 : 15,
     overflow: 'hidden',
-    borderRadius: 5
+    borderRadius: 5,
   },
   applybutton: {
     borderRadius: 100,
@@ -242,7 +242,7 @@ export default StyleSheet.create({
     height: 50,
   },
   textstyle: {
-    color: 'white'
+    color: 'white',
   },
   textstylepayment: {
     color: 'white',
@@ -278,7 +278,7 @@ export default StyleSheet.create({
     shadowRadius: Platform.OS === 'ios' ? 2 : 50,
     elevation: Platform.OS === 'ios' ? 1 : 15,
     overflow: 'hidden',
-    marginBottom: 20
+    marginBottom: 20,
   },
   inputcarttextstyle: {
     fontSize: 15,
@@ -337,7 +337,7 @@ export default StyleSheet.create({
   centerviewbutton: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '60%'
+    width: '60%',
   },
   flexdiractionrowbutton: {
     flexDirection: 'row',
@@ -384,7 +384,7 @@ export default StyleSheet.create({
   textcenyet: {
     flexDirection: 'row',
     paddingLeft: 20,
-    width: '45%'
+    width: '45%',
   },
   dolardtextset: {
     color: 'black',
@@ -398,5 +398,36 @@ export default StyleSheet.create({
   },
   setbuttonwidthview: {
     width: '50%',
+  },
+  counterDiv: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 120,
+    height: 48,
+    marginTop: 10,
+    marginBottom: 0,
+    gap: 10,
+    borderWidth: 2,
+    borderColor: '#d1d5db',
+    borderRadius: 50,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: {width: 0, height: 2},
+  },
+  invoiceCard: {
+    marginBottom: 18,
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    shadowOffset: {width: 0, height: 2},
+    elevation: 3,
+    borderWidth: 2,
+    borderColor: '#d1d5db',
   },
 });

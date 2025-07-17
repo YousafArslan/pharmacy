@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import { Text, View, TouchableOpacity, ScrollView, Modal } from "react-native";
-import IconG from 'react-native-vector-icons/Ionicons';
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity, ScrollView, Modal} from 'react-native';
 import IconE from 'react-native-vector-icons/Feather';
 import IconH from 'react-native-vector-icons/AntDesign';
 import IconK from 'react-native-vector-icons/FontAwesome5';
-import IconP from 'react-native-vector-icons/FontAwesome';
 import IconJ from 'react-native-vector-icons/Fontisto';
 import Styles from '../../styles/CommonStyle/CustomeSlidebar';
 import Style from '../../styles/CommonStyle/SweetaelertModalStyle';
@@ -14,18 +12,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button} from '../../components';
 import {RouteName} from '../../routes';
 import Dialog from './Modal';
-import { logout } from "../../redux/auth/auth.slice";
+import {logout} from '../../redux/auth/auth.slice';
 
 const CustomSidebarMenu = props => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const [isVisible, setIsVisible] = useState(false);
-  const dispatch = useDispatch()
+  const [modalVisiblefour, setModalVisiblefour] = useState(false);
+  const dispatch = useDispatch();
   const handleClose = () => {
     setIsVisible(false);
   };
 
   const handleConfirm = () => {
     // Handle confirm action
+    dispatch(logout());
     navigation.navigate(RouteName.LOGIN_AND_REGISTRATION);
 
     setIsVisible(false);
@@ -43,17 +43,6 @@ const CustomSidebarMenu = props => {
   return (
     <ScrollView>
       <View style={Styles.customslidebarmenu}>
-        {/* <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.HOME_TAB)}>
-          <IconE
-            name="home"
-            style={Styles.setwidth}
-            size={23}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Home</Text>
-        </TouchableOpacity> */}
         <TouchableOpacity
           style={Styles.flexrowset}
           onPress={() => Onpressfunction(RouteName.ACCOUNT_TAB_SET)}>
@@ -76,8 +65,9 @@ const CustomSidebarMenu = props => {
           />
           <Text style={Styles.hometextstyle}>Sale Summaries</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.flexrowset} 
-        onPress={() => Onpressfunction(RouteName.IMPORT_DATA)}>
+        <TouchableOpacity
+          style={Styles.flexrowset}
+          onPress={() => Onpressfunction(RouteName.IMPORT_DATA)}>
           <IconH
             name="export2"
             style={Styles.setwidth}
@@ -149,119 +139,12 @@ const CustomSidebarMenu = props => {
           />
           <Text style={Styles.hometextstyle}>Customers</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={Styles.flexrowset} onPress={
-          () => Onpressfunction(RouteName.OFFERS_TAB)
-        }>
-          <IconO name="local-offer" style={Styles.setwidth} color={colorrdata} size={23} />
-          <Text style={Styles.hometextstyle}>Offers</Text>
-        </TouchableOpacity> 
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.CART_TAB)}>
-          <IconH
-            name="shoppingcart"
-            style={Styles.setwidth}
-            color={colorrdata}
-            size={23}
-          />
-          <Text style={Styles.hometextstyle}>Cart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.ACCOUNT_TAB_SET)}>
-          <IconE
-            name="user"
-            size={23}
-            style={Styles.setwidth}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Account</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.EDIT_LOCATION_SCREEN)}>
-          <IconP
-            name="map-marker"
-            size={23}
-            style={Styles.setwidth}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Saved Addresses</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.YOUR_ORDER_SCREEN)}>
-          <IconG
-            name="refresh"
-            size={23}
-            style={Styles.setwidth}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>My Orders</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.ORDER_TAB_SCREEN)}>
-          <IconO
-            name="track-changes"
-            size={23}
-            style={Styles.setwidth}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Track Order</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.NOTIFICATION_SCREEN)}>
-          <IconG
-            name="notifications-outline"
-            style={Styles.setwidth}
-            size={23}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Notification</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.SETTTING_SCREEN)}>
-          <IconH
-            name="setting"
-            style={Styles.setwidth}
-            size={23}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Setting</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.YOUR_CHAT)}>
-          <IconG
-            name="chatbox-ellipses-outline"
-            style={Styles.setwidth}
-            size={23}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Chat</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.flexrowset}
-          onPress={() => Onpressfunction(RouteName.DRAWER_HELP_SCREEN)}>
-          <IconK
-            name="hands-helping"
-            size={23}
-            style={Styles.setwidth}
-            color={colorrdata}
-          />
-          <Text style={Styles.hometextstyle}>Help</Text>
-        </TouchableOpacity> */}
 
         <View style={Styles.settingandlogout}>
           <TouchableOpacity
             style={Styles.flexrowset}
             onPress={() => {
-              debugger
-              navigation.replace(RouteName.LOGIN_AND_REGISTRATION);
-              dispatch(logout())
+              setIsVisible(true);
             }}>
             <IconE
               name="log-out"
@@ -286,7 +169,7 @@ const CustomSidebarMenu = props => {
           colorrdata="#000"
         />
       </View>
-      {/* <View style={Styles.modalcontainerwrap}>
+      <View style={Styles.modalcontainerwrap}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -336,7 +219,7 @@ const CustomSidebarMenu = props => {
             </View>
           </View>
         </Modal>
-      </View> */}
+      </View>
     </ScrollView>
   );
 };

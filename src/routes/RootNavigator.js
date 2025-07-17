@@ -3,37 +3,91 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Fonts } from '../utils';
 import {
-  LoginandRegistrationScreen, WelcomePhrmacy, LocationHomeOfficeScreen, ConformLocation, PopularMedicine
-  , HospitalsSMedicinecreen, ProductItemList, ProductDetailesScreen, PaymentScreen, AllBookMarkScreen,
-  ChequeDetailScreen, PaytmSuccessFully, RatingScreen, EditLocationScreen, EditProfileScreen, SplashScreen, GetstartedSliderscreen, DrawerChatScreen, DrawerNavigationNotification, DrawerSettingsScreen, DrawerTrackOrder, DrawerNavigationYourOrderScreen, OtpVeryfyScreen, AddOrderitemScreen, CheckOutScreen, ForgotPassword, OffersTab,
-  SaleSummaryDetails
+  LoginandRegistrationScreen,
+  WelcomePhrmacy,
+  LocationHomeOfficeScreen,
+  ConformLocation,
+  PopularMedicine,
+  HospitalsSMedicinecreen,
+  ProductItemList,
+  ProductDetailesScreen,
+  PaymentScreen,
+  AllBookMarkScreen,
+  ChequeDetailScreen,
+  PaytmSuccessFully,
+  RatingScreen,
+  EditLocationScreen,
+  EditProfileScreen,
+  SplashScreen,
+  GetstartedSliderscreen,
+  DrawerChatScreen,
+  DrawerNavigationNotification,
+  DrawerSettingsScreen,
+  DrawerTrackOrder,
+  DrawerNavigationYourOrderScreen,
+  OtpVeryfyScreen,
+  AddOrderitemScreen,
+  CheckOutScreen,
+  ForgotPassword,
+  OffersTab,
+  SaleSummaryDetails,
+  CartTab,
 } from '../screens';
 import DrawerHelpScreen from '../screens/Defoltscreen/HelpScreenSet/DrawerHelpScreen';
 import { RouteName, TabNavigator } from '../routes';
 import { useSelector } from "react-redux";
 import ImportData from '../screens/Home/Tab/ImportData';
 const Stack = createStackNavigator();
-const RootNavigator = (props) => {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+const RootNavigator = props => {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name={RouteName.SPLASH_SCREEN} component={SplashScreen} options={{ headerShown: false }} />
+        <Stack.Screen
+          name={RouteName.SPLASH_SCREEN}
+          component={SplashScreen}
+          options={{headerShown: false}}
+        />
 
-        <Stack.Screen name={RouteName.GET_STARTED_SCREEN} component={GetstartedSliderscreen} options={{ headerShown: false }} />
+        <Stack.Screen
+          name={RouteName.GET_STARTED_SCREEN}
+          component={GetstartedSliderscreen}
+          options={{headerShown: false}}
+        />
 
-        <Stack.Screen name={RouteName.LOGIN_AND_REGISTRATION} options={{ headerShown: false }} component={LoginandRegistrationScreen} />
+        <Stack.Screen
+          name={RouteName.LOGIN_AND_REGISTRATION}
+          options={{headerShown: false}}
+          component={LoginandRegistrationScreen}
+        />
 
-        <Stack.Screen name={RouteName.WELCOME_SUMANYA} options={{ headerShown: false }} component={WelcomePhrmacy} />
+        <Stack.Screen
+          name={RouteName.WELCOME_SUMANYA}
+          options={{headerShown: false}}
+          component={WelcomePhrmacy}
+        />
 
-        <Stack.Screen name={RouteName.LOCATION_HOME_OFFICE_SCREEN} options={{ headerShown: false }} component={LocationHomeOfficeScreen} />
+        <Stack.Screen
+          name={RouteName.LOCATION_HOME_OFFICE_SCREEN}
+          options={{headerShown: false}}
+          component={LocationHomeOfficeScreen}
+        />
 
-        <Stack.Screen name={RouteName.CONFORMLOCATION_SET} options={{ headerShown: false }} component={ConformLocation} />
+        <Stack.Screen
+          name={RouteName.CONFORMLOCATION_SET}
+          options={{headerShown: false}}
+          component={ConformLocation}
+        />
 
-        <Stack.Screen name={RouteName.HOME_SCREEN} options={{ headerShown: false }} component={TabNavigator} />
+        <Stack.Screen
+          name={RouteName.HOME_SCREEN}
+          options={{headerShown: false}}
+          component={TabNavigator}
+        />
 
-        <Stack.Screen name={RouteName.CUSTOMERS}
+        <Stack.Screen
+          name={RouteName.CUSTOMERS}
           options={{
             headerShown: true,
             headerShadowVisible: false,
@@ -46,10 +100,11 @@ const RootNavigator = (props) => {
               marginLeft: 17,
             },
           }}
+          component={PopularMedicine}
+        />
 
-          component={PopularMedicine} />
-
-        <Stack.Screen name={RouteName.HOSPITAL_MEDICINE_SCREEN}
+        <Stack.Screen
+          name={RouteName.HOSPITAL_MEDICINE_SCREEN}
           options={{
             headerShown: true,
             headerShadowVisible: false,
@@ -62,42 +117,74 @@ const RootNavigator = (props) => {
               marginLeft: 17,
             },
           }}
-          component={HospitalsSMedicinecreen} />
+          component={HospitalsSMedicinecreen}
+        />
 
-        <Stack.Screen name={RouteName.NOTIFICATION_SCREEN} options={{ headerShown: false }} component={DrawerNavigationNotification} />
+        <Stack.Screen
+          name={RouteName.NOTIFICATION_SCREEN}
+          options={{headerShown: false}}
+          component={DrawerNavigationNotification}
+        />
 
-        <Stack.Screen name={RouteName.PRODUCT_LIST_ITEM} options={{
-          headerShown: true,
-          headerShadowVisible: false,
-          title: 'Baby Care',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontSize: 17,
-            fontSize: 20,
-            marginLeft: 17,
-          },
-        }} component={ProductItemList} />
+        <Stack.Screen
+          name={RouteName.CART_TAB}
+          options={{
+            title: 'Sale Returns',
+            headerShown: true,
+            headerTintColor: colorrdata,
+          }}
+          component={CartTab}
+        />
 
-        <Stack.Screen name={RouteName.SUMMARY_INVOICE} options={{
-          headerShown: true,
-          headerShadowVisible: false,
-          title: 'Sale Summary Details',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontSize: 17,
-            fontSize: 20,
-            marginLeft: 0,
-            paddingLeft:0
-          },
-        }} component={SaleSummaryDetails} />
+        <Stack.Screen
+          name={RouteName.PRODUCT_LIST_ITEM}
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+            title: 'Baby Care',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontSize: 17,
+              fontSize: 20,
+              marginLeft: 17,
+            },
+          }}
+          component={ProductItemList}
+        />
 
-        <Stack.Screen name={RouteName.PRODUCT_DETAILS_SCREEN} options={{ headerShown: false }} component={ProductDetailesScreen} />
+        <Stack.Screen
+          name={RouteName.SUMMARY_INVOICE}
+          options={{
+            headerShown: true,
+            headerShadowVisible: false,
+            title: 'Sale Summary Details',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontSize: 17,
+              fontSize: 20,
+              marginLeft: 0,
+              paddingLeft: 0,
+            },
+          }}
+          component={SaleSummaryDetails}
+        />
 
-        <Stack.Screen name={RouteName.DRAWER_HELP_SCREEN} options={{ headerShown: false }} component={DrawerHelpScreen} />
+        <Stack.Screen
+          name={RouteName.PRODUCT_DETAILS_SCREEN}
+          options={{headerShown: false}}
+          component={ProductDetailesScreen}
+        />
 
-        <Stack.Screen name={RouteName.PAYMENTSCREEN}
+        <Stack.Screen
+          name={RouteName.DRAWER_HELP_SCREEN}
+          options={{headerShown: false}}
+          component={DrawerHelpScreen}
+        />
+
+        <Stack.Screen
+          name={RouteName.PAYMENTSCREEN}
           options={{
             headerShadowVisible: false,
             title: 'Manage Payment Methods',
@@ -109,15 +196,19 @@ const RootNavigator = (props) => {
               marginLeft: 17,
             },
           }}
-          component={PaymentScreen} />
+          component={PaymentScreen}
+        />
 
-        <Stack.Screen name={RouteName.SETTTING_SCREEN}
+        <Stack.Screen
+          name={RouteName.SETTTING_SCREEN}
           options={{
             headerShown: false,
           }}
-          component={DrawerSettingsScreen} />
+          component={DrawerSettingsScreen}
+        />
 
-        <Stack.Screen name={RouteName.ALL_BOOK_MARK_SCREEN}
+        <Stack.Screen
+          name={RouteName.ALL_BOOK_MARK_SCREEN}
           options={{
             headerShadowVisible: false,
             title: 'All Bookmarks',
@@ -130,13 +221,23 @@ const RootNavigator = (props) => {
               marginLeft: 17,
             },
           }}
-          component={AllBookMarkScreen} />
+          component={AllBookMarkScreen}
+        />
 
-        <Stack.Screen name={RouteName.YOUR_CHAT} options={{ headerShown: false }} component={DrawerChatScreen} />
+        <Stack.Screen
+          name={RouteName.YOUR_CHAT}
+          options={{headerShown: false}}
+          component={DrawerChatScreen}
+        />
 
-        <Stack.Screen name={RouteName.OTP_VERIFY_SCREEN} options={{ headerShown: false }} component={OtpVeryfyScreen} />
+        <Stack.Screen
+          name={RouteName.OTP_VERIFY_SCREEN}
+          options={{headerShown: false}}
+          component={OtpVeryfyScreen}
+        />
 
-        <Stack.Screen name={RouteName.ORDER_TAB_SCREEN}
+        <Stack.Screen
+          name={RouteName.ORDER_TAB_SCREEN}
           options={{
             headerShown: true,
             headerTintColor: colorrdata,
@@ -147,9 +248,11 @@ const RootNavigator = (props) => {
               color: colorrdata,
             },
           }}
-          component={AddOrderitemScreen} />
+          component={AddOrderitemScreen}
+        />
 
-        <Stack.Screen name={RouteName.CHECK_OUT}
+        <Stack.Screen
+          name={RouteName.CHECK_OUT}
           options={{
             headerShown: true,
             headerTintColor: colorrdata,
@@ -160,53 +263,75 @@ const RootNavigator = (props) => {
               color: colorrdata,
             },
           }}
-          component={CheckOutScreen} />
+          component={CheckOutScreen}
+        />
 
-        <Stack.Screen name={RouteName.CHEQUE_DETAILS} options={{
-          headerShown: true,
-          headerTintColor: colorrdata,
-          headerShadowVisible: false,
-          title: 'Cheque Details',
-          headerTitleStyle: {
-            fontWeight: '700',
-            color: colorrdata,
-          },
-        }} component={ChequeDetailScreen} />
+        <Stack.Screen
+          name={RouteName.CHEQUE_DETAILS}
+          options={{
+            headerShown: true,
+            headerTintColor: colorrdata,
+            headerShadowVisible: false,
+            title: 'Invoice Details',
+            headerTitleStyle: {
+              fontWeight: '700',
+              color: colorrdata,
+            },
+          }}
+          component={ChequeDetailScreen}
+        />
 
-        <Stack.Screen name={RouteName.PAYMENT_SUCCESSFULLY} options={{
-          headerShadowVisible: false,
-          headerShown: true,
-          title: null,
-          headerTitleStyle: {
-            fontWeight: '700'
-          },
-        }} component={PaytmSuccessFully} />
+        <Stack.Screen
+          name={RouteName.PAYMENT_SUCCESSFULLY}
+          options={{
+            headerShadowVisible: false,
+            headerShown: true,
+            title: null,
+            headerTitleStyle: {
+              fontWeight: '700',
+            },
+          }}
+          component={PaytmSuccessFully}
+        />
 
-        <Stack.Screen name={RouteName.RATING_SCREEN_SET} options={{ headerShown: false }} component={RatingScreen} />
-        <Stack.Screen name={RouteName.OFFERS_TAB} options={{
-          headerShadowVisible: false,
-          title: 'Offers',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontFamily: Fonts.Metropolis_Medium,
-            fontSize: 17,
-            fontWeight: '700',
-          },
-        }} component={OffersTab} />
-        <Stack.Screen name={RouteName.IMPORT_DATA} options={{
-          headerShadowVisible: false,
-          title: 'Import Data',
-          headerTintColor: colorrdata,
-          headerTitleStyle: {
-            color: colorrdata,
-            fontFamily: Fonts.Metropolis_Medium,
-            fontSize: 17,
-            fontWeight: '700',
-          },
-        }} component={ImportData} />
+        <Stack.Screen
+          name={RouteName.RATING_SCREEN_SET}
+          options={{headerShown: false}}
+          component={RatingScreen}
+        />
+        <Stack.Screen
+          name={RouteName.OFFERS_TAB}
+          options={{
+            headerShadowVisible: false,
+            title: 'Offers',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontFamily: Fonts.Metropolis_Medium,
+              fontSize: 17,
+              fontWeight: '700',
+            },
+          }}
+          component={OffersTab}
+        />
+        <Stack.Screen
+          name={RouteName.IMPORT_DATA}
+          options={{
+            headerShadowVisible: false,
+            title: 'Import Data',
+            headerTintColor: colorrdata,
+            headerTitleStyle: {
+              color: colorrdata,
+              fontFamily: Fonts.Metropolis_Medium,
+              fontSize: 17,
+              fontWeight: '700',
+            },
+          }}
+          component={ImportData}
+        />
 
-        <Stack.Screen name={RouteName.EDIT_LOCATION_SCREEN}
+        <Stack.Screen
+          name={RouteName.EDIT_LOCATION_SCREEN}
           options={{
             headerShadowVisible: false,
             title: 'SET DELIVERY LOCATION',
@@ -218,9 +343,11 @@ const RootNavigator = (props) => {
               fontWeight: '700',
             },
           }}
-          component={EditLocationScreen} />
+          component={EditLocationScreen}
+        />
 
-        <Stack.Screen name={RouteName.EDIT_PROFILE_SCREEN}
+        <Stack.Screen
+          name={RouteName.EDIT_PROFILE_SCREEN}
           options={{
             headerShadowVisible: false,
             title: 'Edit Profile',
@@ -232,9 +359,11 @@ const RootNavigator = (props) => {
               fontWeight: '700',
             },
           }}
-          component={EditProfileScreen} />
+          component={EditProfileScreen}
+        />
 
-        <Stack.Screen name={RouteName.FORGET_PASSWORD_SCREEN}
+        <Stack.Screen
+          name={RouteName.FORGET_PASSWORD_SCREEN}
           options={{
             headerShadowVisible: true,
             title: 'Forget Password',
@@ -251,5 +380,5 @@ const RootNavigator = (props) => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 export default RootNavigator;

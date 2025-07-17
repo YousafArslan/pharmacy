@@ -6,11 +6,15 @@ import Dialog from '../../components/commoncomponets/Modal';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import apiBaseUrl from '../../utils/api';
 import { useDispatch } from 'react-redux';
 import { AddChequeAction } from '../../redux/cheques/cheques.slice';
 
-const ChequeDetailsModal = ({ isVisible, onClose }) => {
+const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [rowId, setRowId] = useState(105);
+
   const dispatch = useDispatch()
   // Formik setup
   const formik = useFormik({
@@ -26,34 +30,44 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
       chequeDate: Yup.string().required('Cheque Date is required'),
       bankName: Yup.string().required('Bank Name is required'),
       branchName: Yup.string().required('Branch Name is required'),
-      amount: Yup.number().required('Amount is required').positive('Amount must be a positive number'),
+      amount: Yup.number()
+        .required('Amount is required')
+        .positive('Amount must be a positive number'),
     }),
-    onSubmit: async (values) => {
-      const payload = [{
-        "row_id": 105,
-        "dss_id": "DSS123",
-        "dist_id": "DIST456",
-        "user_name": "john_doe",
-        "cust_id": "CUST789",
-        "cust_name": "Jane Smith",
-        "cheque_no": values.chequeNumber,
-        "cheque_date": values.chequeDate,
-        "cheque_bank": values.bankName,
-        "cheque_branch": values.branchName,
-        "cheque_amount": +values.amount
-      }];
+    onSubmit: async values => {
+      const payload = {
+        row_id: rowId,
+        dss_id: 'DSS123',
+        dist_id: 'DIST456',
+        user_name: 'john_doe',
+        cust_id: 'CUST789',
+        cust_name: 'Jane Smith',
+        cheque_no: values.chequeNumber,
+        cheque_date: values.chequeDate,
+        cheque_bank: values.bankName,
+        cheque_branch: values.branchName,
+        cheque_amount: +values.amount,
+      };
 
       try {
-        dispatch(AddChequeAction({data:payload}))
-        // const response = await axios.post('https://im-quirky.com/api/cheques/upload', payload);
-        onClose(); // Close modal on success
+        await axios.post(`${apiBaseUrl}/cheques/upload`, payload);
+        setErrorMessage('');
+        setRowId(prev => prev + 1);
+        formik.resetForm();
+        handleClose();
+        refetchCheques();
       } catch (error) {
+        const msg =
+          error.response?.data?.message ||
+          error.message ||
+          'An error occurred while uploading the cheque.';
+        setErrorMessage(msg);
         console.error('Error uploading cheque:', error);
       }
     },
   });
 
-  const handleDateChange = (text) => {
+  const handleDateChange = text => {
     const dateRegex = /^(\d{0,2})\/?(\d{0,2})\/?(\d{0,4})$/;
     let match = text.match(dateRegex);
     if (match) {
@@ -71,6 +85,11 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    setErrorMessage('');
+    onClose();
+  };
+
   return (
     <View>
       <Modal visible={isVisible} animationType="slide" transparent={true}>
@@ -82,25 +101,34 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
               borderRadius: 10,
               padding: 20,
               maxHeight: '90%',
-            }}
-          >
+            }}>
             <ScrollView contentContainerStyle={Creditcard.keybordtopviewstyle}>
               <View style={Creditcard.minflexview}>
                 <Text style={Creditcard.titleStyle}>Add Cheque Details</Text>
+                {/* Error Message */}
+                {errorMessage ? (
+                  <Text style={{color: 'red', marginBottom: 10}}>
+                    {errorMessage}x
+                  </Text>
+                ) : null}
                 <View style={Creditcard.minviewsigninscreen}>
                   {/* Cheque Number */}
                   <View style={Creditcard.setstyleinputtext}>
                     <Text style={Creditcard.textstyle}>Cheque Number</Text>
                     <TextInput
                       placeholder="Enter Cheque Number"
+                      x
                       onChangeText={formik.handleChange('chequeNumber')}
                       value={formik.values.chequeNumber}
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
-                    {formik.touched.chequeNumber && formik.errors.chequeNumber && (
-                      <Text style={{ color: 'red' }}>{formik.errors.chequeNumber}</Text>
-                    )}
+                    {formik.touched.chequeNumber &&
+                      formik.errors.chequeNumber && (
+                        <Text style={{color: 'red'}}>
+                          x{formik.errors.chequeNumber}
+                        </Text>
+                      )}
                   </View>
 
                   {/* Cheque Date */}
@@ -114,7 +142,9 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
                       keyboardType="numeric"
                     />
                     {formik.touched.chequeDate && formik.errors.chequeDate && (
-                      <Text style={{ color: 'red' }}>{formik.errors.chequeDate}</Text>
+                      <Text style={{color: 'red'}}>
+                        {formik.errors.chequeDate}
+                      </Text>
                     )}
                   </View>
 
@@ -128,7 +158,9 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
                       style={Creditcard.inputstyle}
                     />
                     {formik.touched.bankName && formik.errors.bankName && (
-                      <Text style={{ color: 'red' }}>{formik.errors.bankName}</Text>
+                      <Text style={{color: 'red'}}>
+                        {formik.errors.bankName}
+                      </Text>
                     )}
                   </View>
 
@@ -142,7 +174,9 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
                       style={Creditcard.inputstyle}
                     />
                     {formik.touched.branchName && formik.errors.branchName && (
-                      <Text style={{ color: 'red' }}>{formik.errors.branchName}</Text>
+                      <Text style={{color: 'red'}}>
+                        {formik.errors.branchName}
+                      </Text>
                     )}
                   </View>
 
@@ -157,7 +191,7 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
                       keyboardType="numeric"
                     />
                     {formik.touched.amount && formik.errors.amount && (
-                      <Text style={{ color: 'red' }}>{formik.errors.amount}</Text>
+                      <Text style={{color: 'red'}}>{formik.errors.amount}</Text>
                     )}
                   </View>
 
@@ -173,7 +207,7 @@ const ChequeDetailsModal = ({ isVisible, onClose }) => {
                       title="Add"
                       buttonStyle={Creditcard.setbuttonstylesavecard}
                       buttonTextStyle={Creditcard.setbuttontextstyle}
-                      onPress={formik.handleSubmit} // Trigger form submission
+                      onPress={formik.handleSubmit}
                     />
                   </View>
                 </View>
