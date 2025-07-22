@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
 import {PopularCuisinesStyle} from '../../../styles';
+import apiBaseUrl from '../../../utils/api';
 
 const PopularMedicine = () => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -26,9 +27,7 @@ const PopularMedicine = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        'https://im-quirky.com/api/customers',
-      );
+      const response = await axios.get(`${apiBaseUrl}/api/customers`);
       // const response = await axios.get(
       //   'http://quirkysofttech.com/Account/QD_GET?pType=QD_CUST_DATA&pParam=D307',
       // );

@@ -6,32 +6,34 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {Creditcard, YourOrderScreenStyle} from '../../styles';
+import {CartTabStyle, Creditcard, YourOrderScreenStyle} from '../../styles';
 import {Button} from '../../components';
 import {RouteName} from '../../routes';
 import {useSelector} from 'react-redux';
 import {yourorderdata} from '../../utils/Sliderimagedata';
 import ChequeDetailsModal from './ChequeDetailsModal';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import apiBaseUrl from '../../utils/api';
+import {useToast} from 'react-native-toast-notifications';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const route = useRoute();
-  console.log('route', route);
+  const toast = useToast();
   const [chequeDate, setChequeDate] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [cheques, setCheques] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  console.log("route",route);
-  
+  const [invValue, setInvValue] = useState('');
 
   const fetchCheques = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${apiBaseUrl}/cheques/${route.params.item.dist_id}/${route.params.item.id}`);
+      const res = await axios.get(
+        `${apiBaseUrl}/cheques/${route.params.item.dist_id}/${route.params.item.id}`,
+      );
       setCheques(res.data);
     } catch (err) {
       setError('Failed to fetch cheques');
@@ -75,6 +77,28 @@ const ChequeDetailScreen = ({navigation}) => {
       setChequeDate(newDate.substr(0, 10));
     }
   };
+  const handleDeliver = async () => {
+    try {
+      await axios.put(
+        `${apiBaseUrl}/dssDetail/${route.item.dist_id}/${route.item.id}`,
+        {
+          is_delivered: true,
+        },
+      );
+      toast.show('Invoice has been delivered', {
+        type: 'success',
+        placement: 'top',
+        style: {backgroundColor: colorrdata},
+      });
+    } catch (error) {
+      toast.show('Failed to deliver invoice', {
+        type: 'danger',
+        placement: 'top',
+      });
+      console.error('Error delivering invoice:', error);
+    }
+  };
+
   return (
     <View style={Creditcard.minstyleviewphotograpgy}>
       <ScrollView
@@ -100,25 +124,33 @@ const ChequeDetailScreen = ({navigation}) => {
                   </Text> */}
                 </View>
               </View>
-              <TouchableOpacity
-                onPress={() => setIsVisible(true)}
-                style={{
-                  backgroundColor: colorrdata,
-                  paddingVertical: 8,
-                  paddingHorizontal: 16,
-                  borderRadius: 6,
-                  alignSelf: 'flex-start', // keeps it from stretching full width
-                  marginTop: 10,
-                  shadowColor: '#000',
-                  shadowOffset: {width: 0, height: 2},
-                  shadowOpacity: 0.2,
-                  shadowRadius: 2,
-                  elevation: 3, // Android shadow
-                }}>
-                <Text style={{color: 'white', fontWeight: '600', fontSize: 14}}>
-                  Add Cheque
-                </Text>
-              </TouchableOpacity>
+              <View style={YourOrderScreenStyle.actionButtonContainer}>
+                <TouchableOpacity
+                  onPress={() => setIsVisible(true)}
+                  style={[
+                    YourOrderScreenStyle.actionButton,
+                    {backgroundColor: colorrdata},
+                  ]}>
+                  <Text style={YourOrderScreenStyle.openReturnButtonText}>
+                    Add Cheque
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    YourOrderScreenStyle.actionButton,
+                    {backgroundColor: colorrdata},
+                  ]}
+                  onPress={() =>
+                    navigation.navigate(RouteName.CART_TAB, {
+                      invoiceDetails: route.params.item,
+                    })
+                  }>
+                  <Text style={YourOrderScreenStyle.openReturnButtonText}>
+                    Sale Return
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -192,21 +224,63 @@ const ChequeDetailScreen = ({navigation}) => {
           onNavigateCart={() => navigation.navigate(RouteName.CART_TAB)}
           colorrdata={colorrdata}
           refetchCheques={fetchCheques}
+          dssDetails={route.params.item}
         />
       </ScrollView>
-
-      <View style={YourOrderScreenStyle.openReturnButtonContainer}>
+      <View
+        style={[
+          CartTabStyle.positionabsolutesetbutton,
+          CartTabStyle.bgcolorset,
+        ]}>
+        <View style={CartTabStyle.accountbutton}>
+          <View style={CartTabStyle.textcenyet}>
+            <View>
+              <Text
+                style={[
+                  CartTabStyle.viewdetailesbilltext,
+                  {color: colorrdata},
+                ]}>
+                Cash Amount
+              </Text>
+              <TextInput
+                style={CartTabStyle.digitaltextsettwo}
+                value={invValue}
+                onChangeText={setInvValue}
+                placeholder="Enter Amount"
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+          <View style={CartTabStyle.setbuttonwidthview}>
+            <TouchableOpacity
+              style={[
+                YourOrderScreenStyle.openReturnButton,
+                {backgroundColor: colorrdata},
+              ]}
+              onPress={handleDeliver}>
+              <Text style={YourOrderScreenStyle.openReturnButtonText}>
+                Deliver Invoice
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      {/* <View style={YourOrderScreenStyle.openReturnButtonContainer}>
         <TouchableOpacity
           style={[
             YourOrderScreenStyle.openReturnButton,
             {backgroundColor: colorrdata},
           ]}
-          onPress={() => navigation.navigate(RouteName.CART_TAB)}>
+          onPress={() =>
+            navigation.navigate(RouteName.CART_TAB, {
+              invoiceDetails: route.params.item,
+            })
+          }>
           <Text style={YourOrderScreenStyle.openReturnButtonText}>
             Sale Return
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -24,7 +24,11 @@ const SaleSummaryDetails = ({navigation}) => {
 
   useEffect(() => {
     if (route.params?.id) {
-      dispatch(GetSaleSummaryDetailsAction({data: {dist_id:route.params.dist_id,id:route.params?.id}}));
+      dispatch(
+        GetSaleSummaryDetailsAction({
+          data: {dist_id: route.params.dist_id},
+        }),
+      );
     }
   }, [route.params?.id]);
 
@@ -45,7 +49,7 @@ const SaleSummaryDetails = ({navigation}) => {
                   <Image
                     style={Style.yourorderdata}
                     resizeMode="cover"
-                    source={images.Docter_tablet_imag}
+                    source={images.Baby_care_imag_aeight}
                   />
                 </View>
                 <View style={YourOrderScreenStyle.priceflextext}>
@@ -138,89 +142,15 @@ const SaleSummaryDetails = ({navigation}) => {
                 {dssReducer?.getSaleSummaryDetailsError && (
                   <Text>Error: {dssReducer?.getSaleSummaryDetailsError}</Text>
                 )}
-                {dssReducer?.getSaleSummaryDetails && (
-                  <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate(RouteName.CHEQUE_DETAILS, {
-                      item: dssReducer?.getSaleSummaryDetails,
-                    })
-                  }
-                  disabled={Boolean(dssReducer?.getSaleSummaryDetails?.is_delivered)}>
-                  <View style={YourOrderScreenStyle.yoreorderstylebox}>
-                    <View style={YourOrderScreenStyle.borderbottomview}>
-                      <View style={YourOrderScreenStyle.flexminviewset}>
-                        <View style={YourOrderScreenStyle.flexrowsettext}>
-                          <View>
-                            <Image
-                              style={Style.yourorderdata}
-                              resizeMode="cover"
-                              source={images.Docter_tablet_imag}
-                            />
-                          </View>
-                          <View style={YourOrderScreenStyle.priceflextext}>
-                            <TouchableOpacity
-                              style={YourOrderScreenStyle.setwidth70}
-                              onPress={() =>
-                                navigation.navigate(RouteName.CHEQUE_DETAILS, {
-                                  item: dssReducer?.getSaleSummaryDetails,
-                                })
-                              }
-                              disabled={Boolean(dssReducer?.getSaleSummaryDetails?.is_delivered)}>
-                              <Text
-                                style={[
-                                  YourOrderScreenStyle.vadapavtextstyeleset,
-                                  {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                                ]}>
-                                {dssReducer?.getSaleSummaryDetails.cust_name}
-                              </Text>
-                              <Text
-                                style={[
-                                  YourOrderScreenStyle.addreshrtext,
-                                  {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                                ]}>
-                                {dssReducer?.getSaleSummaryDetails.dist_id}
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={YourOrderScreenStyle.borderbottomviewtwo}>
-                      <View style={YourOrderScreenStyle.setlistdataitems}>
-                        <Text
-                          style={[
-                            YourOrderScreenStyle.setitemstext,
-                            {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                          ]}>
-                          Invoice ID
-                        </Text>
-                        <Text
-                          style={[
-                            YourOrderScreenStyle.blacktitle,
-                            {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                          ]}>
-                          {dssReducer?.getSaleSummaryDetails.inv_id}
-                        </Text>
-                      </View>
-                      <View style={YourOrderScreenStyle.setlistdataitems}>
-                        <Text
-                          style={[
-                            YourOrderScreenStyle.setitemstext,
-                            {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                          ]}>
-                          Amount
-                        </Text>
-                        <Text
-                          style={[
-                            YourOrderScreenStyle.blacktitle,
-                            {color: dssReducer?.getSaleSummaryDetails?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
-                          ]}>
-                          {dssReducer?.getSaleSummaryDetails.inv_value}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                {dssReducer?.getSaleSummaryDetails &&
+                Array.isArray(dssReducer.getSaleSummaryDetails) ? (
+                  <FlatList
+                    data={dssReducer.getSaleSummaryDetails}
+                    renderItem={({item}) => saleSummaryDetails(item)}
+                    keyExtractor={item => item.id.toString()}
+                  />
+                ) : (
+                  <Text>No sale summary details found.</Text>
                 )}
               </View>
             </View>

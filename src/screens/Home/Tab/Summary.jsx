@@ -5,17 +5,18 @@ import {
   StatusBar,
   FlatList,
   KeyboardAvoidingView,
-  TouchableOpacity,
+  TouchableOpacity,Image
 } from 'react-native';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
-import {YourOrderScreenStyle} from '../../../styles';
+import {Style, YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
 import NetInfo from '@react-native-community/netinfo';
 import { setConnectionStatus, setLoading, setError } from '../../../redux/network/network.slice'; // Import actions
+import images from '../../../images';
 
 
 
@@ -62,8 +63,15 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-                <View></View>
+              
                 <View style={SummaryStyle.priceflextext}>
+                <View>
+                  <Image
+                    style={Style.yourorderdata}
+                    resizeMode="cover"
+                    source={images.Docter_tablet_imag}
+                  />
+                </View>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     disabled={item?.dss_status === 1}

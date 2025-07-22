@@ -45,6 +45,7 @@ export const GetDssByIDAction = createAsyncThunk(
 export const GetSaleSummaryDetailsAction = createAsyncThunk(
   'dssDetails/id',
   async ({data, moveToNext}, thunkAPI) => {
+
     try {
       const response = await dssService.getSaleSummaryDetails(data);
       if (response.status === 200) {

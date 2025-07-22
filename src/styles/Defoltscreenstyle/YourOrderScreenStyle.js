@@ -239,4 +239,20 @@ export default StyleSheet.create({
     fontWeight: '600',
     color: 'white',
   },
+  actionButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
+    width: 130,
+  },
+  actionButtonContainer: {
+    flexDirection: 'column',
+    gap: 10,
+  },
 });

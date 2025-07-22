@@ -10,12 +10,17 @@ import apiBaseUrl from '../../utils/api';
 import { useDispatch } from 'react-redux';
 import { AddChequeAction } from '../../redux/cheques/cheques.slice';
 
-const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
+const ChequeDetailsModal = ({
+  isVisible,
+  onClose,
+  refetchCheques,
+  dssDetails,
+}) => {
+  // debugger;
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [rowId, setRowId] = useState(105);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -36,12 +41,12 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
     }),
     onSubmit: async values => {
       const payload = {
-        row_id: rowId,
-        dss_id: 'DSS123',
-        dist_id: 'DIST456',
-        user_name: 'john_doe',
-        cust_id: 'CUST789',
-        cust_name: 'Jane Smith',
+        row_id: Math.floor(100 + Math.random() * 900),
+        dss_id: dssDetails.dss_id,
+        dist_id: dssDetails.dist_id,
+        user_name: dssDetails.cust_name,
+        cust_id: dssDetails.cust_id,
+        cust_name: dssDetails.cust_name,
         cheque_no: values.chequeNumber,
         cheque_date: values.chequeDate,
         cheque_bank: values.bankName,
@@ -50,9 +55,11 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
       };
 
       try {
-        await axios.post(`${apiBaseUrl}/cheques/upload`, payload);
+        await axios.post(
+          `${apiBaseUrl}/cheques/upload/${dssDetails.id}`,
+          payload,
+        );
         setErrorMessage('');
-        setRowId(prev => prev + 1);
         formik.resetForm();
         handleClose();
         refetchCheques();
@@ -141,6 +148,7 @@ const ChequeDetailsModal = ({isVisible, onClose, refetchCheques}) => {
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+
                     {formik.touched.chequeDate && formik.errors.chequeDate && (
                       <Text style={{color: 'red'}}>
                         {formik.errors.chequeDate}

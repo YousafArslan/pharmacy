@@ -402,6 +402,9 @@ export default StyleSheet.create({
   },
   setbuttonwidthview: {
     width: '50%',
+
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   counterDiv: {
     flexDirection: 'row',
@@ -411,6 +414,7 @@ export default StyleSheet.create({
     height: 48,
     marginTop: 10,
     marginBottom: 0,
+    marginRight: 10,
     gap: 10,
     borderWidth: 2,
     borderColor: '#d1d5db',

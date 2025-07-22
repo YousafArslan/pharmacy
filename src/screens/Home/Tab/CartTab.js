@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Image, ScrollView, KeyboardAvoidingView, TextInput, StatusBar, TouchableOpacity, } from "react-native";
-import {CartTabStyle} from '../../../styles';
+import {CartTabStyle, YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/Feather';
 import IconA from 'react-native-vector-icons/Entypo';
 import IconF from 'react-native-vector-icons/AntDesign';
-import { Button } from '../../../components';
-import { RouteName } from '../../../routes';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from "react-redux";
+import {Button} from '../../../components';
+import {RouteName} from '../../../routes';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
 import images from '../../../images';
 import apiBaseUrl from '../../../utils/api';
 import axios from 'axios';
@@ -27,9 +27,7 @@ const CartTab = ({route}) => {
   const [itemQuantities, setItemQuantities] = useState([]);
   const dispatch = useDispatch();
   const toast = useToast();
-
-  let PriceSymbol = '$';
-
+  const {invoiceDetails} = route.params;
   useEffect(() => {
     navigation.addListener('focus', () => {
       setDisplayAlert(0);
@@ -39,24 +37,59 @@ const CartTab = ({route}) => {
   useEffect(() => {
     async function fetchInvoiceDetails() {
       try {
-        const res = await axios.get(`${apiBaseUrl}/invoiceDetail/D307`);
+        const res = await axios.get(
+          `${apiBaseUrl}/invoiceDetail/${invoiceDetails.dist_id}/${invoiceDetails.dss_id}`,
+        );
         setInvoiceItems(res.data);
-        setItemQuantities(res.data.map(item => Number(item.item_qty) || 1));
+        setItemQuantities(res.data.map(() => 0));
       } catch (err) {
         setInvoiceItems([]);
         setItemQuantities([]);
       }
     }
     fetchInvoiceDetails();
-  }, []);
+  }, [invoiceDetails]);
 
   const handleIncrement = idx => {
-    setItemQuantities(prev => prev.map((q, i) => (i === idx ? q + 1 : q)));
+    setItemQuantities(prev =>
+      prev.map((q, i) =>
+        i === idx
+          ? Math.min(q + 1, invoiceItems[idx]?.item_qty || 1) // Don't exceed original item_qty
+          : q,
+      ),
+    );
   };
   const handleDecrement = idx => {
     setItemQuantities(prev =>
       prev.map((q, i) => (i === idx && q > 1 ? q - 1 : q)),
     );
+  };
+
+  const handleDeliver = async () => {
+    try {
+      // Add item_rtn_qty to each item
+      const itemsWithReturnQty = invoiceItems.map((item, idx) => ({
+        ...item,
+        item_rtn_qty: itemQuantities[idx] || 1,
+      }));
+
+      await axios.put(
+        `${apiBaseUrl}/invoiceDetail/${invoiceDetails.dist_id}/${invoiceDetails.dss_id}`,
+        itemsWithReturnQty, // send the updated items
+      );
+
+      toast.show('Invoice has been delivered', {
+        type: 'success',
+        placement: 'top',
+        style: {backgroundColor: colorrdata},
+      });
+    } catch (error) {
+      toast.show('Failed to deliver invoice', {
+        type: 'danger',
+        placement: 'top',
+      });
+      console.error('Error delivering invoice:', error);
+    }
   };
 
   return (
@@ -109,7 +142,7 @@ const CartTab = ({route}) => {
                               }}>
                               {item.item_name}
                             </Text>
-                            <Text>Quantity: {itemQuantities[idx] || 1}</Text>
+                            <Text>Quantity: {item.item_qty}</Text>
                             <Text>Rate: {item.item_rate}</Text>
                             <Text>Net: {item.item_net}</Text>
                           </View>
@@ -128,7 +161,7 @@ const CartTab = ({route}) => {
                                   CartTabStyle.minustextstyle,
                                   {color: colorrdata},
                                 ]}>
-                                {itemQuantities[idx] || 1}
+                                {itemQuantities[idx] || 0}
                               </Text>
                               <TouchableOpacity
                                 onPress={() => handleIncrement(idx)}>
@@ -178,18 +211,16 @@ const CartTab = ({route}) => {
             </View>
           </View>
           <View style={CartTabStyle.setbuttonwidthview}>
-            <Button
-              title="Submit"
-              buttonTextStyle={CartTabStyle.textstylepayment}
-              buttonStyle={{backgroundColor: colorrdata}}
-              onPress={() =>
-                toast.show('Summary has been submitted', {
-                  type: 'success',
-                  placement: 'center',
-                  style: {backgroundColor: colorrdata},
-                })
-              }
-            />
+            <TouchableOpacity
+              style={[
+                YourOrderScreenStyle.openReturnButton,
+                {backgroundColor: colorrdata},
+              ]}
+              onPress={handleDeliver}>
+              <Text style={YourOrderScreenStyle.openReturnButtonText}>
+                Add Return
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
