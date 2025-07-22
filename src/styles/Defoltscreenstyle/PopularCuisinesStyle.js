@@ -19,14 +19,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     height: '100%',
     width: '100%',
-   
   },
   bgcolorset: {
-    backgroundColor: ColorTheme.BGScreen
+    backgroundColor: ColorTheme.BGScreen,
   },
   minviewsigninscreen: {
     width: '100%',
-    height:'100%'
+    height: '100%',
     // marginHorizontal: '5%',
   },
   minflexview: {
@@ -174,7 +173,6 @@ export default StyleSheet.create({
   searchtextlist: {
     paddingHorizontal: 20,
     flexDirection: 'row',
-    marginTop: 20,
   },
   textboldstyle: {
     fontWeight: '700',

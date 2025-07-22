@@ -14,7 +14,7 @@ import IconF from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
-import {PopularCuisinesStyle} from '../../../styles';
+import {Hospitalmediction, PopularCuisinesStyle} from '../../../styles';
 import apiBaseUrl from '../../../utils/api';
 
 const PopularMedicine = () => {
@@ -70,7 +70,7 @@ const PopularMedicine = () => {
       <View>{item.image}</View>
       <View style={PopularCuisinesStyle.textflexview}>
         <View style={PopularCuisinesStyle.setflextext}>
-          <Text style={[PopularCuisinesStyle, {color: colorrdata}]}>
+          <Text style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
             {item.cust_name}
           </Text>
           <Text style={PopularCuisinesStyle}>

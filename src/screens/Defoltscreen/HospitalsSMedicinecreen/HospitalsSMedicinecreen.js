@@ -14,7 +14,7 @@ import IconF from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
-import {Hospitalmediction} from '../../../styles'; // Ensure this has relevant styling
+import {Hospitalmediction, PopularCuisinesStyle} from '../../../styles'; // Ensure this has relevant styling
 import apiBaseUrl from '../../../utils/api';
 
 const HospitalsSMedicinecreen = () => {
@@ -27,6 +27,7 @@ const HospitalsSMedicinecreen = () => {
   const [hasMore, setHasMore] = useState(true); // To handle if more items are available
   const [fetching, setFetching] = useState(false); // To prevent multiple fetches
   const flatListRef = useRef(null); // Reference to the FlatList for scroll position
+  const [refreshing, setRefreshing] = useState(false);
 
   // Fetch data with pagination
   const fetchData = async () => {
@@ -77,6 +78,22 @@ const HospitalsSMedicinecreen = () => {
     };
   }, [debouncedSetSearchData]);
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    setPage(1);
+    setHasMore(true);
+    try {
+      const response = await axios.get(`${apiBaseUrl}/items`, {
+        params: {page: 1, limit: 10},
+      });
+      setData(response.data || []);
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   // Render individual items
   const RenderItems = memo(({item}) => (
     <View
@@ -89,11 +106,11 @@ const HospitalsSMedicinecreen = () => {
           <Text style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
             {item.item_name}
           </Text>
-          <Text style={Hospitalmediction.textboldstyletwo}>
+          <Text style={PopularCuisinesStyle}>
             <Text style={{fontWeight: 'bold'}}>Company:</Text>{' '}
             {item.company_name}
           </Text>
-          <Text style={Hospitalmediction.textboldstyletwo}>
+          <Text style={PopularCuisinesStyle}>
             <Text style={{fontWeight: 'bold'}}>Group:</Text> {item.group_name}
           </Text>
         </View>
@@ -167,7 +184,8 @@ const HospitalsSMedicinecreen = () => {
                   keyboardShouldPersistTaps="handled"
                   getItemLayout={getItemLayout} // Add getItemLayout for performance
                   extraData={searchData} // Add searchData to extraData to control re-renders
-                  initialScrollIndex={data.length - 1} // Scroll to the last loaded item
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
                 />
               )}
             </View>
