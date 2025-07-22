@@ -83,6 +83,11 @@ const ChequeDetailScreen = ({navigation}) => {
         `${apiBaseUrl}/dssDetail/${route.params.item.dist_id}/${route.params.item.id}`,
         {
           is_delivered: true,
+          cash_value: invValue || 0,
+          cheque_value: cheques.reduce(
+            (sum, cheque) => sum + Number(cheque.cheque_amount) || 0,
+            0,
+          ),
         },
       );
       toast.show('Invoice has been delivered', {
@@ -90,6 +95,7 @@ const ChequeDetailScreen = ({navigation}) => {
         placement: 'top',
         style: {backgroundColor: colorrdata},
       });
+      navigation.navigate(RouteName.SUMMARY_INVOICE);
     } catch (error) {
       toast.show('Failed to deliver invoice', {
         type: 'danger',

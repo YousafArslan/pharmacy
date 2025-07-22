@@ -13,7 +13,7 @@ import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import {Image} from 'react-native';
 import images from '../../../images';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useFocusEffect} from '@react-navigation/native';
 import {GetSaleSummaryDetailsAction} from '../../../redux/dss/dss.slice';
 
 const SaleSummaryDetails = ({navigation}) => {
@@ -22,15 +22,17 @@ const SaleSummaryDetails = ({navigation}) => {
   const dssReducer = useSelector(state => state.dss);
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
 
-  useEffect(() => {
-    if (route.params?.id) {
-      dispatch(
-        GetSaleSummaryDetailsAction({
-          data: {dist_id: route.params.dist_id},
-        }),
-      );
-    }
-  }, [route.params?.id]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (route.params?.id) {
+        dispatch(
+          GetSaleSummaryDetailsAction({
+            data: {dist_id: route.params.dist_id},
+          }),
+        );
+      }
+    }, [route]),
+  );
 
   const saleSummaryDetails = (item, index) => {
     return (

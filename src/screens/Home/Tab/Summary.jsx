@@ -101,7 +101,7 @@ const Summary = props => {
             </View>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Delivery Man</Text>
-              <Text style={SummaryStyle.blacktitle}>{item.assigned_to}</Text>
+              <Text style={SummaryStyle.blacktitle}>{item.app_user_id}</Text>
             </View>
             <View style={SummaryStyle.setlistdataitems}>
               <Text style={SummaryStyle.setitemstext}>Amount</Text>
