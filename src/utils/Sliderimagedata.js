@@ -1608,7 +1608,7 @@ export const yourorderdata = [
       <Image
         style={Style.yourorderdata}
         resizeMode="cover"
-        source={images.Docter_tablet_imag}
+        source={images.Baby_care_imag_aeight}
       />
     ),
     vadapavtext: 'Lifestyle Pharmacy',

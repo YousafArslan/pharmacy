@@ -80,7 +80,7 @@ const ChequeDetailScreen = ({navigation}) => {
   const handleDeliver = async () => {
     try {
       await axios.put(
-        `${apiBaseUrl}/dssDetail/${route.item.dist_id}/${route.item.id}`,
+        `${apiBaseUrl}/dssDetail/${route.params.item.dist_id}/${route.params.item.id}`,
         {
           is_delivered: true,
         },
@@ -185,9 +185,7 @@ const ChequeDetailScreen = ({navigation}) => {
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <Text style={YourOrderScreenStyle.chequeLabel}>Date:</Text>
                   <Text style={YourOrderScreenStyle.chequeValue}>
-                    {cheque.cheque_date
-                      ? new Date(cheque.cheque_date).toLocaleDateString()
-                      : 'N/A'}
+                    {cheque.cheque_date ?? 'N/A'}
                   </Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>

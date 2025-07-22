@@ -27,7 +27,7 @@ const PopularMedicine = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${apiBaseUrl}/api/customers`);
+      const response = await axios.get(`${apiBaseUrl}/customers`);
       // const response = await axios.get(
       //   'http://quirkysofttech.com/Account/QD_GET?pType=QD_CUST_DATA&pParam=D307',
       // );
