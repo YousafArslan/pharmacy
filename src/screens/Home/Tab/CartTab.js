@@ -161,7 +161,9 @@ const CartTab = ({route}) => {
                                   CartTabStyle.minustextstyle,
                                   {color: colorrdata},
                                 ]}>
-                                {itemQuantities[idx] || 0}
+                                {(itemQuantities[idx] || 0)
+                                  .toString()
+                                  .slice(0, 20)}{' '}
                               </Text>
                               <TouchableOpacity
                                 onPress={() => handleIncrement(idx)}>

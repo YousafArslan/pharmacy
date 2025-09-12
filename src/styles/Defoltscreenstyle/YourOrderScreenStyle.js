@@ -179,6 +179,7 @@ export default StyleSheet.create({
     minHeight: 80,
     maxHeight: 120,
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   chequeLabel: {
     fontWeight: '600',

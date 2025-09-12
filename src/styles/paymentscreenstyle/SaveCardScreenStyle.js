@@ -17,7 +17,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // semi-transparent black background
-  },  
+  },
   smaili: {
     width: SH(110),
     height: SH(110),
@@ -74,17 +74,18 @@ export default StyleSheet.create({
   },
   setbuttonstyle: {
     flexDirection: 'row',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     marginTop: 26,
     height: 100,
     // backgroundColor: ColorTheme.theme_backgound,
   },
   setcheckbuttonstyle: {
     flexDirection: 'row',
-    justifyContent: "space-between",
-    marginTop: 26,
-    height: 100,
-    // backgroundColor: ColorTheme.theme_backgound,
+    justifyContent: 'space-between',
+    marginTop: 20,
+    height: 60, // reduce height for better fit
+    width: '100%', // ensure full width
+    alignItems: 'center', // vertically center buttons
   },
   setwidthimage: {
     height: 230,
@@ -108,23 +109,25 @@ export default StyleSheet.create({
   },
   setbuttonstylesavecard: {
     borderRadius: 100,
-    width:150,
-    marginRight:5
+    flex: 1, // make buttons take equal space
+    marginHorizontal: 5, // space between buttons
+    minWidth: 100, // optional: minimum width for small screens
   },
   setcheckbuttonstylesavecard: {
     borderRadius: 100,
-    width:150,
-    marginRight:5,
-    color:"red",
-    backgroundColor:"black"
+    width: 150,
+    marginRight: 5,
+    color: 'red',
+    backgroundColor: 'black',
   },
   setbuttontextstyle: {
     color: 'white',
-    fontSize:15
+    fontSize: 15,
+    textAlign: 'center', // center text
   },
   setcheckbuttontextstyle: {
     color: 'white',
-    fontSize:15,
+    fontSize: 15,
   },
   bottomContainer: {
     position: 'relative',

@@ -24,12 +24,12 @@ const LoginScreen = () => {
   const [textInputpassword, setTextInputPassword] = useState('');
   const [Error1, setError1] = useState(0);
   const [Error2, setError2] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const toast = useToast();
   const [DisplayAlert, setDisplayAlert] = useState(0);
   const {passwordVisibility, rightIcon, handlePasswordVisibility} =
     useTogglePasswordVisibility();
-    
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -47,31 +47,40 @@ const LoginScreen = () => {
       return;
     }
     setDisplayAlert(1);
+    setIsLoading(true); // Start loading
     dispatch(
       LoginAction({
         data: {
           username: textInputName.trim(),
           password: textInputpassword.trim(),
         },
-        moveToNext
+        moveToNext,
       }),
     );
-    // return navigation.navigate(RouteName.HOME_SCREEN);
   };
 
-  const moveToNext= (message,status) => {
-    toast.show(message, {
-      type: status,
-      placement: 'top',
-      duration: 1000,
-      offset: 10,
-      animationType: 'slide-in',
-    });
+  const moveToNext = (message, status) => {
+    setIsLoading(false); // Stop loading
     if (status === 'success') {
-      navigation.navigate(RouteName.HOME_SCREEN)
-    };
-  }
-  
+      toast.show(message, {
+        type: 'success',
+        placement: 'top',
+        duration: 1000,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+      navigation.navigate(RouteName.HOME_SCREEN);
+    } else {
+      toast.show('Invalid credentials', {
+        type: 'danger',
+        placement: 'top',
+        duration: 1500,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+    }
+  };
+
   return (
     <View>
       <View style={[Login.paddingbottom, Login.bgcolorset]}>
@@ -137,6 +146,7 @@ const LoginScreen = () => {
               onPress={checkTextInput}
               buttonStyle={Login.buttonStyle}
               buttonTextStyle={Login.buttonTextStyle}
+              loading={isLoading} // Pass loading prop to Button
             />
           </View>
           {/* <View style={Login.centeredView}>

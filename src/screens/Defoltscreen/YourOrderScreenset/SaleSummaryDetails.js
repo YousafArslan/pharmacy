@@ -6,6 +6,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {Style, YourOrderScreenStyle} from '../../../styles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -138,14 +139,24 @@ const SaleSummaryDetails = ({navigation}) => {
           <View style={YourOrderScreenStyle.minflexview}>
             <View style={YourOrderScreenStyle.minviewsigninscreen}>
               <View style={YourOrderScreenStyle.paddingtopset}>
-                {dssReducer?.getSaleSummaryDetailsLoading && (
-                  <Text>Loading...</Text>
-                )}
-                {dssReducer?.getSaleSummaryDetailsError && (
+                {dssReducer?.getSaleSummaryDetailsLoading ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      height: 300,
+                    }}>
+                    <ActivityIndicator
+                      size="large"
+                      color={colorrdata || '#000'}
+                    />
+                    <Text style={{marginTop: 10}}>Loading...</Text>
+                  </View>
+                ) : dssReducer?.getSaleSummaryDetailsError ? (
                   <Text>Error: {dssReducer?.getSaleSummaryDetailsError}</Text>
-                )}
-                {dssReducer?.getSaleSummaryDetails &&
-                Array.isArray(dssReducer.getSaleSummaryDetails) ? (
+                ) : Array.isArray(dssReducer?.getSaleSummaryDetails) &&
+                  dssReducer.getSaleSummaryDetails.length > 0 ? (
                   <FlatList
                     data={dssReducer.getSaleSummaryDetails}
                     renderItem={({item}) => saleSummaryDetails(item)}

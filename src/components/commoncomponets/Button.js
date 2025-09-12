@@ -1,13 +1,30 @@
 import React, { useMemo } from 'react';
-import { TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
-import { Fonts, SF, SH, SW,colors } from '../../utils';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import {Fonts, SF, SH, SW, colors} from '../../utils';
 import { useTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { useSelector, useDispatch } from "react-redux";
 
 
 function Button(props) {
-  const { title, onPress, buttonStyle, disable,iconname, buttonTextStyle, imagesource, spacedImages } = props;
+  const {
+    title,
+    onPress,
+    buttonStyle,
+    disable,
+    iconname,
+    buttonTextStyle,
+    imagesource,
+    spacedImages,
+    loading,
+  } = props;
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const dispatch = useDispatch();
   
@@ -53,14 +70,28 @@ function Button(props) {
   );
   return (
     <TouchableOpacity
-      disabled={disable}
-      style={[styles.buttonStyle, { ...buttonStyle }]}
+      disabled={disable || loading}
+      style={[styles.buttonStyle, {...buttonStyle}]}
       onPress={() => onPress()}>
       <View style={styles.buttonViewStyle}>
-        {imagesource ? <Image source={imagesource} style={styles.leftImageStyle} resizeMode='cover' /> : null}
-        {iconname ? <Icon name={iconname}  size={40} color="white" /> : null}
-        <Text style={[styles.buttonTextStyle, { ...buttonTextStyle }]}>{title}</Text>
-        {imagesource ? <View /> : null}
+        {loading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <>
+            {imagesource ? (
+              <Image
+                source={imagesource}
+                style={styles.leftImageStyle}
+                resizeMode="cover"
+              />
+            ) : null}
+            {iconname ? <Icon name={iconname} size={40} color="white" /> : null}
+            <Text style={[styles.buttonTextStyle, {...buttonTextStyle}]}>
+              {title}
+            </Text>
+            {imagesource ? <View /> : null}
+          </>
+        )}
       </View>
     </TouchableOpacity>
   );

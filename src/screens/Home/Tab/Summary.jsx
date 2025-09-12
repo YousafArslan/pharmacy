@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Text,
   View,
   StatusBar,
   FlatList,
   KeyboardAvoidingView,
-  TouchableOpacity,Image
+  TouchableOpacity,
+  Image,
+  RefreshControl,
 } from 'react-native';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
@@ -15,10 +17,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
 import NetInfo from '@react-native-community/netinfo';
-import { setConnectionStatus, setLoading, setError } from '../../../redux/network/network.slice'; // Import actions
+import {
+  setConnectionStatus,
+  setLoading,
+  setError,
+} from '../../../redux/network/network.slice'; // Import actions
 import images from '../../../images';
-
-
+import {useFocusEffect} from '@react-navigation/native';
 
 const Summary = props => {
   const {navigation} = props;
@@ -28,24 +33,29 @@ const Summary = props => {
   const isConnected = useSelector(state => state.network.isConnected);
   const isLoading = useSelector(state => state?.network?.isLoading);
   const isError = useSelector(state => state?.network?.isError);
-  console.log("isConnected",isConnected);
-  // console.log("isLoading",isLoading);
-  // console.log("isError",isError);
+  const [refreshing, setRefreshing] = useState(false);
 
-
-  useEffect(() => {
+  const fetchSummaryData = useCallback(() => {
     if (authReducer?.currentUser?.user?.dist_id) {
       dispatch(
         GetDssByIDAction({data: authReducer?.currentUser?.user?.dist_id}),
       );
     }
-  }, [authReducer?.currentUser]);
+  }, [authReducer?.currentUser, dispatch]);
+
+  useFocusEffect(fetchSummaryData);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchSummaryData();
+    setTimeout(() => setRefreshing(false), 1000); // Simulate network delay
+  }, [fetchSummaryData]);
 
   useEffect(() => {
     // Dispatch setLoading to indicate we are checking network status
     dispatch(setLoading(true));
     const unsubscribe = NetInfo.addEventListener(state => {
-      console.log("state",state)
+      console.log('state', state);
       dispatch(setConnectionStatus(state.isInternetReachable)); // Dispatch the connection status
       dispatch(setLoading(false)); // Set loading to false when status is received
     });
@@ -63,15 +73,14 @@ const Summary = props => {
           <View style={SummaryStyle.borderbottomview}>
             <View style={SummaryStyle.flexminviewset}>
               <View style={SummaryStyle.flexrowsettext}>
-              
                 <View style={SummaryStyle.priceflextext}>
-                <View>
-                  <Image
-                    style={Style.yourorderdata}
-                    resizeMode="cover"
-                    source={images.Docter_tablet_imag}
-                  />
-                </View>
+                  <View>
+                    <Image
+                      style={Style.yourorderdata}
+                      resizeMode="cover"
+                      source={images.Docter_tablet_imag}
+                    />
+                  </View>
                   <TouchableOpacity
                     style={YourOrderScreenStyle.setwidth70}
                     disabled={item?.dss_status === 1}
@@ -121,14 +130,16 @@ const Summary = props => {
   return (
     <View
       style={[SummaryStyle.minstyleviewphotograpgy, SummaryStyle.bgcolorset]}>
-
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           width: '100%',
           height: 'auto',
-        }}>
+        }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <KeyboardAvoidingView enabled>
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>

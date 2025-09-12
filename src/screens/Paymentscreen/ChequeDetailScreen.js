@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {CartTabStyle, Creditcard, YourOrderScreenStyle} from '../../styles';
 import {Button} from '../../components';
@@ -105,6 +106,18 @@ const ChequeDetailScreen = ({navigation}) => {
     }
   };
 
+  const showDeliverConfirmation = () => {
+    Alert.alert(
+      'Confirm Delivery',
+      'Are you sure you want to deliver this invoice?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: handleDeliver},
+      ],
+      {cancelable: true},
+    );
+  };
+
   return (
     <View style={Creditcard.minstyleviewphotograpgy}>
       <ScrollView
@@ -175,7 +188,10 @@ const ChequeDetailScreen = ({navigation}) => {
               <View style={YourOrderScreenStyle.chequeCardFullRow}>
                 <Text style={YourOrderScreenStyle.chequeNo}>
                   Cheque No:{' '}
-                  <Text style={YourOrderScreenStyle.chequeNoBlue}>
+                  <Text
+                    style={YourOrderScreenStyle.chequeNoBlue}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
                     {cheque.cheque_no || 'N/A'}
                   </Text>
                 </Text>
@@ -183,7 +199,10 @@ const ChequeDetailScreen = ({navigation}) => {
               {/* Row 1: Date, Bank */}
               <View style={YourOrderScreenStyle.chequeCardRow}>
                 <Text style={YourOrderScreenStyle.chequeLabel}>Customer:</Text>
-                <Text style={YourOrderScreenStyle.chequeValue}>
+                <Text
+                  style={YourOrderScreenStyle.chequeValue}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {cheque.cust_name || 'N/A'}
                 </Text>
               </View>
@@ -196,7 +215,10 @@ const ChequeDetailScreen = ({navigation}) => {
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <Text style={YourOrderScreenStyle.chequeLabel}>Bank:</Text>
-                  <Text style={YourOrderScreenStyle.chequeValue}>
+                  <Text
+                    style={YourOrderScreenStyle.chequeValue}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
                     {cheque.cheque_bank || 'N/A'}
                   </Text>
                 </View>
@@ -205,7 +227,10 @@ const ChequeDetailScreen = ({navigation}) => {
               <View style={YourOrderScreenStyle.chequeCardRow}>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                   <Text style={YourOrderScreenStyle.chequeLabel}>Branch:</Text>
-                  <Text style={YourOrderScreenStyle.chequeValue}>
+                  <Text
+                    style={YourOrderScreenStyle.chequeValue}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
                     {cheque.cheque_branch || 'N/A'}
                   </Text>
                 </View>
@@ -261,7 +286,7 @@ const ChequeDetailScreen = ({navigation}) => {
                 YourOrderScreenStyle.openReturnButton,
                 {backgroundColor: colorrdata},
               ]}
-              onPress={handleDeliver}>
+              onPress={showDeliverConfirmation}>
               <Text style={YourOrderScreenStyle.openReturnButtonText}>
                 Deliver Invoice
               </Text>
