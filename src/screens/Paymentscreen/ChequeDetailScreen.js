@@ -17,6 +17,7 @@ import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import apiBaseUrl from '../../utils/api';
 import {useToast} from 'react-native-toast-notifications';
+import authService from '../../redux/auth/auth.service';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
@@ -28,7 +29,7 @@ const ChequeDetailScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [invValue, setInvValue] = useState('');
-
+  const authReducer = useSelector(state => state.auth);
   const fetchCheques = async () => {
     try {
       setLoading(true);
@@ -36,6 +37,7 @@ const ChequeDetailScreen = ({navigation}) => {
         `${apiBaseUrl}/cheques/${route.params.item.dist_id}/${route.params.item.id}`,
       );
       setCheques(res.data);
+
     } catch (err) {
       setError('Failed to fetch cheques');
     } finally {
@@ -89,6 +91,7 @@ const ChequeDetailScreen = ({navigation}) => {
             (sum, cheque) => sum + Number(cheque.cheque_amount) || 0,
             0,
           ),
+          user_name: authReducer?.currentUser?.user?.username || 'Unknown',
         },
       );
       toast.show('Invoice has been delivered', {
@@ -107,14 +110,36 @@ const ChequeDetailScreen = ({navigation}) => {
   };
 
   const showDeliverConfirmation = () => {
+    const cashValueNum = Number(invValue) || 0;
+    const chequeValueNum = cheques.reduce(
+      (sum, cheque) => sum + (Number(cheque.cheque_amount) || 0),
+      0
+    );
+    const total = cashValueNum + chequeValueNum;
+    const invoiceValue = Number(route.params.item.inv_value) || 0;
+
+    if (total > invoiceValue) {
+      toast.show(
+        "Sum of Cheques and Cash value should not greater then Invoice Value",
+        {
+          type: 'danger',
+          placement: 'top',
+          duration: 2000,
+          offset: 10,
+          animationType: 'slide-in',
+        }
+      );
+      return;
+    }
+
     Alert.alert(
       'Confirm Delivery',
       'Are you sure you want to deliver this invoice?',
       [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'OK', onPress: handleDeliver},
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'OK', onPress: handleDeliver },
       ],
-      {cancelable: true},
+      { cancelable: true },
     );
   };
 
@@ -268,7 +293,7 @@ const ChequeDetailScreen = ({navigation}) => {
                 style={[
                   CartTabStyle.viewdetailesbilltext,
                   {color: colorrdata},
-                ]}>
+                ]} >
                 Cash Amount
               </Text>
               <TextInput

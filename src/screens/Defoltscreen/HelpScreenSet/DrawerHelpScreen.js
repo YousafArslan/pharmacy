@@ -39,12 +39,15 @@ function firstScreenStack({ navigation }) {
         name="DoctoreHelpScreen"
         component={DoctoreHelpScreen}
         options={{
-          title: 'Help', headerShown: true,
-          headerShadowVisible: false,
+          title: 'Help',
+          headerShown: true,
+          headerShadowVisible: true,
           headerTitleStyle: {
-            color:colorrdata,
+            color: colorrdata,
           },
-          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          // headerLeft: () => (
+          //   <NavigationDrawerStructure navigationProps={navigation} />
+          // ),
         }}
       />
     </Stack.Navigator>

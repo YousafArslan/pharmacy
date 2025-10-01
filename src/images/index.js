@@ -3,6 +3,7 @@ const images = {
   // // splashscreenlogo_set_image: require('./Splaces2.jpg'),
   // // medicine_image: require('./applogo.png'),
   medicine_image: require('./medicine.png'),
+  avatar: require('./avatar.png'),
   // no_data_found: require('./nodatafound.jpeg'),
   // Slider_one_img: require('./doctertablettwo.png'),
   // Slider_two_img: require('./setpharmacy.png'),

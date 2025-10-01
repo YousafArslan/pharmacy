@@ -191,11 +191,11 @@ function AccountTabScreenStack({navigation}) {
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconE
+              <IconP
                 style={Style.setbariconmarginright}
-                name="navicon"
+                name={'menuunfold'}
                 color={colorrdata}
-                size={35}
+                size={30}
               />
             </TouchableOpacity>
           ),

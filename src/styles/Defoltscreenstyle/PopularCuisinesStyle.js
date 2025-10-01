@@ -47,7 +47,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 13,
     marginHorizontal: '5%',
-    width: '74%',
+    width: '90%',
   },
   setinputtext: {
     fontSize: 16,

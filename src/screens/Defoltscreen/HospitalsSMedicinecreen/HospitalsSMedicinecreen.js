@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, memo, useRef} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {
   Text,
   View,
@@ -14,96 +14,24 @@ import IconF from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/AntDesign';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
-import {Hospitalmediction, PopularCuisinesStyle} from '../../../styles'; // Ensure this has relevant styling
+import {Hospitalmediction, PopularCuisinesStyle} from '../../../styles';
 import apiBaseUrl from '../../../utils/api';
 
-const HospitalsSMedicinecreen = () => {
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
-  const [data, setData] = useState([]); // Store the items fetched from the API
-  const [loading, setLoading] = useState(false); // Loading state to control the spinner
-  const [searchInput, setSearchInput] = useState(''); // For search input
-  const [searchData, setSearchData] = useState(''); // Debounced search query
-  const [page, setPage] = useState(1); // Track current page number
-  const [hasMore, setHasMore] = useState(true); // To handle if more items are available
-  const [fetching, setFetching] = useState(false); // To prevent multiple fetches
-  const flatListRef = useRef(null); // Reference to the FlatList for scroll position
-  const [refreshing, setRefreshing] = useState(false);
-
-  // Fetch data with pagination
-  const fetchData = async () => {
-    if (fetching) return; // Prevent fetching if already fetching
-    setFetching(true);
-    setLoading(true);
-    try {
-      const response = await axios.get(`${apiBaseUrl}/items`, {
-        params: {
-          page: page,
-          limit: 10, // Adjust the limit based on your requirement
-        },
-      });
-      const newItems = response.data || [];
-      if (newItems.length < 10) {
-        setHasMore(false); // No more items to load
-      }
-      setData(prevData => [...prevData, ...newItems]); // Append new items to the list
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-      setFetching(false);
-    }
-  };
-
-  // Trigger data fetch on component mount or when the page changes
-  useEffect(() => {
-    fetchData();
-  }, [page]);
-
-  // Debounced search handling
-  const debouncedSetSearchData = useCallback(
-    debounce(text => {
-      setSearchData(text);
-    }, 500),
-    [],
-  );
-
-  const handleSearchChange = text => {
-    setSearchInput(text);
-    debouncedSetSearchData(text);
-  };
-
-  useEffect(() => {
-    return () => {
-      debouncedSetSearchData.cancel();
-    };
-  }, [debouncedSetSearchData]);
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    setPage(1);
-    setHasMore(true);
-    try {
-      const response = await axios.get(`${apiBaseUrl}/items`, {
-        params: {page: 1, limit: 10},
-      });
-      setData(response.data || []);
-    } catch (error) {
-      console.error('Error refreshing data:', error);
-    } finally {
-      setRefreshing(false);
-    }
-  };
-
-  // Render individual items
-  const RenderItems = memo(({item}) => (
+const MedicineListItem = React.memo(
+  ({item, colorrdata}) => (
     <View
       style={[
-        Hospitalmediction.setflexviewdata,
-        Hospitalmediction.searchtextlist,
+        PopularCuisinesStyle.setflexviewdata,
+        PopularCuisinesStyle.searchtextlist,
       ]}>
-      <View style={Hospitalmediction.textflexview}>
-        <View style={Hospitalmediction.setflextext}>
-          <Text style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}>
+      {/* If you have an image for medicine, render it here */}
+      {/* <View>{item.image}</View> */}
+      <View style={PopularCuisinesStyle.textflexview}>
+        <View style={PopularCuisinesStyle.setflextext}>
+          <Text
+            style={[Hospitalmediction.textboldstyle, {color: colorrdata}]}
+            numberOfLines={1}
+            ellipsizeMode="tail">
             {item.item_name}
           </Text>
           <Text style={PopularCuisinesStyle}>
@@ -116,19 +44,91 @@ const HospitalsSMedicinecreen = () => {
         </View>
       </View>
     </View>
-  ));
+  ),
+  (prevProps, nextProps) =>
+    prevProps.item.item_name === nextProps.item.item_name,
+);
 
-  // Handle when user reaches the end of the list for pagination
-  const handleEndReached = () => {
-    if (hasMore && !fetching) {
-      setPage(prevPage => prevPage + 1); // Load next page
+const HospitalsSMedicinecreen = () => {
+  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [fetching, setFetching] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const flatListRef = useRef(null);
+
+  // Debounced search
+  const debouncedSearch = useCallback(
+    debounce(text => setSearchQuery(text), 400),
+    [],
+  );
+
+  const handleSearchChange = text => {
+    setSearchInput(text);
+    debouncedSearch(text);
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
+  // Fetch data
+  const fetchData = async reset => {
+    if (fetching) return;
+    setFetching(true);
+    setLoading(true);
+    try {
+      const response = await axios.get(`${apiBaseUrl}/items`, {
+        params: {
+          page: reset ? 1 : page,
+          limit: 10,
+        },
+      });
+      const newItems = response.data || [];
+      if (newItems.length < 10) setHasMore(false);
+      setData(prev => (reset ? newItems : [...prev, ...newItems]));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+      setFetching(false);
     }
   };
 
-  // Get item layout for better performance
-  const getItemLayout = (data, index) => ({
-    length: 60, // Set the height of each item (adjust this based on your item's height)
-    offset: 60 * index, // The distance between each item
+  useEffect(() => {
+    fetchData(page === 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+
+  // Pull to refresh
+  const onRefresh = async () => {
+    setRefreshing(true);
+    setPage(1);
+    setHasMore(true);
+    await fetchData(true);
+    setRefreshing(false);
+  };
+
+  // Pagination
+  const handleEndReached = () => {
+    if (hasMore && !fetching) setPage(prev => prev + 1);
+  };
+
+  // Filtered data
+  const filteredData = data.filter(item =>
+    item.item_name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  // Item layout optimization
+  const getItemLayout = (_, index) => ({
+    length: 60,
+    offset: 60 * index,
     index,
   });
 
@@ -157,33 +157,31 @@ const HospitalsSMedicinecreen = () => {
                   style={Hospitalmediction.setinputtext}
                 />
               </View>
-              <TouchableOpacity style={Hospitalmediction.seticonborder}>
+              {/* <TouchableOpacity style={Hospitalmediction.seticonborder}>
                 <IconF name="filter" size={20} color={'#079D49'} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <View style={Hospitalmediction.setbgcolorviewmin}>
-              {loading ? (
+              {loading && page === 1 ? (
                 <ActivityIndicator size="large" color={colorrdata} />
               ) : (
                 <FlatList
-                  ref={flatListRef} // Reference for scroll position
-                  data={data.filter(item =>
-                    item.item_name
-                      .toLowerCase()
-                      .includes(searchData.toLowerCase()),
+                  ref={flatListRef}
+                  data={filteredData}
+                  renderItem={({item}) => (
+                    <MedicineListItem item={item} colorrdata={colorrdata} />
                   )}
-                  renderItem={({item}) => <RenderItems item={item} />}
                   keyExtractor={(item, index) => index.toString()}
-                  onEndReached={handleEndReached} // Trigger when reaching the end of the list
-                  onEndReachedThreshold={0.1} // Trigger event 10% before the end
+                  onEndReached={handleEndReached}
+                  onEndReachedThreshold={0.1}
                   ListFooterComponent={
-                    fetching ? (
+                    fetching && page > 1 ? (
                       <ActivityIndicator size="large" color={colorrdata} />
                     ) : null
                   }
                   keyboardShouldPersistTaps="handled"
-                  getItemLayout={getItemLayout} // Add getItemLayout for performance
-                  extraData={searchData} // Add searchData to extraData to control re-renders
+                  getItemLayout={getItemLayout}
+                  extraData={searchQuery}
                   refreshing={refreshing}
                   onRefresh={onRefresh}
                 />

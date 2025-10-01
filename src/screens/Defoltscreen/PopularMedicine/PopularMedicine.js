@@ -105,14 +105,14 @@ const PopularMedicine = () => {
                 <TextInput
                   value={searchInput}
                   onChangeText={handleSearchChange}
-                  placeholder="Search Pharmacy nearby"
+                  placeholder="Search Pharmacy"
                   placeholderTextColor={'lightgrey'}
                   style={PopularCuisinesStyle.setinputtext}
                 />
               </View>
-              <TouchableOpacity style={PopularCuisinesStyle.seticonborder}>
+              {/* <TouchableOpacity style={PopularCuisinesStyle.seticonborder}>
                 <IconF name="filter" size={20} color={'#079D49'} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <View style={PopularCuisinesStyle.setbgcolorviewmin}>
               {loading ? (

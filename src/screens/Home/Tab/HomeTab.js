@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, StatusBar } from "react-native";
+import { View, KeyboardAvoidingView, StatusBar, Text } from "react-native";
 import Styles from '../../../styles/Tab/HometabStyle';
 import { ScrollView } from 'react-native-virtualized-view';
 import Summary from './Summary';

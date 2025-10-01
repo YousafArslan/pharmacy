@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
@@ -34,7 +35,6 @@ const Summary = props => {
   const isLoading = useSelector(state => state?.network?.isLoading);
   const isError = useSelector(state => state?.network?.isError);
   const [refreshing, setRefreshing] = useState(false);
-
   const fetchSummaryData = useCallback(() => {
     if (authReducer?.currentUser?.user?.dist_id) {
       dispatch(
@@ -43,7 +43,15 @@ const Summary = props => {
     }
   }, [authReducer?.currentUser, dispatch]);
 
-  useFocusEffect(fetchSummaryData);
+  useEffect(() => {
+    fetchSummaryData(); // Runs every mount
+  }, [fetchSummaryData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchSummaryData(); // Runs when coming back to this screen
+    }, [fetchSummaryData]),
+  );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -144,7 +152,16 @@ const Summary = props => {
           <View style={SummaryStyle.minflexview}>
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
-                {dssReducer?.getDssByIdLoading && <Text>Loading...</Text>}
+                {dssReducer?.getDssByIdLoading && (
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 20,
+                    }}>
+                    <ActivityIndicator size="large" color="#007AFF" />
+                  </View>
+                )}
                 {dssReducer?.getDssByIdError && (
                   <View
                     style={{

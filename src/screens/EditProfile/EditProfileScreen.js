@@ -1,9 +1,11 @@
 import React, { useState,} from "react";
-import { Text, View, TextInput,  } from "react-native";
+import { Text, View, TextInput, Image } from "react-native";
 import Styles from '../../styles/LoginRegisterStyle/LoginScreenStyle';
 import { Button, SweetaelertModal } from '../../components';
 import Style from '../../styles/CommonStyle/Style';
 import { RouteName } from '../../routes';
+import images from "../../images";
+import { Toast } from "react-native-toast-notifications";
 
 const EditProfileScreen = () => {
   const [fullname, setfullname] = useState('');
@@ -49,13 +51,20 @@ const EditProfileScreen = () => {
 
   return (
     <View style={Styles.mincolorwhite}>
-      <View style={Styles.tabminview}>
+      <View style={Styles.editpage}>
+        <Image
+          style={Styles.imagesetus}
+          resizeMode="cover"
+          source={images.avatar}
+        />
         <View style={Style.inputUnderLine}>
           <TextInput
-            placeholder="Name"
+            placeholder="User Name"
             style={Style.inputtextstyle}
             placeholderTextColor={'rgba(0, 0, 0, 0.54)'}
             onChangeText={(value) => { setfullnameaerror(0); setfullname(value); }}
+            defaultValue="Waleed Shahzad"
+            editable={false}
           />
         </View>
         {fullnameaerror === 1 ?
@@ -98,8 +107,15 @@ const EditProfileScreen = () => {
 
         <View style={Styles.flexrowbutton}>
           <Button title="Update"
-            onPress={signupbutton}
+            onPress={() => Toast.show("Profile Updated Successfully", {
+              type: "success",
+              placement: "top",
+              duration: 2000,
+              offset: 30,
+              animationType: "slide-in"
+            })}
             buttonStyle={Styles.setbuttonborderradius}
+            disabled={true}
             buttonTextStyle={Styles.textcolorsetwhite}
           />
         </View>

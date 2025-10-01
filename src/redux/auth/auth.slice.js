@@ -33,6 +33,7 @@ export const LoginAction = createAsyncThunk(
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await authService.login(data);
+
       if (response.status === 200) {
         if (moveToNext) {
           moveToNext(response?.data?.message, 'success');
@@ -82,12 +83,12 @@ export const CheckEmail = createAsyncThunk(
 );
 
 // Registration currentUser
-export const register = createAsyncThunk(
-  'auth/register',
-  async ({values, notifyToaster}, thunkAPI) => {
+export const registerAction = createAsyncThunk(
+  'users/signup',
+  async ({ values }, thunkAPI) => {
     try {
       await authService.register(values);
-      notifyToaster();
+
       return true;
     } catch (error) {
       notifyToaster(error.message || error, false);
@@ -131,10 +132,13 @@ export const authSlice = createSlice({
         state.isLoginSuccess = '';
       })
       .addCase(LoginAction.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.isLoggedIn = true;
-          state.currentUser = {token:action.payload.data.token,...action.payload.data.payload};
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isLoggedIn = true;
+        state.currentUser = {
+          token: action.payload.data.token,
+          ...action.payload.data.payload,
+        };
       })
       .addCase(LoginAction.rejected, (state, action) => {
         state.message = action.payload;
@@ -155,6 +159,22 @@ export const authSlice = createSlice({
         state.isEmailExist = action.payload;
         state.isEmailExistLoading = false;
         state.isEmailExistError = true;
+      })
+      .addCase(registerAction.pending, state => {
+        state.isRegisterLoading = true;
+        state.isRegisterSuccess = '';
+      })
+      .addCase(registerAction.fulfilled, state => {
+        state.isRegisterLoading = false;
+        state.isRegisterSuccess = true;
+      })
+      .addCase(registerAction.rejected, (state, action) => {
+        state.registerMessage = action.payload;
+        state.isRegisterLoading = false;
+        state.isRegisterError = true;
+      })
+      .addCase(logout.pending, state => {
+        state.isLoading = true;
       })
       .addCase(logout.fulfilled, state => {
         state.currentUser = null;

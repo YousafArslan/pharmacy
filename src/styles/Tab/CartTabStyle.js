@@ -376,7 +376,7 @@ export default StyleSheet.create({
   accountbutton: {
     marginBottom: 15,
     position: 'relative',
-    top: 15,
+    top: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -386,6 +386,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 20,
     width: '45%',
+    height: 50,
   },
   amountView: {
     paddingLeft: 20,

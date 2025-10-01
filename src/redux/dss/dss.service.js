@@ -3,14 +3,14 @@ import { baseUrl } from '../../../config';
 import {axiosInstance} from '../orders/orders.service';
 
 const getDssById = async id => {
-  const data = await axiosInstance.get(`${baseUrl}dss/${id}`);
+  const data = await axiosInstance.get(`${baseUrl}/dss/${id}`);
 
   return data;
 };
 
 const getSaleSummaryDetails = async payload => {
   const data = await axiosInstance.get(
-    `${baseUrl}dssDetail/${payload.dist_id}`,
+    `${baseUrl}/dssDetail/${payload.dist_id}`,
   );
 
   return data;

@@ -57,6 +57,8 @@ const LoginScreen = () => {
         moveToNext,
       }),
     );
+    // setTextInputName('');
+    // setTextInputPassword('');
   };
 
   const moveToNext = (message, status) => {

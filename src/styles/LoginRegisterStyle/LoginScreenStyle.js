@@ -104,6 +104,24 @@ export default StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 20,
     backgroundColor: ColorTheme.BGWhiteColor,
+
+  },
+  editpage: {
+    width: '100%',
+    height: '100%',
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    gap: 15,
+    backgroundColor: ColorTheme.BGWhiteColor,
+    alignItems: 'center',
+  },
+  imagesetus: {
+    height: 90,
+    width: 90,
+    marginRight: 15,
+    borderRadius: 100,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
   },
   mincolorwhite: {
     backgroundColor: 'white',
