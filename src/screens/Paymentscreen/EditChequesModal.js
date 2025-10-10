@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, ScrollView } from 'react-native';
+import { Modal, View, Text, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { Creditcard } from '../../styles';
 import { Button } from '../../components';
 import Dialog from '../../components/commoncomponets/Modal';
@@ -8,52 +8,53 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import apiBaseUrl from '../../utils/api';
 import { useDispatch } from 'react-redux';
-import { AddChequeAction } from '../../redux/cheques/cheques.slice';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // make sure vector-icons is installed
 
-const ChequeDetailsModal = ({
+const EditChequesModal = ({
   isVisible,
   onClose,
   refetchCheques,
-  dssDetails
+  dssDetails,
+  chequeData
 }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const dispatch = useDispatch();
+
+  // Delete cheque
+  const handleDelete = async () => {
+    try {
+      setLoadingDelete(true);
+      await axios.delete(`${apiBaseUrl}/cheques/${chequeData.id}`);
+      setErrorMessage('');
+      setLoadingDelete(false);
+      handleClose();
+      refetchCheques();
+    } catch (error) {
+      setLoadingDelete(false);
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        'An error occurred while deleting the cheque.';
+      setErrorMessage(msg);
+      console.error('Error deleting cheque:', error);
+    }
+  };
+
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      chequeNumber: '',
-      chequeDate: '',
-      bankName: '',
-      branchName: '',
-      amount: '',
+      chequeNumber: chequeData.cheque_no,
+      chequeDate: chequeData.cheque_date,
+      bankName: chequeData.cheque_bank,
+      branchName: chequeData.cheque_branch,
+      amount: chequeData.cheque_amount,
     },
     validationSchema: Yup.object({
       chequeNumber: Yup.string().required('Cheque Number is required'),
-      chequeDate: Yup.string()
-        .required('Cheque Date is required')
-        .matches(
-          /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-          'Please enter a valid date in DD/MM/YYYY format'
-        )
-        .test('is-valid-date', 'Please enter a valid date', function(value) {
-          if (!value) return false;
-          const [day, month, year] = value.split('/').map(Number);
-          const date = new Date(year, month - 1, day);
-          return (
-            date.getDate() === day &&
-            date.getMonth() === month - 1 &&
-            date.getFullYear() === year
-          );
-        })
-        .test('is-not-past', 'Cannot select a previous date', function(value) {
-          if (!value) return false;
-          const [day, month, year] = value.split('/').map(Number);
-          const enteredDate = new Date(year, month - 1, day);
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          return enteredDate >= today;
-        }),
+      chequeDate: Yup.string().required('Cheque Date is required'),
       bankName: Yup.string().required('Bank Name is required'),
       branchName: Yup.string().required('Branch Name is required'),
       amount: Yup.number()
@@ -76,10 +77,7 @@ const ChequeDetailsModal = ({
       };
 
       try {
-        await axios.post(
-          `${apiBaseUrl}/cheques/upload/${dssDetails.id}`,
-          payload,
-        );
+        await axios.put(`${apiBaseUrl}/cheques/${chequeData.id}`, payload);
         setErrorMessage('');
         formik.resetForm();
         handleClose();
@@ -109,49 +107,6 @@ const ChequeDetailsModal = ({
       if (month.length === 2) newDate += '/';
       newDate += year;
 
-      // Validate date if complete (DD/MM/YYYY)
-      if (day.length === 2 && month.length === 2 && year.length === 4) {
-        const dayNum = parseInt(day);
-        const monthNum = parseInt(month);
-        const yearNum = parseInt(year);
-
-        // Check if date values are valid
-        if (monthNum < 1 || monthNum > 12) {
-          formik.setFieldError('chequeDate', 'Invalid month. Please enter 01-12');
-          return;
-        }
-
-        if (dayNum < 1 || dayNum > 31) {
-          formik.setFieldError('chequeDate', 'Invalid day. Please enter 01-31');
-          return;
-        }
-
-        // Create date and check if it's valid (handles Feb 30, etc.)
-        const enteredDate = new Date(yearNum, monthNum - 1, dayNum);
-
-        // Check if the date is actually valid (e.g., Feb 30 becomes Mar 2)
-        if (
-          enteredDate.getDate() !== dayNum ||
-          enteredDate.getMonth() !== monthNum - 1 ||
-          enteredDate.getFullYear() !== yearNum
-        ) {
-          formik.setFieldError('chequeDate', 'Invalid date. Please check day and month');
-          return;
-        }
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Reset time to start of day
-
-        // Check if the entered date is in the past
-        if (enteredDate < today) {
-          formik.setFieldError('chequeDate', 'Cannot select a previous date');
-          return;
-        }
-
-        // Clear any previous errors
-        formik.setFieldError('chequeDate', '');
-      }
-
       formik.setFieldValue('chequeDate', newDate.substr(0, 10));
     }
   };
@@ -173,9 +128,17 @@ const ChequeDetailsModal = ({
               padding: 20,
               maxHeight: '90%',
             }}>
+
+            {/* Header with Delete Icon */}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', }}>
+              <Text style={Creditcard.titleStyle}>Edit Cheque Details</Text>
+              <TouchableOpacity onPress={handleDelete} disabled={loadingDelete}>
+                <Icon name="delete" size={24} color={loadingDelete ? "gray" : "red"} />
+              </TouchableOpacity>
+            </View>
+
             <ScrollView contentContainerStyle={Creditcard.keybordtopviewstyle}>
               <View style={Creditcard.minflexview}>
-                <Text style={Creditcard.titleStyle}>Add Cheque Details</Text>
                 {/* Error Message */}
                 {errorMessage ? (
                   <Text style={{color: 'red', marginBottom: 10}}>
@@ -275,7 +238,7 @@ const ChequeDetailsModal = ({
                       onPress={onClose}
                     />
                     <Button
-                      title="Add"
+                      title="Save"
                       buttonStyle={Creditcard.setbuttonstylesavecard}
                       buttonTextStyle={Creditcard.setbuttontextstyle}
                       onPress={formik.handleSubmit}
@@ -303,4 +266,4 @@ const ChequeDetailsModal = ({
   );
 };
 
-export default ChequeDetailsModal;
+export default EditChequesModal;

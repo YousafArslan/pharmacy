@@ -69,7 +69,7 @@ export default StyleSheet.create({
   addreshrtext: {
     color: 'gray',
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: '400',
     fontFamily: Fonts.Metropolis_Medium,
   },
   flexrowsettext: {

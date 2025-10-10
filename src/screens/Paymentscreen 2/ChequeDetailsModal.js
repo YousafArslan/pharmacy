@@ -30,30 +30,7 @@ const ChequeDetailsModal = ({
     },
     validationSchema: Yup.object({
       chequeNumber: Yup.string().required('Cheque Number is required'),
-      chequeDate: Yup.string()
-        .required('Cheque Date is required')
-        .matches(
-          /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
-          'Please enter a valid date in DD/MM/YYYY format'
-        )
-        .test('is-valid-date', 'Please enter a valid date', function(value) {
-          if (!value) return false;
-          const [day, month, year] = value.split('/').map(Number);
-          const date = new Date(year, month - 1, day);
-          return (
-            date.getDate() === day &&
-            date.getMonth() === month - 1 &&
-            date.getFullYear() === year
-          );
-        })
-        .test('is-not-past', 'Cannot select a previous date', function(value) {
-          if (!value) return false;
-          const [day, month, year] = value.split('/').map(Number);
-          const enteredDate = new Date(year, month - 1, day);
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          return enteredDate >= today;
-        }),
+      chequeDate: Yup.string().required('Cheque Date is required'),
       bankName: Yup.string().required('Bank Name is required'),
       branchName: Yup.string().required('Branch Name is required'),
       amount: Yup.number()
@@ -109,49 +86,6 @@ const ChequeDetailsModal = ({
       if (month.length === 2) newDate += '/';
       newDate += year;
 
-      // Validate date if complete (DD/MM/YYYY)
-      if (day.length === 2 && month.length === 2 && year.length === 4) {
-        const dayNum = parseInt(day);
-        const monthNum = parseInt(month);
-        const yearNum = parseInt(year);
-
-        // Check if date values are valid
-        if (monthNum < 1 || monthNum > 12) {
-          formik.setFieldError('chequeDate', 'Invalid month. Please enter 01-12');
-          return;
-        }
-
-        if (dayNum < 1 || dayNum > 31) {
-          formik.setFieldError('chequeDate', 'Invalid day. Please enter 01-31');
-          return;
-        }
-
-        // Create date and check if it's valid (handles Feb 30, etc.)
-        const enteredDate = new Date(yearNum, monthNum - 1, dayNum);
-
-        // Check if the date is actually valid (e.g., Feb 30 becomes Mar 2)
-        if (
-          enteredDate.getDate() !== dayNum ||
-          enteredDate.getMonth() !== monthNum - 1 ||
-          enteredDate.getFullYear() !== yearNum
-        ) {
-          formik.setFieldError('chequeDate', 'Invalid date. Please check day and month');
-          return;
-        }
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Reset time to start of day
-
-        // Check if the entered date is in the past
-        if (enteredDate < today) {
-          formik.setFieldError('chequeDate', 'Cannot select a previous date');
-          return;
-        }
-
-        // Clear any previous errors
-        formik.setFieldError('chequeDate', '');
-      }
-
       formik.setFieldValue('chequeDate', newDate.substr(0, 10));
     }
   };
@@ -179,7 +113,7 @@ const ChequeDetailsModal = ({
                 {/* Error Message */}
                 {errorMessage ? (
                   <Text style={{color: 'red', marginBottom: 10}}>
-                    {errorMessage}
+                    {errorMessage}x
                   </Text>
                 ) : null}
                 <View style={Creditcard.minviewsigninscreen}>
@@ -188,6 +122,7 @@ const ChequeDetailsModal = ({
                     <Text style={Creditcard.textstyle}>Cheque Number</Text>
                     <TextInput
                       placeholder="Enter Cheque Number"
+                      x
                       onChangeText={formik.handleChange('chequeNumber')}
                       value={formik.values.chequeNumber}
                       style={Creditcard.inputstyle}
@@ -196,7 +131,7 @@ const ChequeDetailsModal = ({
                     {formik.touched.chequeNumber &&
                       formik.errors.chequeNumber && (
                         <Text style={{color: 'red'}}>
-                        {formik.errors.chequeNumber}
+                          x{formik.errors.chequeNumber}
                         </Text>
                       )}
                   </View>
@@ -279,7 +214,6 @@ const ChequeDetailsModal = ({
                       buttonStyle={Creditcard.setbuttonstylesavecard}
                       buttonTextStyle={Creditcard.setbuttontextstyle}
                       onPress={formik.handleSubmit}
-                      loading={formik.isSubmitting}
                     />
                   </View>
                 </View>

@@ -23,16 +23,29 @@ const SaleSummaryDetails = ({navigation}) => {
   const dssReducer = useSelector(state => state.dss);
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
 
+  // Get the selected DSS item from route params
+  const selectedId = route.params?.id;
+
   useFocusEffect(
     React.useCallback(() => {
-      if (route.params?.id) {
-        dispatch(
-          GetSaleSummaryDetailsAction({
-            data: {dist_id: route.params.dist_id},
-          }),
-        );
+      // Find the selected DSS item from the stored getDssById data
+      const dssData = dssReducer?.getDssById;
+
+      if (dssData && Array.isArray(dssData) && selectedId) {
+        const selectedItem = dssData.find(item => item.id === selectedId);
+
+        if (selectedItem?.dss_id && selectedItem?.dist_id) {
+          dispatch(
+            GetSaleSummaryDetailsAction({
+              data: {
+                dist_id: selectedItem.dist_id,
+                dss_id: selectedItem.dss_id,
+              },
+            }),
+          );
+        }
       }
-    }, [route]),
+    }, [selectedId, dispatch, dssReducer?.getDssById]),
   );
 
   const saleSummaryDetails = (item, index) => {

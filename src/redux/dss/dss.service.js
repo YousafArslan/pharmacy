@@ -2,15 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { baseUrl } from '../../../config';
 import {axiosInstance} from '../orders/orders.service';
 
-const getDssById = async id => {
-  const data = await axiosInstance.get(`${baseUrl}/dss/${id}`);
+const getDssById = async ({ id, username }) => {
+  const data = await axiosInstance.get(`${baseUrl}/dss/${id}/${username}`);
 
   return data;
 };
 
 const getSaleSummaryDetails = async payload => {
   const data = await axiosInstance.get(
-    `${baseUrl}/dssDetail/${payload.dist_id}`,
+    `${baseUrl}/dssDetail/${payload.dist_id}/${payload.dss_id}`,
   );
 
   return data;

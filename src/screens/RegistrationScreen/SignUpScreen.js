@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Login, Style } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginAction, registerAction } from '../../redux/auth/auth.slice';
 import { useToast } from 'react-native-toast-notifications';
+import { RouteName } from '../../routes';
 
 const SignUpScreen = () => {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
+  const auth = useSelector(state => state.auth) || {};
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const toast = useToast();
@@ -21,12 +24,33 @@ const SignUpScreen = () => {
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isActivateLoading, setIsActivateLoading] = useState(false);
+  const [previousValues, setPreviousValues] = useState({ username: '', dist_id: '' });
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       setDisplayAlert(0);
     });
+    loadStoredValues();
   }, [navigation]);
+
+  const loadStoredValues = async () => {
+    try {
+      const storedUsername = await AsyncStorage.getItem('signup_username');
+      const storedDistId = await AsyncStorage.getItem('signup_dist_id');
+
+      if (storedUsername) {
+        setUsername(storedUsername);
+        setPreviousValues(prev => ({ ...prev, username: storedUsername }));
+      }
+      if (storedDistId) {
+        setDistId(storedDistId);
+        setPreviousValues(prev => ({ ...prev, dist_id: storedDistId }));
+      }
+    } catch (error) {
+      console.error('Error loading stored values:', error);
+    }
+  };
 
   const signupbutton = async () => {
     if (!dist_id.trim()) {
@@ -37,14 +61,33 @@ const SignUpScreen = () => {
       setUsernameError(1);
       return;
     }
+
+    // Check if values have changed
+    if (previousValues.username === username.trim() && previousValues.dist_id === dist_id.trim()) {
+      toast.show("PIN already generated for these credentials", {
+        type: 'info',
+        placement: 'top',
+        duration: 2000,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+      return;
+    }
+
     setDisplayAlert(1);
     setIsLoading(true);
     try {
-      await dispatch(
+      dispatch(
         registerAction({
           values: { username, dist_id },
         })
       );
+
+      // Store values in AsyncStorage after successful API call
+      await AsyncStorage.setItem('signup_username', username.trim());
+      await AsyncStorage.setItem('signup_dist_id', dist_id.trim());
+      setPreviousValues({ username: username.trim(), dist_id: dist_id.trim() });
+
       toast.show("Account Created! Contact your admin for pin", {
         type: 'success',
         placement: 'top',
@@ -66,15 +109,20 @@ const SignUpScreen = () => {
       return;
     }
     setPinError(0);
-    setIsLoading(true);
+    setIsActivateLoading(true);
     dispatch(
       LoginAction({
         data: {
           username: username.trim(),
           password: pin.trim(),
         },
-        moveToNext: (message, status) => {
-          setIsLoading(false);
+        moveToNext
+      })
+    );
+  };
+
+  const moveToNext = (message, status) => {
+          setIsActivateLoading(false);
           if (status === 'success') {
             toast.show(message, {
               type: 'success',
@@ -85,7 +133,7 @@ const SignUpScreen = () => {
             });
             navigation.navigate(RouteName.HOME_SCREEN);
           } else {
-            toast.show('Invalid credentials', {
+            toast.show(message || "Login failed. Please try again.", {
               type: 'danger',
               placement: 'top',
               duration: 1500,
@@ -93,10 +141,7 @@ const SignUpScreen = () => {
               animationType: 'slide-in',
             });
           }
-        },
-      })
-    );
-  };
+  }
 
   return (
     <View style={Login.tabminview}>
@@ -136,10 +181,9 @@ const SignUpScreen = () => {
         <Button
           title={isLoading ? "Generating..." : "Generate PIN"}
           onPress={signupbutton}
+          disabled={isLoading}
           buttonStyle={{ backgroundColor: colorrdata }}
           buttonTextStyle={Login.textcolorsetwhite}
-          disabled={isLoading}
-          loading={isLoading} // If your Button supports a loading prop
         />
       </View>
       <View style={{ marginBottom: 10 }}>
@@ -165,7 +209,7 @@ const SignUpScreen = () => {
         <Button
           title="Activate"
           onPress={activatePin}
-          loading={isLoading}
+          loading={isActivateLoading}
           buttonStyle={{ backgroundColor: colorrdata }}
           buttonTextStyle={Login.textcolorsetwhite}
         />

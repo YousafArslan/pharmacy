@@ -140,6 +140,7 @@ const HomeTabsety = () => {
                   </View>
                 </TouchableOpacity>
               </View>
+
               <View style={AccountTabStyle.flexrowsetbgcolor}>
                 <TouchableOpacity
                   // onPress={() => bookmarkscreen()}

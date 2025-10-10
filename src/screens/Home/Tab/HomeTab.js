@@ -1,28 +1,28 @@
-import React from 'react';
-import { View, KeyboardAvoidingView, StatusBar, Text } from "react-native";
+import React, { useCallback, useRef } from 'react';
+import { View, StatusBar } from "react-native";
 import Styles from '../../../styles/Tab/HometabStyle';
-import { ScrollView } from 'react-native-virtualized-view';
-import Summary from './Summary';
+import { useFocusEffect } from '@react-navigation/native';
+import Summary from './Summary.js';
 
 const HomeTabset = (props) => {
   const { navigation } = props;
+  const summaryRef = useRef(null);
+
+  // Trigger fetchSummaryData when HOME_SCREEN is navigated to
+  useFocusEffect(
+    useCallback(() => {
+      // Call fetchSummaryData when this screen comes into focus
+      // Only call if ref exists and function is available
+      if (summaryRef.current?.fetchSummaryData) {
+        summaryRef.current.fetchSummaryData();
+      }
+    }, [])
+  );
+
   return (
-    <View style={[Styles.minstyleviewphotograpgy, Styles.bgcolorset]}>
+    <View style={[Styles.minstyleviewphotograpgy, Styles.bgcolorset, {flex: 1}]}>
       <StatusBar barStyle="dark-content" backgroundColor={'white'} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          width: '100%',
-          height: 'auto',
-        }}>
-        <KeyboardAvoidingView enabled>
-          <View style={Styles.minflexview}>
-            <View style={Styles.minviewsigninscreen}>
-              <Summary navigation={navigation}/>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+      <Summary ref={summaryRef} navigation={navigation} />
     </View>
   );
 };

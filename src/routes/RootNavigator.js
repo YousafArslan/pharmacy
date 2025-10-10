@@ -92,7 +92,6 @@ const RootNavigator = props => {
           options={{
             headerShown: true,
             headerShadowVisible: false,
-            title: 'Search',
             headerTintColor: colorrdata,
             headerTitleStyle: {
               color: colorrdata,
@@ -109,7 +108,6 @@ const RootNavigator = props => {
           options={{
             headerShown: true,
             headerShadowVisible: false,
-            title: 'Search by popular',
             headerTintColor: colorrdata,
             headerTitleStyle: {
               color: colorrdata,

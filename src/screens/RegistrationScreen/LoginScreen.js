@@ -32,9 +32,12 @@ const LoginScreen = () => {
     useTogglePasswordVisibility();
 
   useEffect(() => {
-    navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       setDisplayAlert(0);
     });
+
+    // Cleanup listener on unmount
+    return unsubscribe;
   }, [navigation]);
 
   const checkTextInput = () => {
@@ -71,9 +74,13 @@ const LoginScreen = () => {
         offset: 10,
         animationType: 'slide-in',
       });
-      navigation.navigate(RouteName.HOME_SCREEN);
+      // Reset navigation stack to prevent going back to login
+      navigation.reset({
+        index: 0,
+        routes: [{ name: RouteName.HOME_SCREEN }],
+      });
     } else {
-      toast.show('Invalid credentials', {
+      toast.show(message || 'Login failed. Please try again.', {
         type: 'danger',
         placement: 'top',
         duration: 1500,

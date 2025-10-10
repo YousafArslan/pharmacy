@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import {CartTabStyle, Creditcard, YourOrderScreenStyle} from '../../styles';
 import {Button} from '../../components';
@@ -19,11 +18,9 @@ import axios from 'axios';
 import apiBaseUrl from '../../utils/api';
 import {useToast} from 'react-native-toast-notifications';
 import EditChequesModal from './EditChequesModal';
-import Geolocation from '@react-native-community/geolocation';
 
 const ChequeDetailScreen = ({navigation}) => {
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
-  const authReducer = useSelector(state => state.auth);
   const route = useRoute();
   const toast = useToast();
   const [chequeDate, setChequeDate] = useState('');
@@ -53,89 +50,46 @@ const ChequeDetailScreen = ({navigation}) => {
     fetchCheques();
   }, []);
 
+  // const {pricesymboldata} = useSelector(state => state.commonReducer) || {};
+  const handleDateChange = text => {
+    const dateRegex = /^(\d{0,2})\/?(\d{0,2})\/?(\d{0,4})$/;
+    let match = text.match(dateRegex);
+    if (match) {
+      let day = match[1] || '';
+      let month = match[2] || '';
+      let year = match[3] || '';
+
+      let newDate = day;
+      if (day.length === 2) newDate += '/';
+      newDate += month;
+      if (month.length === 2) newDate += '/';
+      newDate += year;
+
+      setChequeDate(newDate.substr(0, 10));
+    }
+  };
+console.log("navigation",navigation);
 
   const handleDeliver = async () => {
     try {
-      // Get user's current location
-      Geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-
-          try {
-            await axios.put(
-              `${apiBaseUrl}/dssDetail/${route.params.item.dist_id}/${route.params.item.id}`,
-              {
-                is_delivered: true,
-                cash_value: invValue || 0,
-                cheque_value: cheques.reduce(
-                  (sum, cheque) => sum + Number(cheque.cheque_amount) || 0,
-                  0,
-                ),
-                user_name: authReducer?.currentUser?.user?.username || 'Unknown',
-                lng: longitude,
-                lat: latitude,
-              },
-            );
-            toast.show('Invoice has been delivered', {
-              type: 'success',
-              placement: 'top',
-              style: { backgroundColor: colorrdata },
-            });
-            navigation.pop();
-            // navigation.navigate(RouteName.SUMMARY_INVOICE);
-          } catch (error) {
-            toast.show('Failed to deliver invoice', {
-              type: 'danger',
-              placement: 'top',
-            });
-            console.error('Error delivering invoice:', error);
-          }
-        },
-        (error) => {
-          // Handle location error - still proceed but without location
-          console.warn('Location error:', error);
-          toast.show('Could not get location, but proceeding with delivery', {
-            type: 'warning',
-            placement: 'top',
-          });
-
-          // Proceed without location data
-          axios.put(
-            `${apiBaseUrl}/dssDetail/${route.params.item.dist_id}/${route.params.item.id}`,
-            {
-              is_delivered: true,
-              cash_value: invValue || 0,
-              cheque_value: cheques.reduce(
-                (sum, cheque) => sum + Number(cheque.cheque_amount) || 0,
-                0,
-              ),
-              user_name: authReducer?.currentUser?.user?.username || 'Unknown',
-              lng: null,
-              lat: null,
-            },
-          )
-            .then(() => {
-              toast.show('Invoice has been delivered', {
-                type: 'success',
-                placement: 'top',
-                style: { backgroundColor: colorrdata },
-              });
-              navigation.pop();
-            })
-            .catch((error) => {
-              toast.show('Failed to deliver invoice', {
-                type: 'danger',
-                placement: 'top',
-              });
-              console.error('Error delivering invoice:', error);
-            });
-        },
+      await axios.put(
+        `${apiBaseUrl}/dssDetail/${route.params.item.dist_id}/${route.params.item.id}`,
         {
-          enableHighAccuracy: true,
-          timeout: 15000,
-          maximumAge: 10000,
+          is_delivered: true,
+          cash_value: invValue || 0,
+          cheque_value: cheques.reduce(
+            (sum, cheque) => sum + Number(cheque.cheque_amount) || 0,
+            0,
+          ),
         },
       );
+      toast.show('Invoice has been delivered', {
+        type: 'success',
+        placement: 'top',
+        style: {backgroundColor: colorrdata},
+      });
+      navigation.pop();
+      // navigation.navigate(RouteName.SUMMARY_INVOICE);
     } catch (error) {
       toast.show('Failed to deliver invoice', {
         type: 'danger',
@@ -146,36 +100,14 @@ const ChequeDetailScreen = ({navigation}) => {
   };
 
   const showDeliverConfirmation = () => {
-    const cashValueNum = Number(invValue) || 0;
-    const chequeValueNum = cheques.reduce(
-      (sum, cheque) => sum + (Number(cheque.cheque_amount) || 0),
-      0
-    );
-    const total = cashValueNum + chequeValueNum;
-    const invoiceValue = Number(route.params.item.inv_value) || 0;
-
-    if (total > invoiceValue) {
-      toast.show(
-        "Sum of Cheques and Cash value should not greater then Invoice Value",
-        {
-          type: 'danger',
-          placement: 'top',
-          duration: 2000,
-          offset: 10,
-          animationType: 'slide-in',
-        }
-      );
-      return;
-    }
-
     Alert.alert(
       'Confirm Delivery',
       'Are you sure you want to deliver this invoice?',
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: handleDeliver },
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: handleDeliver},
       ],
-      { cancelable: true },
+      {cancelable: true},
     );
   };
 
@@ -186,7 +118,6 @@ const ChequeDetailScreen = ({navigation}) => {
         contentContainerStyle={{
           width: '100%',
           height: 'auto',
-          paddingBottom: 100, 
         }}>
         <View style={YourOrderScreenStyle.borderbottomview}>
           <View style={YourOrderScreenStyle.flexminviewset}>
@@ -198,7 +129,7 @@ const ChequeDetailScreen = ({navigation}) => {
                     {route?.params?.item?.cust_name}
                   </Text>
                   <Text style={YourOrderScreenStyle.addreshrtext}>
-                    {route?.params?.item?.inv_id}
+                    {route?.params?.item?.dist_id}
                   </Text>
                   {/*   <Text style={YourOrderScreenStyle.addreshrtext}>
                     Invoice # {yourorderdata[0].invoicenumber}
@@ -238,7 +169,7 @@ const ChequeDetailScreen = ({navigation}) => {
 
         {/* List all cheques fetched from API */}
         {loading ? (
-          <ActivityIndicator size="large" color={colorrdata} />
+          <Text>Loading cheques...</Text>
         ) : error ? (
           <Text style={{color: 'red'}}>{error}</Text>
         ) : cheques && cheques.length > 0 ? (

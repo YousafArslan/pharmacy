@@ -33,24 +33,23 @@ export const LoginAction = createAsyncThunk(
   async ({data, moveToNext}, thunkAPI) => {
     try {
       const response = await authService.login(data);
+      // authService.login returns { message, token, user } directly
 
-      if (response.status === 200) {
+      if (response?.token && response?.user) {
         if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
+          moveToNext(response?.message, 'success');
         }
       }
-
       return response;
     } catch (error) {
-      console.log("error",error)
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      console.log("error", error)
+      // error is already a string from auth.service.js
+      const errorMessage = typeof error === 'string' ? error : (error?.message || error.toString());
+
+      if (moveToNext) {
+        moveToNext(errorMessage, 'error');
+      }
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   },
 );
@@ -91,8 +90,9 @@ export const registerAction = createAsyncThunk(
 
       return true;
     } catch (error) {
-      notifyToaster(error.message || error, false);
-      return thunkAPI.rejectWithValue(error);
+      // Error is already a string from auth.service.js
+      const errorMessage = typeof error === 'string' ? error : (error?.message || error.toString());
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   },
 );
@@ -132,12 +132,13 @@ export const authSlice = createSlice({
         state.isLoginSuccess = '';
       })
       .addCase(LoginAction.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
+        state.isLoginLoading = false;
+        state.isLoginSuccess = true;
         state.isLoggedIn = true;
+        // action.payload is { message, token, user } directly
         state.currentUser = {
-          token: action.payload.data.token,
-          ...action.payload.data.payload,
+          token: action.payload.token,
+          user: action.payload.user,
         };
       })
       .addCase(LoginAction.rejected, (state, action) => {
