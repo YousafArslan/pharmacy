@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Image, KeyboardAvoidingView, Modal, FlatList, StatusBar, TouchableOpacity, } from "react-native";
+import { Text, View, Image, KeyboardAvoidingView, Modal, StatusBar, TouchableOpacity, } from "react-native";
 import {AccountTabStyle} from '../../../styles';
 import images from '../../../images';
-import Icon from 'react-native-vector-icons/AntDesign';
-import IconF from 'react-native-vector-icons/Feather';
-import IconR from 'react-native-vector-icons/Entypo';
-import IconI from 'react-native-vector-icons/Ionicons';
+import IconF from 'react-native-vector-icons/FontAwesome';
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button, SweetaelertModal} from '../../../components';
 import { useNavigation } from '@react-navigation/native';
 import {RouteName} from '../../../routes';
@@ -20,6 +18,7 @@ import Dialog from '../../../components/commoncomponets/Modal';
 const HomeTabsety = () => {
   const dispatch = useDispatch();
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
+  const { currentUser } = useSelector(state => state.auth) || {};
   const navigation = useNavigation();
   const [DisplayAlert, setDisplayAlert] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,39 +43,6 @@ const HomeTabsety = () => {
   };
   const handleCancel = () => {
     setIsVisible(false);
-  };
-  const [setuserdata] = useState([
-    {
-      id: 1,
-      title: 'Delivered Summaries',
-      seticonview: <IconR name="chevron-right" size={20} />,
-      url: RouteName.YOUR_ORDER_SCREEN,
-    },
-    // {
-    //   "id": 2,
-    //   "title": "Feedback & Refunds",
-    //   "seticonview": <IconR name="chevron-right" size={20} />,
-    //   "url": RouteName.RATING_SCREEN_SET,
-    // },
-    {
-      id: 3,
-      title: 'Help',
-      seticonview: <IconR name="chevron-right" size={20} />,
-      url: RouteName.DRAWER_HELP_SCREEN,
-    },
-  ]);
-
-  const Userdatatext = (item, index) => {
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate(item.url)}>
-        <View style={AccountTabStyle.setbgcolordata}>
-          <Text style={[AccountTabStyle.usertextstyle, { color: colorrdata }]}>
-            {item.title}
-          </Text>
-          <Text style={{ color: colorrdata }}>{item.seticonview}</Text>
-        </View>
-      </TouchableOpacity>
-    );
   };
   return (
     <View
@@ -119,120 +85,171 @@ const HomeTabsety = () => {
                   onPress={() =>
                     navigation.navigate(RouteName.EDIT_PROFILE_SCREEN)
                   }>
-                  <Image
-                    style={AccountTabStyle.imagesetus}
-                    resizeMode="cover"
-                    source={images.avatar}
-                  />
+                  <View style={AccountTabStyle.profileImageContainer}>
+                    <Image
+                      style={AccountTabStyle.imagesetus}
+                      resizeMode="cover"
+                      source={images.avatar}
+                    />
+                    <View style={[AccountTabStyle.editIconBadge, { backgroundColor: colorrdata || '#007AFF' }]}>
+                      <IconM name="pencil" size={14} color="#fff" />
+                    </View>
+                  </View>
                   <View style={AccountTabStyle.setviewwidth}>
                     <Text style={AccountTabStyle.sumanyatextset}>
-                      Waleed Shahzad
+                      {currentUser?.user?.username || 'Guest User'}
                     </Text>
-                    <Text style={AccountTabStyle.setgimailtext}>
-                      waleed@gmail.com
-                    </Text>
-                    <Text style={AccountTabStyle.setgimailtextwo}>
-                      +92 3123456789
-                    </Text>
-                    <Text style={AccountTabStyle.addreshtext}>
-                      123, New York, USA
-                    </Text>
+                    {currentUser?.user?.email && (
+                      <View style={AccountTabStyle.infoRow}>
+                        <IconM name="email-outline" size={14} color="#666" style={{ marginRight: 6 }} />
+                        <Text style={AccountTabStyle.setgimailtext}>
+                          {currentUser?.user?.email}
+                        </Text>
+                      </View>
+                    )}
+                    {currentUser?.user?.phone && (
+                      <View style={AccountTabStyle.infoRow}>
+                        <IconM name="phone-outline" size={14} color="#666" style={{ marginRight: 6 }} />
+                        <Text style={AccountTabStyle.setgimailtextwo}>
+                          {currentUser?.user?.phone}
+                        </Text>
+                      </View>
+                    )}
+                    {currentUser?.user?.dist_id && (
+                      <View style={AccountTabStyle.infoRow}>
+                        <IconM name="tag-outline" size={14} color="#666" style={{ marginRight: 6 }} />
+                        <Text style={AccountTabStyle.addreshtext}>
+                          Dist ID: {currentUser?.user?.dist_id}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </TouchableOpacity>
               </View>
 
-              <View style={AccountTabStyle.flexrowsetbgcolor}>
+              <View style={AccountTabStyle.quickActionsContainer}>
                 <TouchableOpacity
                   // onPress={() => bookmarkscreen()}
-                  style={AccountTabStyle.setbgcolorwhite}>
-                  <View>
-                    <View style={AccountTabStyle.flexrowsettile}>
-                      <IconF name="bookmark" size={20} color={'#4F4F4F'} />
-                    </View>
-                    <Text style={AccountTabStyle.bookmarktextstyle}>
-                      History
-                    </Text>
+                  style={[AccountTabStyle.quickActionCard, { borderColor: '#E8E8E8' }]}>
+                  <View style={[AccountTabStyle.iconCircle, { backgroundColor: '#F0F0F0' }]}>
+                    <IconM name="clock-outline" size={24} color="#333333" />
                   </View>
+                  <Text style={AccountTabStyle.quickActionText}>
+                    History
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   // onPress={() => notificationscreen()}
-                  style={AccountTabStyle.setbgcolorwhite}>
-                  <View>
-                    <View style={AccountTabStyle.flexrowsettile}>
-                      <IconI
-                        name="notifications-outline"
-                        size={20}
-                        color={'#4F4F4F'}
-                      />
-                    </View>
-                    <Text style={AccountTabStyle.bookmarktextstyle}>
-                      Notifications
-                    </Text>
+                  style={[AccountTabStyle.quickActionCard, { borderColor: '#E8E8E8' }]}>
+                  <View style={[AccountTabStyle.iconCircle, { backgroundColor: '#F0F0F0' }]}>
+                    <IconM
+                      name="bell"
+                      size={24}
+                      color="#333333"
+                    />
                   </View>
+                  <Text style={AccountTabStyle.quickActionText}>
+                    Notifications
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   // onPress={() => settingscreen()}
-                  style={AccountTabStyle.setbgcolorwhite}>
-                  <View>
-                    <View style={AccountTabStyle.flexrowsettile}>
-                      <Icon name="setting" size={20} color={'#4F4F4F'} />
-                    </View>
-                    <Text style={AccountTabStyle.bookmarktextstyle}>
-                      Settings
-                    </Text>
+                  style={[AccountTabStyle.quickActionCard, { borderColor: '#E8E8E8' }]}>
+                  <View style={[AccountTabStyle.iconCircle, { backgroundColor: '#F0F0F0' }]}>
+                    <IconM name="cog" size={24} color="#333333" />
                   </View>
+                  <Text style={AccountTabStyle.quickActionText}>
+                    Settings
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   // onPress={() => paymentscreen()}
-                  style={AccountTabStyle.setbgcolorwhite}>
-                  <View>
-                    <View style={AccountTabStyle.flexrowsettile}>
-                      <IconI
-                        name="md-wallet-outline"
-                        size={20}
-                        color={'#4F4F4F'}
-                      />
-                    </View>
-                    <Text style={AccountTabStyle.bookmarktextstyle}>
-                      Payments
-                    </Text>
+                  style={[AccountTabStyle.quickActionCard, { borderColor: '#E8E8E8' }]}>
+                  <View style={[AccountTabStyle.iconCircle, { backgroundColor: '#F0F0F0' }]}>
+                    <IconM
+                      name="wallet"
+                      size={24}
+                      color="#333333"
+                    />
                   </View>
+                  <Text style={AccountTabStyle.quickActionText}>
+                    Payments
+                  </Text>
                 </TouchableOpacity>
               </View>
-              <FlatList
-                data={setuserdata}
-                renderItem={({ item, index }) => Userdatatext(item, index)}
-                keyExtractor={item => item.id}
-                numColumns={1}
-                style={AccountTabStyle.flatelistGrid}
-              />
-              <View style={AccountTabStyle.fourtextminview}>
+              <View style={AccountTabStyle.footerSection}>
+                <Text style={AccountTabStyle.sectionTitle}>More Options</Text>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(RouteName.YOUR_ORDER_SCREEN)}
+                  style={AccountTabStyle.footerButton}>
+                  <View style={[AccountTabStyle.footerIconCircle, { backgroundColor: '#007AFF' }]}>
+                    <IconM name="package-variant" size={20} color={'#fff'} />
+                  </View>
+                  <Text style={AccountTabStyle.footerButtonText}>
+                    Delivered Summaries
+                  </Text>
+                  <IconM name="chevron-right" size={20} color="#ccc" />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => navigation.navigate(RouteName.DRAWER_HELP_SCREEN)}
+                  style={AccountTabStyle.footerButton}>
+                  <View style={[AccountTabStyle.footerIconCircle, { backgroundColor: '#9C27B0' + '15' }]}>
+                    <IconM name="help-circle-outline" size={20} color="#9C27B0" />
+                  </View>
+                  <Text style={AccountTabStyle.footerButtonText}>
+                    Help
+                  </Text>
+                  <IconM name="chevron-right" size={20} color="#ccc" />
+                </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate(RouteName.RATING_SCREEN_SET)
-                  }>
-                  <Text style={AccountTabStyle.sendfeedbacktext}>
+                  }
+                  style={AccountTabStyle.footerButton}>
+                  <View style={[AccountTabStyle.footerIconCircle, { backgroundColor: '#4CAF50' + '15' }]}>
+                    <IconM name="message-text-outline" size={20} color="#4CAF50" />
+                  </View>
+                  <Text style={AccountTabStyle.footerButtonText}>
                     Send Feedback
                   </Text>
+                  <IconM name="chevron-right" size={20} color="#ccc" />
                 </TouchableOpacity>
+
                 <TouchableOpacity
-                  onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}>
-                  <Text style={AccountTabStyle.sendfeedbacktext}>
+                  onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
+                  style={AccountTabStyle.footerButton}>
+                  <View style={[AccountTabStyle.footerIconCircle, { backgroundColor: '#FF5722' + '15' }]}>
+                    <IconM name="alert-circle-outline" size={20} color="#FF5722" />
+                  </View>
+                  <Text style={AccountTabStyle.footerButtonText}>
                     Report an Emergency
                   </Text>
+                  <IconM name="chevron-right" size={20} color="#ccc" />
                 </TouchableOpacity>
+
                 <TouchableOpacity
-                  onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}>
-                  <Text style={AccountTabStyle.sendfeedbacktext}>
+                  onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}
+                  style={AccountTabStyle.footerButton}>
+                  <View style={[AccountTabStyle.footerIconCircle, { backgroundColor: '#FFC107' + '15' }]}>
+                    <IconF name="star" size={20} color="#FFC107" />
+                  </View>
+                  <Text style={AccountTabStyle.footerButtonText}>
                     Rate us on the Play Store
                   </Text>
+                  <IconM name="chevron-right" size={20} color="#ccc" />
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={() => {
                     dispatch(logout());
                     navigation.navigate(RouteName.LOGIN_AND_REGISTRATION);
-                  }}>
-                  <Text style={AccountTabStyle.sendfeedbacktext}>Log Out</Text>
+                  }}
+                  style={[AccountTabStyle.logoutButton, { backgroundColor: colorrdata || '#007AFF' }]}>
+                  <IconM name="logout" size={22} color="#fff" />
+                  <Text style={AccountTabStyle.logoutButtonText}>Log Out</Text>
                 </TouchableOpacity>
               </View>
               {/* <TouchableOpacity style={AccountTabStyle.setbgwhiteabout}>

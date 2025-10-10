@@ -5,3 +5,4 @@ export * from './paymentscreenstyle';
 export * from './Ratingstyle';
 export * from './Tab';
 export * from './Defoltscreenstyle';
+export { default as EditProfileStyle } from './EditProfileStyle';

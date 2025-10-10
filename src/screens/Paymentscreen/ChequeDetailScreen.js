@@ -323,6 +323,9 @@ const ChequeDetailScreen = ({navigation}) => {
             colorrdata={colorrdata}
             refetchCheques={fetchCheques}
             dssDetails={route.params.item}
+            invoiceValue={Number(route.params.item.inv_value) || 0}
+            currentCheques={cheques}
+            cashValue={invValue}
           />
         )}
       </ScrollView>
@@ -390,6 +393,9 @@ const ChequeDetailScreen = ({navigation}) => {
           colorrdata={colorrdata}
           refetchCheques={fetchCheques}
           dssDetails={route.params.item}
+          invoiceValue={Number(route.params.item.inv_value) || 0}
+          currentCheques={cheques}
+          cashValue={invValue}
         />
       )}
     </View>

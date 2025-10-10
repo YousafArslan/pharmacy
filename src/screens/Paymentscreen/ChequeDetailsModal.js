@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TextInput, ScrollView } from 'react-native';
 import { Creditcard } from '../../styles';
 import { Button } from '../../components';
@@ -14,7 +14,10 @@ const ChequeDetailsModal = ({
   isVisible,
   onClose,
   refetchCheques,
-  dssDetails
+  dssDetails,
+  invoiceValue,
+  currentCheques = [],
+  cashValue = 0
 }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -56,9 +59,24 @@ const ChequeDetailsModal = ({
         }),
       bankName: Yup.string().required('Bank Name is required'),
       branchName: Yup.string().required('Branch Name is required'),
-      amount: Yup.number()
+      amount: Yup.string()
         .required('Amount is required')
-        .positive('Amount must be a positive number'),
+        .test('is-positive', 'Amount must be a positive number', value => {
+          return value && parseFloat(value) > 0;
+        })
+        .test('not-exceed-invoice', 'Total amount exceeds invoice value', function(value) {
+          if (!value || !invoiceValue) return true;
+
+          const newAmount = parseFloat(value) || 0;
+          const existingChequesTotal = currentCheques.reduce(
+            (sum, cheque) => sum + (Number(cheque.cheque_amount) || 0),
+            0
+          );
+          const cash = Number(cashValue) || 0;
+          const total = existingChequesTotal + cash + newAmount;
+
+          return total <= invoiceValue;
+        }),
     }),
     onSubmit: async values => {
       const payload = {
@@ -158,8 +176,15 @@ const ChequeDetailsModal = ({
 
   const handleClose = () => {
     setErrorMessage('');
+    formik.resetForm();
     onClose();
   };
+
+  useEffect(() => {
+    if (!isVisible) {
+      formik.resetForm();
+    }
+  }, [isVisible]);
 
   return (
     <View>
@@ -256,11 +281,23 @@ const ChequeDetailsModal = ({
                     <Text style={Creditcard.textstyle}>Amount</Text>
                     <TextInput
                       placeholder="Enter Amount"
-                      onChangeText={formik.handleChange('amount')}
+                      onChangeText={(text) => {
+                        formik.setFieldValue('amount', text);
+                      }}
+                      onBlur={formik.handleBlur('amount')}
                       value={formik.values.amount}
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+                    {invoiceValue > 0 && (
+                      <Text style={{color: '#666', fontSize: 12, marginTop: 4}}>
+                        Invoice Value: {invoiceValue} | Remaining: {
+                          invoiceValue -
+                          (currentCheques.reduce((sum, cheque) => sum + (Number(cheque.cheque_amount) || 0), 0)) -
+                          (Number(cashValue) || 0)
+                        }
+                      </Text>
+                    )}
                     {formik.touched.amount && formik.errors.amount && (
                       <Text style={{color: 'red'}}>{formik.errors.amount}</Text>
                     )}

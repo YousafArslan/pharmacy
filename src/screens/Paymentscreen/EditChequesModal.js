@@ -15,7 +15,10 @@ const EditChequesModal = ({
   onClose,
   refetchCheques,
   dssDetails,
-  chequeData
+  chequeData,
+  invoiceValue,
+  currentCheques = [],
+  cashValue = 0
 }) => {
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -46,20 +49,38 @@ const EditChequesModal = ({
   // Formik setup
   const formik = useFormik({
     initialValues: {
-      chequeNumber: chequeData.cheque_no,
-      chequeDate: chequeData.cheque_date,
-      bankName: chequeData.cheque_bank,
-      branchName: chequeData.cheque_branch,
-      amount: chequeData.cheque_amount,
+      chequeNumber: chequeData.cheque_no || '',
+      chequeDate: chequeData.cheque_date || '',
+      bankName: chequeData.cheque_bank || '',
+      branchName: chequeData.cheque_branch || '',
+      amount: chequeData.cheque_amount ? String(chequeData.cheque_amount) : '',
     },
     validationSchema: Yup.object({
       chequeNumber: Yup.string().required('Cheque Number is required'),
       chequeDate: Yup.string().required('Cheque Date is required'),
       bankName: Yup.string().required('Bank Name is required'),
       branchName: Yup.string().required('Branch Name is required'),
-      amount: Yup.number()
+      amount: Yup.string()
         .required('Amount is required')
-        .positive('Amount must be a positive number'),
+        .test('is-positive', 'Amount must be a positive number', value => {
+          return value && parseFloat(value) > 0;
+        })
+        .test('not-exceed-invoice', 'Total amount exceeds invoice value', function(value) {
+          if (!value || !invoiceValue) return true;
+
+          const newAmount = parseFloat(value) || 0;
+          // Exclude the current cheque being edited from the total
+          const existingChequesTotal = currentCheques
+            .filter(cheque => cheque.id !== chequeData.id)
+            .reduce(
+              (sum, cheque) => sum + (Number(cheque.cheque_amount) || 0),
+              0
+            );
+          const cash = Number(cashValue) || 0;
+          const total = existingChequesTotal + cash + newAmount;
+
+          return total <= invoiceValue;
+        }),
     }),
     onSubmit: async values => {
       const payload = {
@@ -224,6 +245,17 @@ const EditChequesModal = ({
                       style={Creditcard.inputstyle}
                       keyboardType="numeric"
                     />
+                    {invoiceValue > 0 && (
+                      <Text style={{color: '#666', fontSize: 12, marginTop: 4}}>
+                        Invoice Value: {invoiceValue} | Remaining: {
+                          invoiceValue -
+                          (currentCheques
+                            .filter(cheque => cheque.id !== chequeData.id)
+                            .reduce((sum, cheque) => sum + (Number(cheque.cheque_amount) || 0), 0)) -
+                          (Number(cashValue) || 0)
+                        }
+                      </Text>
+                    )}
                     {formik.touched.amount && formik.errors.amount && (
                       <Text style={{color: 'red'}}>{formik.errors.amount}</Text>
                     )}

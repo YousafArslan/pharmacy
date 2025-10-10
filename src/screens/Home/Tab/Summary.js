@@ -163,10 +163,18 @@ const Summary = forwardRef(({navigation}, ref) => {
     const isCompleted = item?.dss_status === 1;
 
     return (
-      <View style={[
+      <TouchableOpacity style={[
         SummaryStyle.yoreorderstylebox,
         isCompleted && {opacity: 0.5}
-      ]}>
+      ]} onPress={() => {
+        if (!isCompleted) {
+          navigation.navigate(RouteName.SUMMARY_INVOICE, {
+            dist_id: item.dist_id,
+            id: item.id,
+          });
+        }
+      }}
+        onLongPress={() => handleLongPress(item)}>
         <View style={SummaryStyle.borderbottomview}>
           <View style={SummaryStyle.flexminviewset}>
             <View style={SummaryStyle.flexrowsettext}>
@@ -179,18 +187,10 @@ const Summary = forwardRef(({navigation}, ref) => {
                   resizeMode="cover"
                   source={images.Docter_tablet_imag}
                 />
-                <TouchableOpacity
+                <View
                   style={YourOrderScreenStyle.setwidth70}
                   disabled={isCompleted}
-                  onPress={() => {
-                    if (!isCompleted) {
-                      navigation.navigate(RouteName.SUMMARY_INVOICE, {
-                        dist_id: item.dist_id,
-                        id: item.id,
-                      });
-                    }
-                  }}
-                  onLongPress={() => handleLongPress(item)}>
+                >
                   <View style={SummaryStyle.setwidth70}>
                     <Text style={[
                       SummaryStyle.vadapavtextstyeleset,
@@ -205,7 +205,7 @@ const Summary = forwardRef(({navigation}, ref) => {
                       {item.dist_id}
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
@@ -268,7 +268,7 @@ const Summary = forwardRef(({navigation}, ref) => {
             </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

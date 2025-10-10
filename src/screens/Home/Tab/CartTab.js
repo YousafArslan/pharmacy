@@ -100,7 +100,7 @@ const CartTab = ({route}) => {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           width: '100%',
-          height: '100%',
+          paddingBottom: 50,
         }}>
         <KeyboardAvoidingView enabled>
           <View style={[CartTabStyle.minflexview, CartTabStyle.bgcolorset]}>
@@ -125,62 +125,60 @@ const CartTab = ({route}) => {
                       }}>
                       Invoice Items ({invoiceItems.length})
                     </Text>
-                    <ScrollView>
-                      {invoiceItems.map((item, idx) => (
-                        <View
-                          key={item.id || idx}
-                          style={CartTabStyle.invoiceCard}>
-                          <View>
-                            <Text style={{fontWeight: 'bold', marginBottom: 4}}>
-                              #{idx + 1}
-                            </Text>
+                    {invoiceItems.map((item, idx) => (
+                      <View
+                        key={item.id || idx}
+                        style={CartTabStyle.invoiceCard}>
+                        <View>
+                          <Text style={{ fontWeight: 'bold', marginBottom: 4 }}>
+                            #{idx + 1}
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: 'bold',
+                              marginBottom: 4,
+                            }}>
+                            {item.item_name}
+                          </Text>
+                          <Text>Quantity: {item.item_qty}</Text>
+                          <Text>Rate: {item.item_rate}</Text>
+                          <Text>Net: {item.item_net}</Text>
+                        </View>
+                        <View>
+                          <View style={CartTabStyle.counterDiv}>
+                            <TouchableOpacity
+                              onPress={() => handleDecrement(idx)}>
+                              <IconA
+                                name="minus"
+                                size={20}
+                                color={colorrdata}
+                              />
+                            </TouchableOpacity>
                             <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: 'bold',
-                                marginBottom: 4,
-                              }}>
-                              {item.item_name}
+                              style={[
+                                CartTabStyle.minustextstyle,
+                                { color: colorrdata },
+                              ]}>
+                              {(itemQuantities[idx] || 0)
+                                .toString()
+                                .slice(0, 20)}{' '}
                             </Text>
-                            <Text>Quantity: {item.item_qty}</Text>
-                            <Text>Rate: {item.item_rate}</Text>
-                            <Text>Net: {item.item_net}</Text>
-                          </View>
-                          <View>
-                            <View style={CartTabStyle.counterDiv}>
-                              <TouchableOpacity
-                                onPress={() => handleDecrement(idx)}>
-                                <IconA
-                                  name="minus"
-                                  size={20}
-                                  color={colorrdata}
-                                />
-                              </TouchableOpacity>
-                              <Text
-                                style={[
-                                  CartTabStyle.minustextstyle,
-                                  {color: colorrdata},
-                                ]}>
-                                {(itemQuantities[idx] || 0)
-                                  .toString()
-                                  .slice(0, 20)}{' '}
-                              </Text>
-                              <TouchableOpacity
-                                onPress={() => handleIncrement(idx)}>
-                                <IconA
-                                  name="plus"
-                                  size={20}
-                                  color={colorrdata}
-                                />
-                              </TouchableOpacity>
-                            </View>
+                            <TouchableOpacity
+                              onPress={() => handleIncrement(idx)}>
+                              <IconA
+                                name="plus"
+                                size={20}
+                                color={colorrdata}
+                              />
+                            </TouchableOpacity>
                           </View>
                         </View>
-                      ))}
-                      {invoiceItems.length === 0 && (
-                        <Text>No items found.</Text>
-                      )}
-                    </ScrollView>
+                      </View>
+                    ))}
+                    {invoiceItems.length === 0 && (
+                      <Text>No items found.</Text>
+                    )}
                   </View>
                 </View>
               </View>
@@ -205,7 +203,7 @@ const CartTab = ({route}) => {
               </Text>
               <Text style={CartTabStyle.digitaltextsettwo}>
                 {invoiceItems.reduce((sum, item, idx) => {
-                  const qty = itemQuantities[idx] || 1;
+                  const qty = itemQuantities[idx] || 0;
                   const rate = Number(item.item_rate) || 0;
                   return sum + qty * rate;
                 }, 0)}
