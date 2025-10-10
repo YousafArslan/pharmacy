@@ -15,6 +15,7 @@ import {
   Image,
   RefreshControl,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
@@ -31,12 +32,19 @@ import {
 } from '../../../redux/network/network.slice';
 import images from '../../../images';
 import {useFocusEffect} from '@react-navigation/native';
+import {useToast} from 'react-native-toast-notifications';
+import axios from 'axios';
+import apiBaseUrl from '../../../utils/api';
 
 const Summary = forwardRef(({navigation}, ref) => {
   const dispatch = useDispatch();
   const authReducer = useSelector(state => state.auth);
   const dssReducer = useSelector(state => state.dss);
   const [refreshing, setRefreshing] = useState(false);
+  const [updating, setUpdating] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const toast = useToast();
 
   const distId = authReducer?.currentUser?.user?.dist_id;
   const username = authReducer?.currentUser?.user?.username;
@@ -73,6 +81,73 @@ const Summary = forwardRef(({navigation}, ref) => {
     setTimeout(() => setRefreshing(false), 1000); // mimic API delay
   }, [fetchSummaryData]);
 
+  /** ✅ Handle long press to show confirmation modal */
+  const handleLongPress = (item) => {
+    // Prevent update if already completed
+    if (item?.dss_status === 1) {
+      toast.show('This summary is already completed', {
+        type: 'info',
+        placement: 'center',
+        duration: 2000,
+      });
+      return;
+    }
+
+    // Show confirmation modal
+    setSelectedItem(item);
+    setShowConfirmModal(true);
+  };
+
+  /** ✅ Handle confirmation and update DSS status */
+  const handleConfirmUpdate = async () => {
+    if (!selectedItem || updating) return;
+
+    try {
+      setUpdating(true);
+      setShowConfirmModal(false);
+
+      const response = await axios.put(
+        `${apiBaseUrl}/dss/${selectedItem.dist_id}/${selectedItem.app_user_id}`,
+        {
+          user_name: selectedItem.app_user_id,
+          dss_status: 1,
+        }
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        toast.show('Summary status updated successfully', {
+          type: 'success',
+          placement: 'center',
+          duration: 2000,
+        });
+
+        // Refresh the list after successful update
+        fetchSummaryData();
+      }
+    } catch (error) {
+      console.error('Error updating DSS status:', error);
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Failed to update status. Please try again.';
+
+      toast.show(errorMessage, {
+        type: 'danger',
+        placement: 'center',
+        duration: 3000,
+      });
+    } finally {
+      setUpdating(false);
+      setSelectedItem(null);
+    }
+  };
+
+  /** ✅ Handle cancel confirmation */
+  const handleCancelUpdate = () => {
+    setShowConfirmModal(false);
+    setSelectedItem(null);
+  };
+
   /** ✅ Track network changes */
   useEffect(() => {
     dispatch(setLoading(true));
@@ -84,59 +159,118 @@ const Summary = forwardRef(({navigation}, ref) => {
   }, [dispatch]);
 
   /** ✅ Render list item */
-  const renderOrderItem = ({item}) => (
-    <View style={SummaryStyle.yoreorderstylebox}>
-      <View style={SummaryStyle.borderbottomview}>
-        <View style={SummaryStyle.flexminviewset}>
-          <View style={SummaryStyle.flexrowsettext}>
-            <View style={SummaryStyle.priceflextext}>
-              <Image
-                style={Style.yourorderdata}
-                resizeMode="cover"
-                source={images.Docter_tablet_imag}
-              />
-              <TouchableOpacity
-                style={YourOrderScreenStyle.setwidth70}
-                disabled={item?.dss_status === 1}
-                onPress={() =>
-                  navigation.navigate(RouteName.SUMMARY_INVOICE, {
-                    dist_id: item.dist_id,
-                    id: item.id,
-                  })
-                }>
-                <View style={SummaryStyle.setwidth70}>
-                  <Text style={SummaryStyle.vadapavtextstyeleset}>
-                    {item.delman_name}
-                  </Text>
-                  <Text style={SummaryStyle.addreshrtext}>{item.dist_id}</Text>
-                </View>
-              </TouchableOpacity>
+  const renderOrderItem = ({item}) => {
+    const isCompleted = item?.dss_status === 1;
+
+    return (
+      <View style={[
+        SummaryStyle.yoreorderstylebox,
+        isCompleted && {opacity: 0.5}
+      ]}>
+        <View style={SummaryStyle.borderbottomview}>
+          <View style={SummaryStyle.flexminviewset}>
+            <View style={SummaryStyle.flexrowsettext}>
+              <View style={SummaryStyle.priceflextext}>
+                <Image
+                  style={[
+                    Style.yourorderdata,
+                    isCompleted && {opacity: 0.5}
+                  ]}
+                  resizeMode="cover"
+                  source={images.Docter_tablet_imag}
+                />
+                <TouchableOpacity
+                  style={YourOrderScreenStyle.setwidth70}
+                  disabled={isCompleted}
+                  onPress={() => {
+                    if (!isCompleted) {
+                      navigation.navigate(RouteName.SUMMARY_INVOICE, {
+                        dist_id: item.dist_id,
+                        id: item.id,
+                      });
+                    }
+                  }}
+                  onLongPress={() => handleLongPress(item)}>
+                  <View style={SummaryStyle.setwidth70}>
+                    <Text style={[
+                      SummaryStyle.vadapavtextstyeleset,
+                      isCompleted && {color: '#999'}
+                    ]}>
+                      {item.delman_name}
+                    </Text>
+                    <Text style={[
+                      SummaryStyle.addreshrtext,
+                      isCompleted && {color: '#aaa'}
+                    ]}>
+                      {item.dist_id}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
+        <View style={SummaryStyle.borderbottomviewtwo}>
+          <View style={SummaryStyle.setlistdataitems}>
+            <Text style={[
+              SummaryStyle.setitemstext,
+              isCompleted && {color: '#aaa'}
+            ]}>
+              Summary ID
+            </Text>
+            <Text style={[
+              SummaryStyle.blacktitle,
+              isCompleted && {color: '#999'}
+            ]}>
+              {item.dss_id}
+            </Text>
+          </View>
+          <View style={SummaryStyle.setlistdataitems}>
+            <Text style={[
+              SummaryStyle.setitemstext,
+              isCompleted && {color: '#aaa'}
+            ]}>
+              Delivery Man
+            </Text>
+            <Text style={[
+              SummaryStyle.blacktitle,
+              isCompleted && {color: '#999'}
+            ]}>
+              {item.app_user_id}
+            </Text>
+          </View>
+          <View style={SummaryStyle.setlistdataitems}>
+            <Text style={[
+              SummaryStyle.setitemstext,
+              isCompleted && {color: '#aaa'}
+            ]}>
+              Amount
+            </Text>
+            <Text style={[
+              SummaryStyle.blacktitle,
+              isCompleted && {color: '#999'}
+            ]}>
+              {item.amount}
+            </Text>
+          </View>
+          <View style={SummaryStyle.setlistdataitems}>
+            <Text style={[
+              SummaryStyle.setitemstext,
+              isCompleted && {color: '#aaa'}
+            ]}>
+              Status
+            </Text>
+            <Text style={[
+              SummaryStyle.blacktitle,
+              isCompleted && {color: '#999'}
+            ]}>
+              {item.dss_status === 0 ? 'In Progress' : 'Completed'}
+            </Text>
+          </View>
+        </View>
       </View>
-      <View style={SummaryStyle.borderbottomviewtwo}>
-        <View style={SummaryStyle.setlistdataitems}>
-          <Text style={SummaryStyle.setitemstext}>Summary ID</Text>
-          <Text style={SummaryStyle.blacktitle}>{item.dss_id}</Text>
-        </View>
-        <View style={SummaryStyle.setlistdataitems}>
-          <Text style={SummaryStyle.setitemstext}>Delivery Man</Text>
-          <Text style={SummaryStyle.blacktitle}>{item.app_user_id}</Text>
-        </View>
-        <View style={SummaryStyle.setlistdataitems}>
-          <Text style={SummaryStyle.setitemstext}>Amount</Text>
-          <Text style={SummaryStyle.blacktitle}>{item.amount}</Text>
-        </View>
-        <View style={SummaryStyle.setlistdataitems}>
-          <Text style={SummaryStyle.setitemstext}>Status</Text>
-          <Text style={SummaryStyle.blacktitle}>
-            {item.dss_status === 0 ? 'In Progress' : 'Completed'}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <View
@@ -205,6 +339,95 @@ const Summary = forwardRef(({navigation}, ref) => {
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
+
+      {/* ✅ Confirmation Modal */}
+      <Modal
+        visible={showConfirmModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCancelUpdate}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              borderRadius: 12,
+              padding: 24,
+              width: '85%',
+              maxWidth: 400,
+              shadowColor: '#000',
+              shadowOffset: {width: 0, height: 2},
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: '600',
+                color: '#333',
+                marginBottom: 12,
+                textAlign: 'center',
+              }}>
+              Confirm Completion
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                color: '#666',
+                marginBottom: 24,
+                textAlign: 'center',
+                lineHeight: 22,
+              }}>
+              Has this summary been completed?
+            </Text>
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <TouchableOpacity
+                onPress={handleCancelUpdate}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  paddingHorizontal: 20,
+                  borderRadius: 8,
+                  backgroundColor: '#F5F5F5',
+                  marginRight: 8,
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 16, fontWeight: '600', color: '#666'}}>
+                  No
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={handleConfirmUpdate}
+                disabled={updating}
+                style={{
+                  flex: 1,
+                  paddingVertical: 12,
+                  paddingHorizontal: 20,
+                  borderRadius: 8,
+                  backgroundColor: updating ? '#ccc' : '#007AFF',
+                  marginLeft: 8,
+                  alignItems: 'center',
+                }}>
+                {updating ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={{fontSize: 16, fontWeight: '600', color: '#fff'}}>
+                    Yes
+                  </Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 });

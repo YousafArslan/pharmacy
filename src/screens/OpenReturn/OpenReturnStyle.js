@@ -30,6 +30,18 @@ const OpenReturnStyle = StyleSheet.create({
   searchContainer: {
     marginBottom: 20,
   },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 12,
+  },
+  sectionSubtitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 8,
+  },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -50,6 +62,12 @@ const OpenReturnStyle = StyleSheet.create({
     height: 50,
     fontSize: 16,
     color: '#333',
+  },
+  hintText: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 6,
+    marginLeft: 4,
   },
   loadingContainer: {
     padding: 20,
@@ -77,35 +95,48 @@ const OpenReturnStyle = StyleSheet.create({
   searchResultText: {
     fontSize: 16,
     color: '#333',
+    fontWeight: '500',
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 12,
+  searchResultSubtext: {
+    fontSize: 13,
+    color: '#999',
+    marginTop: 4,
   },
-  itemCard: {
-    backgroundColor: '#fff',
+  emptySearchContainer: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  emptySearchText: {
+    fontSize: 14,
+    color: '#999',
+  },
+  // Customer Group Card Styles
+  customerGroupCard: {
+    backgroundColor: '#f8f8f8',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
   },
-  itemHeader: {
+  customerHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
-  itemName: {
-    fontSize: 16,
+  customerName: {
+    fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    flex: 1,
+    marginBottom: 4,
+  },
+  customerInfo: {
+    fontSize: 13,
+    color: '#666',
   },
   removeButton: {
     width: 32,
@@ -114,11 +145,53 @@ const OpenReturnStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputGroup: {
+  addItemButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
     marginBottom: 12,
   },
+  addItemButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginLeft: 6,
+  },
+  itemSearchContainer: {
+    marginBottom: 12,
+  },
+  // Item Card Styles
+  itemCard: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  itemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  itemName: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#333',
+    flex: 1,
+  },
+  inputGroup: {
+    marginBottom: 10,
+  },
   inputLabel: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#666',
     marginBottom: 6,
     fontWeight: '500',
@@ -127,11 +200,22 @@ const OpenReturnStyle = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     borderRadius: 8,
     padding: 12,
-    fontSize: 16,
+    fontSize: 15,
     color: '#333',
     borderWidth: 1,
     borderColor: '#e0e0e0',
   },
+  emptyItemsContainer: {
+    padding: 20,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  emptyItemsText: {
+    fontSize: 14,
+    color: '#999',
+  },
+  // Empty State
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -149,6 +233,7 @@ const OpenReturnStyle = StyleSheet.create({
     color: '#bbb',
     marginTop: 8,
   },
+  // Bottom Submit Container
   bottomContainer: {
     position: 'absolute',
     bottom: 0,
@@ -169,8 +254,9 @@ const OpenReturnStyle = StyleSheet.create({
     marginBottom: 12,
   },
   totalLabel: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
+    color: '#666',
   },
   totalAmount: {
     fontSize: 24,
