@@ -43,7 +43,7 @@ const LoginandRegistrationScreen = () => {
                 {tabShow == '2' ?
                   <View style={Login.paddingbottom}>
                     <Text style={[Login.bordersetactivetwo,{backgroundColor:colorrdata}]}></Text>
-                    <SignUpScreen />
+                    <SignUpScreen switchToLogin={() => SettabShow('1')} />
                   </View>
                   : null}
               </View>

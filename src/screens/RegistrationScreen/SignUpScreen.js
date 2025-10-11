@@ -7,9 +7,8 @@ import { Button } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginAction, registerAction } from '../../redux/auth/auth.slice';
 import { useToast } from 'react-native-toast-notifications';
-import { RouteName } from '../../routes';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ switchToLogin }) => {
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const auth = useSelector(state => state.auth) || {};
   const navigation = useNavigation();
@@ -124,14 +123,16 @@ const SignUpScreen = () => {
   const moveToNext = (message, status) => {
           setIsActivateLoading(false);
           if (status === 'success') {
-            toast.show(message, {
+            toast.show("User is activated", {
               type: 'success',
               placement: 'top',
               duration: 1000,
               offset: 10,
               animationType: 'slide-in',
             });
-            navigation.navigate(RouteName.HOME_SCREEN);
+            if (switchToLogin) {
+              switchToLogin();
+            }
           } else {
             toast.show(message || "Login failed. Please try again.", {
               type: 'danger',
