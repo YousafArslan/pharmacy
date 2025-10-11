@@ -18,7 +18,6 @@ const ProductDetailesScreen = ({ route }) => {
 
   const [count, setCount] = useState(1);
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const { doctoreDetaile } = useSelector(state => state.doctorDataReducer) || { doctoreDetaile };
   const { pricesymboldata } = useSelector(state => state.commonReducer) || {};
   const dispatch = useDispatch();
 

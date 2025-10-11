@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import images from '../../images';
 
 const CheckOutScreen = ({route}) => {
-  const { doctoreDetaile } = useSelector(state => state.doctorDataReducer) || { doctoreDetaile };
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const { pricesymboldata } = useSelector(state => state.commonReducer) || {};
   const navigation = useNavigation();
@@ -20,6 +19,9 @@ const CheckOutScreen = ({route}) => {
   const [count, setCount] = useState(1);
   const [Applycoupon, setApplycoupon] = useState(0);
   const dispatch = useDispatch();
+
+  // Placeholder text for demo data (was previously from unused Redux state)
+  const placeholderText = 'Product Name';
 
   useEffect(() => {   
     navigation.addListener('focus', () => {
@@ -72,7 +74,7 @@ const CheckOutScreen = ({route}) => {
                         <IconC name="clockcircleo" size={20} color={'#2E3A59'} />
                       </View>
                       <View>
-                        <Text style={Styles.satyanilayamtwo}>{doctoreDetaile.text}</Text>
+                        <Text style={Styles.satyanilayamtwo}>{placeholderText}</Text>
                       </View>
                     </View>
                     <TouchableOpacity>
@@ -87,7 +89,7 @@ const CheckOutScreen = ({route}) => {
                         <Image style={Styles.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
                       </TouchableOpacity>
                       <View>
-                        <Text style={Styles.pistahouse}>{doctoreDetaile.text}</Text>
+                        <Text style={Styles.pistahouse}>{placeholderText}</Text>
                       </View>
                     </View>
                     <View style={Styles.flexiconandimagetext}>
@@ -108,7 +110,7 @@ const CheckOutScreen = ({route}) => {
                         <Image style={Styles.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag} />
                       </TouchableOpacity>
                       <View>
-                        <Text style={Styles.pistahouse}>{doctoreDetaile.text}</Text>
+                        <Text style={Styles.pistahouse}>{placeholderText}</Text>
                       </View>
                     </View>
                     <View style={Styles.flexiconandimagetext}>
@@ -129,7 +131,7 @@ const CheckOutScreen = ({route}) => {
                         <Image style={Styles.setimagehightwidth} resizeMode="contain" source={images.Baby_care_imag_six} />
                       </TouchableOpacity>
                       <View>
-                        <Text style={Styles.pistahouse}>{doctoreDetaile.text}</Text>
+                        <Text style={Styles.pistahouse}>{placeholderText}</Text>
                       </View>
                     </View>
                     <View style={Styles.flexiconandimagetext}>

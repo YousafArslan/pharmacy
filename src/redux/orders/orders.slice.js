@@ -217,6 +217,26 @@ export const ordersSlice = createSlice({
         state.getPendingOrders = null;
       })
       .addCase(CreateOrderAction.pending, state => {
+        if (!state.createOrdersLoading) {
+        state.createOrdersLoading = true;
+        state.createOrdersSuccess = false;
+        state.createOrdersError = false;
+        state.createOrders = null;
+        }
+      })
+      .addCase(CreateOrderAction.fulfilled, (state, action) => {
+        state.createOrdersLoading = false;
+        state.createOrdersSuccess = true;
+        state.createOrdersError = false;
+        state.createOrders = action.payload.data;
+      })
+      .addCase(CreateOrderAction.rejected, (state, action) => {
+        state.createOrdersLoading = false;
+        state.createOrdersSuccess = false;
+        state.createOrdersError = true;
+        state.createOrders = null;
+      })
+      .addCase(EditOrderAction.pending, state => {
         if (!state.editOrdersLoading) {
         state.editOrdersLoading = true;
         state.editOrdersSuccess = false;
@@ -224,19 +244,18 @@ export const ordersSlice = createSlice({
         state.editOrders = null;
         }
       })
-      .addCase(CreateOrderAction.fulfilled, (state, action) => {
+      .addCase(EditOrderAction.fulfilled, (state, action) => {
         state.editOrdersLoading = false;
         state.editOrdersSuccess = true;
         state.editOrdersError = false;
         state.editOrders = action.payload.data;
       })
-      .addCase(CreateOrderAction.rejected, (state, action) => {
+      .addCase(EditOrderAction.rejected, (state, action) => {
         state.editOrdersLoading = false;
         state.editOrdersSuccess = false;
         state.editOrdersError = true;
         state.editOrders = null;
-      })
-      ;
+      });
   },
 });
 

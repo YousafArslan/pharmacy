@@ -24,14 +24,7 @@ import {Style, YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
-import NetInfo from '@react-native-community/netinfo';
-import {
-  setConnectionStatus,
-  setLoading,
-  setError,
-} from '../../../redux/network/network.slice';
 import images from '../../../images';
-import {useFocusEffect} from '@react-navigation/native';
 import {useToast} from 'react-native-toast-notifications';
 import axios from 'axios';
 import apiBaseUrl from '../../../utils/api';
@@ -147,16 +140,6 @@ const Summary = forwardRef(({navigation}, ref) => {
     setShowConfirmModal(false);
     setSelectedItem(null);
   };
-
-  /** ✅ Track network changes */
-  useEffect(() => {
-    dispatch(setLoading(true));
-    const unsubscribe = NetInfo.addEventListener(state => {
-      dispatch(setConnectionStatus(state.isInternetReachable));
-      dispatch(setLoading(false));
-    });
-    return () => unsubscribe();
-  }, [dispatch]);
 
   /** ✅ Render list item */
   const renderOrderItem = ({item}) => {

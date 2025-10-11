@@ -14,9 +14,6 @@ import axios from 'axios';
 import {useToast} from 'react-native-toast-notifications';
 
 const CartTab = ({route}) => {
-  const {doctoreDetaile} = useSelector(state => state.doctorDataReducer) || {
-    doctoreDetaile,
-  };
   const {colorrdata} = useSelector(state => state.commonReducer) || {};
   const {pricesymboldata} = useSelector(state => state.commonReducer) || {};
 
