@@ -4,13 +4,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Login, Style } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoginAction, registerAction } from '../../redux/auth/auth.slice';
+import { useDispatch } from 'react-redux';
+import { loginUser, registerUser, clearAuthState } from '../../redux/auth/auth.slice';
+import { useAuth, useCommon } from '../../redux/hooks/useRedux';
 import { useToast } from 'react-native-toast-notifications';
 
 const SignUpScreen = ({ switchToLogin }) => {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const auth = useSelector(state => state.auth) || {};
+  const { colorrdata } = useCommon();
+  const { register, login, isLoggedIn } = useAuth();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const toast = useToast();
@@ -19,19 +20,34 @@ const SignUpScreen = ({ switchToLogin }) => {
   const [username, setUsername] = useState('');
   const [distIdError, setDistIdError] = useState(0);
   const [usernameError, setUsernameError] = useState(0);
-  const [displayAlert, setDisplayAlert] = useState(0);
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isActivateLoading, setIsActivateLoading] = useState(false);
   const [previousValues, setPreviousValues] = useState({ username: '', dist_id: '' });
 
   useEffect(() => {
-    navigation.addListener('focus', () => {
-      setDisplayAlert(0);
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(clearAuthState());
     });
     loadStoredValues();
-  }, [navigation]);
+    return unsubscribe;
+  }, [navigation, dispatch]);
+
+  // Handle successful activation/login
+  useEffect(() => {
+    if (isLoggedIn && login.data) {
+      toast.show('User is activated', {
+        type: 'success',
+        placement: 'top',
+        duration: 1000,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+      if (switchToLogin) {
+        switchToLogin();
+      }
+      dispatch(clearAuthState());
+    }
+  }, [isLoggedIn, login.data, switchToLogin, toast, dispatch]);
 
   const loadStoredValues = async () => {
     try {
@@ -63,7 +79,7 @@ const SignUpScreen = ({ switchToLogin }) => {
 
     // Check if values have changed
     if (previousValues.username === username.trim() && previousValues.dist_id === dist_id.trim()) {
-      toast.show("PIN already generated for these credentials", {
+      toast.show('PIN already generated for these credentials', {
         type: 'info',
         placement: 'top',
         duration: 2000,
@@ -73,76 +89,59 @@ const SignUpScreen = ({ switchToLogin }) => {
       return;
     }
 
-    setDisplayAlert(1);
-    setIsLoading(true);
     try {
-      dispatch(
-        registerAction({
-          values: { username, dist_id },
-        })
-      );
+      await dispatch(
+        registerUser({ username, dist_id })
+      ).unwrap();
 
       // Store values in AsyncStorage after successful API call
       await AsyncStorage.setItem('signup_username', username.trim());
       await AsyncStorage.setItem('signup_dist_id', dist_id.trim());
       setPreviousValues({ username: username.trim(), dist_id: dist_id.trim() });
 
-      toast.show("Account Created! Contact your admin for pin", {
+      toast.show('Account Created! Contact your admin for pin', {
         type: 'success',
         placement: 'top',
         duration: 1000,
         offset: 10,
         animationType: 'slide-in',
       });
-
     } catch (error) {
-      // Handle error (e.g., show error message)
-    } finally {
-      setIsLoading(false);
+      toast.show(error || 'Registration failed. Please try again.', {
+        type: 'danger',
+        placement: 'top',
+        duration: 1500,
+        offset: 10,
+        animationType: 'slide-in',
+      });
     }
   };
 
-  const activatePin = () => {
+  const activatePin = async () => {
     if (!pin.trim()) {
       setPinError(1);
       return;
     }
     setPinError(0);
-    setIsActivateLoading(true);
-    dispatch(
-      LoginAction({
-        data: {
+
+    try {
+      await dispatch(
+        loginUser({
           username: username.trim(),
           password: pin.trim(),
-        },
-        moveToNext
-      })
-    );
+        })
+      ).unwrap();
+      // Success is handled by useEffect above
+    } catch (error) {
+      toast.show(error || 'Activation failed. Please try again.', {
+        type: 'danger',
+        placement: 'top',
+        duration: 1500,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+    }
   };
-
-  const moveToNext = (message, status) => {
-          setIsActivateLoading(false);
-          if (status === 'success') {
-            toast.show("User is activated", {
-              type: 'success',
-              placement: 'top',
-              duration: 1000,
-              offset: 10,
-              animationType: 'slide-in',
-            });
-            if (switchToLogin) {
-              switchToLogin();
-            }
-          } else {
-            toast.show(message || "Login failed. Please try again.", {
-              type: 'danger',
-              placement: 'top',
-              duration: 1500,
-              offset: 10,
-              animationType: 'slide-in',
-            });
-          }
-  }
 
   return (
     <View style={Login.tabminview}>
@@ -156,13 +155,12 @@ const SignUpScreen = ({ switchToLogin }) => {
             setDistIdError(0);
             setDistId(value);
           }}
+          editable={!register.loading && !login.loading}
         />
       </View>
-      {
-        distIdError === 1 && (
-          <Text style={Login.pleseentername}>* Please Enter Customer ID</Text>
-        )
-      }
+      {distIdError === 1 && (
+        <Text style={Login.pleseentername}>* Please Enter Customer ID</Text>
+      )}
       <View style={Style.inputUnderLine}>
         <TextInput
           placeholder="User Name"
@@ -173,16 +171,26 @@ const SignUpScreen = ({ switchToLogin }) => {
             setUsernameError(0);
             setUsername(value);
           }}
+          editable={!register.loading && !login.loading}
         />
       </View>
       {usernameError === 1 && (
         <Text style={Login.pleseentername}>* Please Enter User Name</Text>
       )}
+
+      {/* Show registration error */}
+      {register.error && (
+        <Text style={[Login.pleseentername, { marginTop: 10 }]}>
+          {register.error}
+        </Text>
+      )}
+
       <View style={Login.setbuttonvieLogininup}>
         <Button
-          title={isLoading ? "Generating..." : "Generate PIN"}
+          title={register.loading ? 'Generating...' : 'Generate PIN'}
           onPress={signupbutton}
-          disabled={isLoading}
+          disabled={register.loading || login.loading}
+          loading={register.loading}
           buttonStyle={{ backgroundColor: colorrdata }}
           buttonTextStyle={Login.textcolorsetwhite}
         />
@@ -201,16 +209,26 @@ const SignUpScreen = ({ switchToLogin }) => {
             setPinError(0);
             setPin(value);
           }}
+          editable={!register.loading && !login.loading}
         />
       </View>
       {pinError === 1 && (
         <Text style={Login.pleseentername}>* Please Enter PIN</Text>
       )}
+
+      {/* Show login/activation error */}
+      {login.error && (
+        <Text style={[Login.pleseentername, { marginTop: 10 }]}>
+          {login.error}
+        </Text>
+      )}
+
       <View style={Login.setbuttonvieLogininup}>
         <Button
           title="Activate"
           onPress={activatePin}
-          loading={isActivateLoading}
+          loading={login.loading}
+          disabled={register.loading || login.loading}
           buttonStyle={{ backgroundColor: colorrdata }}
           buttonTextStyle={Login.textcolorsetwhite}
         />

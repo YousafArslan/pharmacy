@@ -3,23 +3,48 @@ import {View, Text} from 'react-native';
 import {OffersTabStyle} from '../../../styles';
 import Style from '../../../styles/CommonStyle/SweetaelertModalStyle';
 import {Button} from '../../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetOfflineDataAction } from '../../../redux/dss/dss.slice';
-import { useToast } from 'react-native-toast-notifications';
+import {useDispatch} from 'react-redux';
+import {fetchOfflineData} from '../../../redux/dss/dss.slice';
+import {useAuth} from '../../../redux/hooks/useRedux';
+import {useToast} from 'react-native-toast-notifications';
 
 const ImportData = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
-  const authReducer = useSelector(state=> state.auth)
-  // const dssReducer = useSelector(state=> state.dss)
+  const dispatch = useDispatch();
+  const {currentUser} = useAuth();
   const toast = useToast();
 
-  const handleOfflineData = () => {
-    startLoading()
-    dispatch(GetOfflineDataAction({data:authReducer?.currentUser?.user?.dist_id}))
-  }
+  const handleOfflineData = async () => {
+    const distId = currentUser?.user?.dist_id;
 
+    if (!distId) {
+      toast.show('User information not found', {
+        type: 'danger',
+        placement: 'top',
+        duration: 2000,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+      return;
+    }
+
+    startLoading();
+
+    try {
+      await dispatch(fetchOfflineData(distId)).unwrap();
+    } catch (error) {
+      setLoading(false);
+      setProgress(0);
+      toast.show(error || 'Failed to import data', {
+        type: 'danger',
+        placement: 'top',
+        duration: 2000,
+        offset: 10,
+        animationType: 'slide-in',
+      });
+    }
+  };
 
   const startLoading = () => {
     setLoading(true);
@@ -33,13 +58,12 @@ const ImportData = () => {
         setTimeout(() => {
           setLoading(false);
           toast.show('Data Successfully Imported', {
-            type: "success",
+            type: 'success',
             placement: 'top',
             duration: 1000,
             offset: 10,
             animationType: 'slide-in',
           });
-          // alert('Data Successfully Imported');
         }, 2);
       }
     }, 2); // 2 seconds total

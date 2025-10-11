@@ -1,165 +1,79 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import dssService from './dss.service';
+import { getErrorMessage, createAsyncState, createAsyncReducers, resetAsyncState } from '../utils/asyncThunkHelper';
 
+/**
+ * Initial state
+ */
 const initialState = {
-  getDssByIdError: false,
-  getDssByIdSuccess: false,
-  getDssByIdLoading: false,
-  getDssById: null,
-
-  getSaleSummaryDetailsError: false,
-  getSaleSummaryDetailsSuccess: false,
-  getSaleSummaryDetailsLoading: false,
-  getSaleSummaryDetails: null,
-  
-  getOfflineDataError: false,
-  getOfflineDataSuccess: false,
-  getOfflineDataLoading: false,
-  getOfflineData: null,
+  details: createAsyncState(null),
+  saleSummary: createAsyncState(null),
+  offlineData: createAsyncState(null),
 };
 
-export const GetDssByIDAction = createAsyncThunk(
-  'dss/id',
-  async ({data, moveToNext}, thunkAPI) => {
+/**
+ * Fetch DSS by ID
+ */
+export const fetchDssById = createAsyncThunk(
+  'dss/fetchById',
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await dssService.getDssById(data);
-      if (response.status === 200) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      }
-      return response;
+      const response = await dssService.getById(params);
+      return response.data;
     } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-export const GetSaleSummaryDetailsAction = createAsyncThunk(
-  'dssDetails/id',
-  async ({data, moveToNext}, thunkAPI) => {
-
+/**
+ * Fetch sale summary details
+ */
+export const fetchSaleSummaryDetails = createAsyncThunk(
+  'dss/fetchSaleSummary',
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await dssService.getSaleSummaryDetails(data);
-      if (response.status === 200) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      }
-      return response;
+      const response = await dssService.getSaleSummaryDetails(params);
+      return response.data;
     } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-
-export const GetOfflineDataAction = createAsyncThunk(
-  'offline/id',
-  async ({data, moveToNext}, thunkAPI) => {
+/**
+ * Fetch offline data
+ */
+export const fetchOfflineData = createAsyncThunk(
+  'dss/fetchOfflineData',
+  async (id, { rejectWithValue }) => {
     try {
-      const response = await dssService.getOfflineData(data);
-      if (response.status === 200) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      }
-      return response;
+      const data = await dssService.getOfflineData(id);
+      return data;
     } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-export const dssSlice = createSlice({
-  name: 'dssReducer',
+/**
+ * DSS slice
+ */
+const dssSlice = createSlice({
+  name: 'dss',
   initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(GetDssByIDAction.pending, state => {
-        if (!state.getDssByIdLoading) {
-          state.getDssByIdLoading = true;
-          state.getDssByIdSuccess = false;
-          state.getDssByIdError = false;
-          state.getDssById = null;
-        }
-      })
-      .addCase(GetDssByIDAction.fulfilled, (state, action) => {
-        state.getDssByIdLoading = false;
-        state.getDssByIdSuccess = true;
-        state.getDssByIdError = false;
-        state.getDssById = action.payload.data;
-      })
-      .addCase(GetDssByIDAction.rejected, (state, action) => {
-        state.getDssByIdLoading = false;
-        state.getDssByIdSuccess = false;
-        state.getDssByIdError = true;
-        state.getDssById = null;
-      })
-      .addCase(GetSaleSummaryDetailsAction.pending, state => {
-        if (!state.getSaleSummaryDetailsLoading) {
-          state.getSaleSummaryDetailsLoading = true;
-          state.getSaleSummaryDetailsSuccess = false;
-          state.getSaleSummaryDetailsError = false;
-          state.getSaleSummaryDetails = null;
-        }
-      })
-      .addCase(GetSaleSummaryDetailsAction.fulfilled, (state, action) => {
-        state.getSaleSummaryDetailsLoading = false;
-        state.getSaleSummaryDetailsSuccess = true;
-        state.getSaleSummaryDetailsError = false;
-        state.getSaleSummaryDetails = action.payload.data;
-      })
-      .addCase(GetSaleSummaryDetailsAction.rejected, (state, action) => {
-        state.getSaleSummaryDetailsLoading = false;
-        state.getSaleSummaryDetailsSuccess = false;
-        state.getSaleSummaryDetailsError = true;
-        state.getSaleSummaryDetails = null;
-      })
-      .addCase(GetOfflineDataAction.pending, state => {
-        if (!state.getOfflineDataLoading) {
-          state.getOfflineDataLoading = true;
-          state.getOfflineDataSuccess = false;
-          state.getOfflineDataError = false;
-          state.getOfflineData = null;
-        }
-      })
-      .addCase(GetOfflineDataAction.fulfilled, (state, action) => {
-        state.getOfflineDataLoading = false;
-        state.getOfflineDataSuccess = true;
-        state.getOfflineDataError = false;
-        state.getOfflineData = action.payload.data;
-      })
-      .addCase(GetOfflineDataAction.rejected, (state, action) => {
-        state.getOfflineDataLoading = false;
-        state.getOfflineDataSuccess = false;
-        state.getOfflineDataError = true;
-        state.getOfflineData = null;
-      })
-      ;
+  reducers: {
+    resetDssDetails: (state) => resetAsyncState(state, 'details'),
+    resetSaleSummary: (state) => resetAsyncState(state, 'saleSummary'),
+    resetOfflineData: (state) => resetAsyncState(state, 'offlineData'),
+    resetAllDssStates: () => initialState,
+  },
+  extraReducers: (builder) => {
+    createAsyncReducers(builder, fetchDssById, 'details');
+    createAsyncReducers(builder, fetchSaleSummaryDetails, 'saleSummary');
+    createAsyncReducers(builder, fetchOfflineData, 'offlineData');
   },
 });
 
+export const { resetDssDetails, resetSaleSummary, resetOfflineData, resetAllDssStates } = dssSlice.actions;
 export default dssSlice.reducer;

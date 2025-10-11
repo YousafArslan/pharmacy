@@ -1,188 +1,157 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authService from './auth.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getErrorMessage, createAsyncState } from '../utils/asyncThunkHelper';
 
-// Get currentUser from localStorage
-// const reactUser = JSON.parse(localStorage.getItem('glare_ecom'));
-const reactUser = {};
-
+/**
+ * Initial state
+ */
 const initialState = {
-  currentUser: reactUser || null,
-
-  isLoginError: false,
-  isLoginSuccess: false,
-  isLoginLoading: false,
-  loginMessage: '',
-
-  isRegisterError: false,
-  isRegisterSuccess: false,
-  isRegisterLoading: false,
-  registerMessage: '',
-
-  isEmailExistError: false,
-  isEmailExistSuccess: false,
-  isEmailExistLoading: false,
-  isEmailExist: null,
-
+  currentUser: null,
   isLoggedIn: false,
+  login: createAsyncState(null),
+  register: createAsyncState(null),
+  checkEmail: createAsyncState(null),
 };
 
-export const LoginAction = createAsyncThunk(
-  'users/login',
-  async ({data, moveToNext}, thunkAPI) => {
+/**
+ * Login action
+ */
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (credentials, { rejectWithValue }) => {
     try {
-      const response = await authService.login(data);
-      // authService.login returns { message, token, user } directly
-
-      if (response?.token && response?.user) {
-        if (moveToNext) {
-          moveToNext(response?.message, 'success');
-        }
-      }
-      return response;
+      const response = await authService.login(credentials);
+      return response; // { message, token, user }
     } catch (error) {
-      console.log("error", error)
-      // error is already a string from auth.service.js
-      const errorMessage = typeof error === 'string' ? error : (error?.message || error.toString());
-
-      if (moveToNext) {
-        moveToNext(errorMessage, 'error');
-      }
-      return thunkAPI.rejectWithValue(errorMessage);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-export const CheckEmail = createAsyncThunk(
+/**
+ * Register action
+ */
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await authService.register(userData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+/**
+ * Check email availability
+ */
+export const checkEmailAvailability = createAsyncThunk(
   'auth/checkEmail',
-  async ({data, moveToNext}, thunkAPI) => {
+  async (email, { rejectWithValue }) => {
     try {
-      const response = await authService.checkEmail(data);
-
-      if (response.status === 200) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      } else {
-        moveToNext(response?.data?.message, 'error');
-      }
-      return response;
+      const response = await authService.checkEmail(email);
+      return response.data;
     } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-// Registration currentUser
-export const registerAction = createAsyncThunk(
-  'users/signup',
-  async ({ values }, thunkAPI) => {
-    try {
-      await authService.register(values);
-
-      return true;
-    } catch (error) {
-      // Error is already a string from auth.service.js
-      const errorMessage = typeof error === 'string' ? error : (error?.message || error.toString());
-      return thunkAPI.rejectWithValue(errorMessage);
-    }
-  },
-);
-
-export const logout = createAsyncThunk('auth/logout', async () => {
+/**
+ * Logout action
+ */
+export const logoutUser = createAsyncThunk('auth/logout', async () => {
   await AsyncStorage.clear();
   authService.logout();
 });
 
-
-export const authSlice = createSlice({
-  name: 'authReducer',
+/**
+ * Auth slice
+ */
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
-    logout: state => {
-      state.isLoggedIn = false;
-      state.currentUser = null;
-      state.isSuccess = false;
-    },
-    login: (state,action) => {
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.isLoggedIn = true;
+    /**
+     * Set logged in user (for manual login, e.g., from AsyncStorage)
+     */
+    setUser: (state, action) => {
       state.currentUser = action.payload;
+      state.isLoggedIn = true;
     },
-    reset: state => {
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.isError = false;
-      state.message = '';
+    /**
+     * Clear auth state
+     */
+    clearAuthState: (state) => {
+      state.login = createAsyncState(null);
+      state.register = createAsyncState(null);
+      state.checkEmail = createAsyncState(null);
+    },
+    /**
+     * Logout (without async)
+     */
+    logout: (state) => {
+      state.currentUser = null;
+      state.isLoggedIn = false;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(LoginAction.pending, state => {
-        state.isLoginLoading = true;
-        state.isLoginSuccess = '';
+      // Login
+      .addCase(loginUser.pending, (state) => {
+        state.login.loading = true;
+        state.login.error = null;
       })
-      .addCase(LoginAction.fulfilled, (state, action) => {
-        state.isLoginLoading = false;
-        state.isLoginSuccess = true;
-        state.isLoggedIn = true;
-        // action.payload is { message, token, user } directly
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.login.loading = false;
+        state.login.data = action.payload;
         state.currentUser = {
           token: action.payload.token,
           user: action.payload.user,
         };
+        state.isLoggedIn = true;
       })
-      .addCase(LoginAction.rejected, (state, action) => {
-        state.message = action.payload;
-        state.isLoginLoading = false;
-        state.isLoginError = true;
+      .addCase(loginUser.rejected, (state, action) => {
+        state.login.loading = false;
+        state.login.error = action.payload;
         state.currentUser = null;
+        state.isLoggedIn = false;
       })
-      .addCase(CheckEmail.pending, state => {
-        state.isEmailExistLoading = true;
-        state.isEmailExist = '';
+      // Register
+      .addCase(registerUser.pending, (state) => {
+        state.register.loading = true;
+        state.register.error = null;
       })
-      .addCase(CheckEmail.fulfilled, (state, action) => {
-        state.isEmailExistLoading = false;
-        state.isEmailExistSuccess = true;
-        state.isEmailExist = action.payload;
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.register.loading = false;
+        state.register.data = action.payload;
       })
-      .addCase(CheckEmail.rejected, (state, action) => {
-        state.isEmailExist = action.payload;
-        state.isEmailExistLoading = false;
-        state.isEmailExistError = true;
+      .addCase(registerUser.rejected, (state, action) => {
+        state.register.loading = false;
+        state.register.error = action.payload;
       })
-      .addCase(registerAction.pending, state => {
-        state.isRegisterLoading = true;
-        state.isRegisterSuccess = '';
+      // Check Email
+      .addCase(checkEmailAvailability.pending, (state) => {
+        state.checkEmail.loading = true;
+        state.checkEmail.error = null;
       })
-      .addCase(registerAction.fulfilled, state => {
-        state.isRegisterLoading = false;
-        state.isRegisterSuccess = true;
+      .addCase(checkEmailAvailability.fulfilled, (state, action) => {
+        state.checkEmail.loading = false;
+        state.checkEmail.data = action.payload;
       })
-      .addCase(registerAction.rejected, (state, action) => {
-        state.registerMessage = action.payload;
-        state.isRegisterLoading = false;
-        state.isRegisterError = true;
+      .addCase(checkEmailAvailability.rejected, (state, action) => {
+        state.checkEmail.loading = false;
+        state.checkEmail.error = action.payload;
       })
-      .addCase(logout.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(logout.fulfilled, state => {
+      // Logout
+      .addCase(logoutUser.fulfilled, (state) => {
         state.currentUser = null;
+        state.isLoggedIn = false;
       });
   },
 });
 
-export const {reset, login} = authSlice.actions;
-
+export const { setUser, clearAuthState, logout } = authSlice.actions;
 export default authSlice.reducer;

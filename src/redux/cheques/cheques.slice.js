@@ -1,68 +1,42 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import chequesService from './cheques.service';
+import { getErrorMessage, createAsyncState, createAsyncReducers, resetAsyncState } from '../utils/asyncThunkHelper';
 
+/**
+ * Initial state
+ */
 const initialState = {
-  addChequeError: false,
-  addChequeSuccess: false,
-  addChequeLoading: false,
-  addCheque: null,
+  upload: createAsyncState(null),
 };
 
-export const AddChequeAction = createAsyncThunk(
+/**
+ * Upload a cheque
+ */
+export const uploadCheque = createAsyncThunk(
   'cheques/upload',
-  async ({data, moveToNext}, thunkAPI) => {
+  async (chequeData, { rejectWithValue }) => {
     try {
-      const response = await chequesService.addCheque(data);
-      if (response.status === 201) {
-        if (moveToNext) {
-          moveToNext(response?.data?.message, 'success');
-        }
-      }
-      return response;
+      const response = await chequesService.upload(chequeData);
+      return response.data;
     } catch (error) {
-      moveToNext(error?.message, 'error');
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(getErrorMessage(error));
     }
-  },
+  }
 );
 
-
-export const chequesSlice = createSlice({
-  name: 'chequesReducer',
+/**
+ * Cheques slice
+ */
+const chequesSlice = createSlice({
+  name: 'cheques',
   initialState,
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(AddChequeAction.pending, state => {
-        if (!state.addChequeLoading) {
-          state.addChequeLoading = true;
-          state.addChequeSuccess = false;
-          state.addChequeError = false;
-          state.addCheque = null;
-        }
-      })
-      .addCase(AddChequeAction.fulfilled, (state, action) => {
-        state.addChequeLoading = false;
-        state.addChequeSuccess = true;
-        state.addChequeError = false;
-        state.addCheque = action.payload.data;
-      })
-      .addCase(AddChequeAction.rejected, (state, action) => {
-        state.addChequeLoading = false;
-        state.addChequeSuccess = false;
-        state.addChequeError = true;
-        state.addCheque = null;
-      })
-      ;
+  reducers: {
+    resetUploadState: (state) => resetAsyncState(state, 'upload'),
+  },
+  extraReducers: (builder) => {
+    createAsyncReducers(builder, uploadCheque, 'upload');
   },
 });
 
-
-
+export const { resetUploadState } = chequesSlice.actions;
 export default chequesSlice.reducer;

@@ -1,12 +1,13 @@
-import { baseUrl } from '../../../config';
-import {axiosInstance} from '../orders/orders.service';
+import { post } from '../api/apiClient';
 
-const addCheque = async req => {
-  const data = await axiosInstance.post(`${baseUrl}cheques/upload`, req);
-  return data;
-};
+/**
+ * Cheques API Service
+ */
 const chequesService = {
-  addCheque
+  /**
+   * Upload/add a new cheque
+   */
+  upload: (chequeData) => post('/cheques/upload', chequeData),
 };
 
 export default chequesService;

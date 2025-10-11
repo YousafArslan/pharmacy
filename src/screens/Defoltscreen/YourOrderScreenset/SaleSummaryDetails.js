@@ -9,19 +9,20 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Style, YourOrderScreenStyle} from '../../../styles';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {RouteName} from '../../../routes';
 import {ScrollView} from 'react-native-virtualized-view';
 import {Image} from 'react-native';
 import images from '../../../images';
 import {useRoute, useFocusEffect} from '@react-navigation/native';
-import {GetSaleSummaryDetailsAction} from '../../../redux/dss/dss.slice';
+import {fetchSaleSummaryDetails} from '../../../redux/dss/dss.slice';
+import {useDss, useCommon} from '../../../redux/hooks/useRedux';
 
 const SaleSummaryDetails = ({navigation}) => {
   const route = useRoute();
   const dispatch = useDispatch();
-  const dssReducer = useSelector(state => state.dss);
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
+  const {details, saleSummary} = useDss();
+  const {colorrdata} = useCommon();
 
   // Get the selected DSS item from route params
   const selectedId = route.params?.id;
@@ -29,26 +30,24 @@ const SaleSummaryDetails = ({navigation}) => {
   useFocusEffect(
     React.useCallback(() => {
       // Find the selected DSS item from the stored getDssById data
-      const dssData = dssReducer?.getDssById;
+      const dssData = details.data;
 
       if (dssData && Array.isArray(dssData) && selectedId) {
         const selectedItem = dssData.find(item => item.id === selectedId);
 
         if (selectedItem?.dss_id && selectedItem?.dist_id) {
           dispatch(
-            GetSaleSummaryDetailsAction({
-              data: {
-                dist_id: selectedItem.dist_id,
-                dss_id: selectedItem.dss_id,
-              },
-            }),
+            fetchSaleSummaryDetails({
+              dist_id: selectedItem.dist_id,
+              dss_id: selectedItem.dss_id,
+            })
           );
         }
       }
-    }, [selectedId, dispatch, dssReducer?.getDssById]),
+    }, [selectedId, dispatch, details.data]),
   );
 
-  const saleSummaryDetails = (item, index) => {
+  const saleSummaryDetailsItem = (item, index) => {
     return (
       <TouchableOpacity
         onPress={() =>
@@ -80,14 +79,14 @@ const SaleSummaryDetails = ({navigation}) => {
                     <Text
                       style={[
                         YourOrderScreenStyle.vadapavtextstyeleset,
-                        {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                        {color: item?.is_delivered ? 'grey' : 'black'},
                       ]}>
                       {item.cust_name}
                     </Text>
                     <Text
                       style={[
                         YourOrderScreenStyle.addreshrtext,
-                        {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                        {color: item?.is_delivered ? 'grey' : 'black'},
                       ]}>
                       {item.dist_id}
                     </Text>
@@ -101,14 +100,14 @@ const SaleSummaryDetails = ({navigation}) => {
               <Text
                 style={[
                   YourOrderScreenStyle.setitemstext,
-                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'},
                 ]}>
                 Invoice ID
               </Text>
               <Text
                 style={[
                   YourOrderScreenStyle.blacktitle,
-                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'},
                 ]}>
                 {item.inv_id}
               </Text>
@@ -117,14 +116,14 @@ const SaleSummaryDetails = ({navigation}) => {
               <Text
                 style={[
                   YourOrderScreenStyle.setitemstext,
-                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'},
                 ]}>
                 Amount
               </Text>
               <Text
                 style={[
                   YourOrderScreenStyle.blacktitle,
-                  {color: item?.is_delivered ? 'grey' : 'black'}, // Change color based on condition
+                  {color: item?.is_delivered ? 'grey' : 'black'},
                 ]}>
                 {item.inv_value}
               </Text>
@@ -152,7 +151,7 @@ const SaleSummaryDetails = ({navigation}) => {
           <View style={YourOrderScreenStyle.minflexview}>
             <View style={YourOrderScreenStyle.minviewsigninscreen}>
               <View style={YourOrderScreenStyle.paddingtopset}>
-                {dssReducer?.getSaleSummaryDetailsLoading ? (
+                {saleSummary.loading ? (
                   <View
                     style={{
                       flex: 1,
@@ -166,13 +165,13 @@ const SaleSummaryDetails = ({navigation}) => {
                     />
                     <Text style={{marginTop: 10}}>Loading...</Text>
                   </View>
-                ) : dssReducer?.getSaleSummaryDetailsError ? (
-                  <Text>Error: {dssReducer?.getSaleSummaryDetailsError}</Text>
-                ) : Array.isArray(dssReducer?.getSaleSummaryDetails) &&
-                  dssReducer.getSaleSummaryDetails.length > 0 ? (
+                ) : saleSummary.error ? (
+                  <Text>Error: {saleSummary.error}</Text>
+                ) : Array.isArray(saleSummary.data) &&
+                  saleSummary.data.length > 0 ? (
                   <FlatList
-                    data={dssReducer.getSaleSummaryDetails}
-                    renderItem={({item}) => saleSummaryDetails(item)}
+                    data={saleSummary.data}
+                    renderItem={({item}) => saleSummaryDetailsItem(item)}
                     keyExtractor={item => item.id.toString()}
                   />
                 ) : (

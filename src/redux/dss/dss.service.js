@@ -1,35 +1,30 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseUrl } from '../../../config';
-import {axiosInstance} from '../orders/orders.service';
+import { get } from '../api/apiClient';
 
-const getDssById = async ({ id, username }) => {
-  const data = await axiosInstance.get(`${baseUrl}/dss/${id}/${username}`);
-
-  return data;
-};
-
-const getSaleSummaryDetails = async payload => {
-  const data = await axiosInstance.get(
-    `${baseUrl}/dssDetail/${payload.dist_id}/${payload.dss_id}`,
-  );
-
-  return data;
-};
-
-const getOfflineData = async id => {
-  const data = await axiosInstance.get(`${baseUrl}offline/${id}`);
-  if (data?.status === 200) {
-    await AsyncStorage.setItem("offlineData", JSON.stringify(data.data));
-  } else {
-    throw data.message;
-  }
-  return data;
-};
-
+/**
+ * DSS (Daily Sales Summary) API Service
+ */
 const dssService = {
-  getDssById,
-  getSaleSummaryDetails,
-  getOfflineData
+  /**
+   * Get DSS by ID and username
+   */
+  getById: ({ id, username }) => get(`/dss/${id}/${username}`),
+
+  /**
+   * Get sale summary details
+   */
+  getSaleSummaryDetails: ({ dist_id, dss_id }) => get(`/dssDetail/${dist_id}/${dss_id}`),
+
+  /**
+   * Get offline data and store in AsyncStorage
+   */
+  getOfflineData: async (id) => {
+    const response = await get(`/offline/${id}`);
+    if (response?.status === 200) {
+      await AsyncStorage.setItem('offlineData', JSON.stringify(response.data));
+    }
+    return response.data;
+  },
 };
 
 export default dssService;

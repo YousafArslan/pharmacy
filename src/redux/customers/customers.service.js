@@ -1,23 +1,23 @@
-import { axiosInstance } from "../orders/orders.service";
+import { get, post, put } from '../api/apiClient';
 
-const getAllCustomers = async (req) => {
-  const data = await axiosInstance.get(`/customers`,{});
-  return data;
-};
-const createCustomer = async (req) => {
-  const data = await axiosInstance.post(`/customers`,req);
-  return data;
-};
-
-const editCustomer = async (req) => {
-  const data = await axiosInstance.put(`/customers/${req.id}`,req);
-  return data;
-};
-
+/**
+ * Customers API Service
+ */
 const customersService = {
-  getAllCustomers,
-  createCustomer,
-  editCustomer
+  /**
+   * Get all customers
+   */
+  getAll: () => get('/customers'),
+
+  /**
+   * Create a new customer
+   */
+  create: (customerData) => post('/customers', customerData),
+
+  /**
+   * Update an existing customer
+   */
+  update: (id, customerData) => put(`/customers/${id}`, customerData),
 };
 
 export default customersService;

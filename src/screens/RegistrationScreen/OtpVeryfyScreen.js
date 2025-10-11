@@ -4,21 +4,24 @@ import { Login } from '../../styles';
 import { Button, SweetaelertModal, OTPInput } from '../../components';
 import images from '../../images';
 import { RouteName } from '../../routes';
-import { useSelector } from "react-redux";
 import { useNavigation } from '@react-navigation/native';
+import { useCommon } from '../../redux/hooks/useRedux';
 import { SH } from "../../utils";
 
 const OtpVeryfyScreen = () => {
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
+  const { colorrdata } = useCommon();
   const [DisplayAlert, setDisplayAlert] = useState(0);
   const [DisplayAlerttwo, setDisplayAlerttwo] = useState(0);
   const navigation = useNavigation();
+
   useEffect(() => {
-    navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener('focus', () => {
       setDisplayAlerttwo(0);
       setDisplayAlert(0);
     });
+    return unsubscribe;
   }, [navigation]);
+
   return (
     <View style={Login.minstyleviewphotograpgy}>
       <ScrollView

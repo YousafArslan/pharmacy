@@ -22,8 +22,9 @@ import {ScrollView} from 'react-native-virtualized-view';
 import SummaryStyle from '../../../styles/Defoltscreenstyle/SummaryStyle';
 import {Style, YourOrderScreenStyle} from '../../../styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch, useSelector} from 'react-redux';
-import {GetDssByIDAction} from '../../../redux/dss/dss.slice';
+import {useDispatch} from 'react-redux';
+import {fetchDssById} from '../../../redux/dss/dss.slice';
+import {useAuth, useDss} from '../../../redux/hooks/useRedux';
 import images from '../../../images';
 import {useToast} from 'react-native-toast-notifications';
 import axios from 'axios';
@@ -31,24 +32,29 @@ import apiBaseUrl from '../../../utils/api';
 
 const Summary = forwardRef(({navigation}, ref) => {
   const dispatch = useDispatch();
-  const authReducer = useSelector(state => state.auth);
-  const dssReducer = useSelector(state => state.dss);
+  const {currentUser, isLoggedIn} = useAuth();
+  const {details} = useDss();
   const [refreshing, setRefreshing] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const toast = useToast();
 
-  const distId = authReducer?.currentUser?.user?.dist_id;
-  const username = authReducer?.currentUser?.user?.username;
+  const distId = currentUser?.user?.dist_id;
+  const username = currentUser?.user?.username;
 
   /** ✅ Fetch DSS Data */
-  const fetchSummaryData = useCallback(() => {
+  const fetchSummaryData = useCallback(async () => {
     // Only fetch if user is authenticated and distId exists
-    if (authReducer?.isLoggedIn && authReducer?.currentUser && distId && username) {
-      dispatch(GetDssByIDAction({data: { id: distId, username }}));
+    if (isLoggedIn && currentUser && distId && username) {
+      try {
+        await dispatch(fetchDssById({id: distId, username})).unwrap();
+      } catch (error) {
+        // Error is already handled by Redux state
+        console.error('Failed to fetch DSS data:', error);
+      }
     }
-  }, [distId, username, dispatch, authReducer?.isLoggedIn, authReducer?.currentUser]);
+  }, [distId, username, dispatch, isLoggedIn, currentUser]);
 
   // Expose fetchSummaryData function to parent component via ref
   useImperativeHandle(
@@ -64,19 +70,15 @@ const Summary = forwardRef(({navigation}, ref) => {
     fetchSummaryData();
   }, [fetchSummaryData]);
 
-  // Note: useFocusEffect removed to prevent duplicate calls
-  // HomeTab.js already handles focus-based data fetching via ref
-
   /** ✅ Pull-to-refresh */
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     fetchSummaryData();
-    setTimeout(() => setRefreshing(false), 1000); // mimic API delay
+    setTimeout(() => setRefreshing(false), 1000);
   }, [fetchSummaryData]);
 
   /** ✅ Handle long press to show confirmation modal */
   const handleLongPress = (item) => {
-    // Prevent update if already completed
     if (item?.dss_status === 1) {
       toast.show('This summary is already completed', {
         type: 'info',
@@ -86,7 +88,6 @@ const Summary = forwardRef(({navigation}, ref) => {
       return;
     }
 
-    // Show confirmation modal
     setSelectedItem(item);
     setShowConfirmModal(true);
   };
@@ -146,17 +147,19 @@ const Summary = forwardRef(({navigation}, ref) => {
     const isCompleted = item?.dss_status === 1;
 
     return (
-      <TouchableOpacity style={[
-        SummaryStyle.yoreorderstylebox,
-        isCompleted && {opacity: 0.5}
-      ]} onPress={() => {
-        if (!isCompleted) {
-          navigation.navigate(RouteName.SUMMARY_INVOICE, {
-            dist_id: item.dist_id,
-            id: item.id,
-          });
-        }
-      }}
+      <TouchableOpacity
+        style={[
+          SummaryStyle.yoreorderstylebox,
+          isCompleted && {opacity: 0.5},
+        ]}
+        onPress={() => {
+          if (!isCompleted) {
+            navigation.navigate(RouteName.SUMMARY_INVOICE, {
+              dist_id: item.dist_id,
+              id: item.id,
+            });
+          }
+        }}
         onLongPress={() => handleLongPress(item)}>
         <View style={SummaryStyle.borderbottomview}>
           <View style={SummaryStyle.flexminviewset}>
@@ -165,26 +168,27 @@ const Summary = forwardRef(({navigation}, ref) => {
                 <Image
                   style={[
                     Style.yourorderdata,
-                    isCompleted && {opacity: 0.5}
+                    isCompleted && {opacity: 0.5},
                   ]}
                   resizeMode="cover"
                   source={images.Docter_tablet_imag}
                 />
                 <View
                   style={YourOrderScreenStyle.setwidth70}
-                  disabled={isCompleted}
-                >
+                  disabled={isCompleted}>
                   <View style={SummaryStyle.setwidth70}>
-                    <Text style={[
-                      SummaryStyle.vadapavtextstyeleset,
-                      isCompleted && {color: '#999'}
-                    ]}>
+                    <Text
+                      style={[
+                        SummaryStyle.vadapavtextstyeleset,
+                        isCompleted && {color: '#999'},
+                      ]}>
                       {item.delman_name}
                     </Text>
-                    <Text style={[
-                      SummaryStyle.addreshrtext,
-                      isCompleted && {color: '#aaa'}
-                    ]}>
+                    <Text
+                      style={[
+                        SummaryStyle.addreshrtext,
+                        isCompleted && {color: '#aaa'},
+                      ]}>
                       {item.dist_id}
                     </Text>
                   </View>
@@ -195,58 +199,66 @@ const Summary = forwardRef(({navigation}, ref) => {
         </View>
         <View style={SummaryStyle.borderbottomviewtwo}>
           <View style={SummaryStyle.setlistdataitems}>
-            <Text style={[
-              SummaryStyle.setitemstext,
-              isCompleted && {color: '#aaa'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.setitemstext,
+                isCompleted && {color: '#aaa'},
+              ]}>
               Summary ID
             </Text>
-            <Text style={[
-              SummaryStyle.blacktitle,
-              isCompleted && {color: '#999'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.blacktitle,
+                isCompleted && {color: '#999'},
+              ]}>
               {item.dss_id}
             </Text>
           </View>
           <View style={SummaryStyle.setlistdataitems}>
-            <Text style={[
-              SummaryStyle.setitemstext,
-              isCompleted && {color: '#aaa'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.setitemstext,
+                isCompleted && {color: '#aaa'},
+              ]}>
               Delivery Man
             </Text>
-            <Text style={[
-              SummaryStyle.blacktitle,
-              isCompleted && {color: '#999'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.blacktitle,
+                isCompleted && {color: '#999'},
+              ]}>
               {item.app_user_id}
             </Text>
           </View>
           <View style={SummaryStyle.setlistdataitems}>
-            <Text style={[
-              SummaryStyle.setitemstext,
-              isCompleted && {color: '#aaa'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.setitemstext,
+                isCompleted && {color: '#aaa'},
+              ]}>
               Amount
             </Text>
-            <Text style={[
-              SummaryStyle.blacktitle,
-              isCompleted && {color: '#999'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.blacktitle,
+                isCompleted && {color: '#999'},
+              ]}>
               {item.amount}
             </Text>
           </View>
           <View style={SummaryStyle.setlistdataitems}>
-            <Text style={[
-              SummaryStyle.setitemstext,
-              isCompleted && {color: '#aaa'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.setitemstext,
+                isCompleted && {color: '#aaa'},
+              ]}>
               Status
             </Text>
-            <Text style={[
-              SummaryStyle.blacktitle,
-              isCompleted && {color: '#999'}
-            ]}>
+            <Text
+              style={[
+                SummaryStyle.blacktitle,
+                isCompleted && {color: '#999'},
+              ]}>
               {item.dss_status === 0 ? 'In Progress' : 'Completed'}
             </Text>
           </View>
@@ -270,31 +282,30 @@ const Summary = forwardRef(({navigation}, ref) => {
             <View style={SummaryStyle.minviewsigninscreen}>
               <View style={SummaryStyle.paddingtopset}>
                 {/* ✅ Loading state */}
-                {dssReducer?.getDssByIdLoading && (
+                {details.loading && (
                   <View style={{alignItems: 'center', padding: 20}}>
                     <ActivityIndicator size="large" color="#007AFF" />
                   </View>
                 )}
 
                 {/* ✅ Error state */}
-                {dssReducer?.getDssByIdError &&
-                  !dssReducer?.getDssByIdLoading && (
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: 600,
-                      }}>
-                      <Icon name="file-search" size={100} color={'#D7D6D6'} />
-                      <Text>{dssReducer?.getDssByIdError}</Text>
-                    </View>
-                  )}
+                {details.error && !details.loading && (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: 600,
+                    }}>
+                    <Icon name="file-search" size={100} color={'#D7D6D6'} />
+                    <Text>{details.error}</Text>
+                  </View>
+                )}
 
                 {/* ✅ Data state */}
-                {dssReducer?.getDssById?.length > 0 && (
+                {details.data?.length > 0 && (
                   <FlatList
-                    data={dssReducer?.getDssById}
+                    data={details.data}
                     renderItem={renderOrderItem}
                     keyExtractor={item => item.dss_id.toString()}
                     showsVerticalScrollIndicator={false}
@@ -302,10 +313,9 @@ const Summary = forwardRef(({navigation}, ref) => {
                 )}
 
                 {/* ✅ Empty state */}
-                {!dssReducer?.getDssByIdLoading &&
-                  !dssReducer?.getDssByIdError &&
-                  (!dssReducer?.getDssById ||
-                    dssReducer?.getDssById?.length === 0) && (
+                {!details.loading &&
+                  !details.error &&
+                  (!details.data || details.data?.length === 0) && (
                     <View
                       style={{
                         flex: 1,

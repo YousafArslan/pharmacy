@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import IconA from 'react-native-vector-icons/Entypo';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import {useToast} from 'react-native-toast-notifications';
@@ -18,11 +17,12 @@ import apiBaseUrl from '../../utils/api';
 import debounce from 'lodash.debounce';
 import {CartTabStyle} from '../../styles';
 import OpenReturnStyle from './OpenReturnStyle';
+import {useAuth, useCommon, useDss} from '../../redux/hooks/useRedux';
 
 const OpenReturn = ({route}) => {
-  const {colorrdata} = useSelector(state => state.commonReducer) || {};
-  const authReducer = useSelector(state => state.auth);
-  const dssReducer = useSelector(state => state.dss);
+  const {colorrdata} = useCommon();
+  const {currentUser} = useAuth();
+  const {details} = useDss();
   const toast = useToast();
 
   // New data structure: array of customer groups, each with customer info and items
@@ -44,9 +44,9 @@ const OpenReturn = ({route}) => {
   const [submitting, setSubmitting] = useState(false);
 
   // Get dist_id and dss_id from Redux state
-  const dssData = dssReducer?.getDssById;
+  const dssData = details?.data;
   const selectedDssItem = dssData && Array.isArray(dssData) && dssData.length > 0 ? dssData[0] : null;
-  const dist_id = selectedDssItem?.dist_id || route.params?.dist_id || authReducer?.currentUser?.user?.dist_id;
+  const dist_id = selectedDssItem?.dist_id || route.params?.dist_id || currentUser?.user?.dist_id;
   const dss_id = selectedDssItem?.dss_id || route.params?.dss_id;
   // Fetch customers - only when 2+ characters
   const fetchCustomers = async (query) => {
@@ -247,7 +247,7 @@ const OpenReturn = ({route}) => {
     setSubmitting(true);
 
     try {
-      const app_user_id = authReducer?.currentUser?.user?.username || '';
+      const app_user_id = currentUser?.user?.username || '';
 
       // Prepare bulk data from all customer groups
       const bulkData = [];
